@@ -64,8 +64,8 @@ namespace LiveChart {
 
         private void render_vgrid(Context ctx, Geometry geometry) {
             var time = new DateTime.now().to_unix();
+            ctx.set_dash({5.0}, 0);
             for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= STEPS) {
-                ctx.set_dash({5.0}, 0);
                 ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding.bottom);
                 ctx.line_to(i + 0.5, 0.5 + geometry.padding.top);
 
@@ -78,7 +78,8 @@ namespace LiveChart {
                 ctx.show_text(text);
                 time -= STEPS;
             }
-            ctx.stroke();            
+            ctx.stroke();
+            ctx.set_dash(null, 0.0);           
         }
     }
 }

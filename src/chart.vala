@@ -62,11 +62,11 @@ namespace LiveChart {
 
         private bool render(Gtk.Widget _, Context ctx) {
             this.background.render(ctx, this.geometry);
+            this.grid.render(ctx, this.geometry);
             foreach (Serie serie in this.series.values) {
                 serie.render(ctx, this.geometry);
             }
             
-            this.grid.render(ctx, this.geometry);
             return true;
         }
 
