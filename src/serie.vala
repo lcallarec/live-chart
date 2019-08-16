@@ -10,7 +10,7 @@ namespace LiveChart {
         private int64 time_start = new DateTime.now().to_unix();
 
         public string name { get; construct set;}
-        public Line line { get; set; default = new Line(); }
+        public SerieRenderer renderer { get; set; default = new Line(); }
 
         public Serie(string name) {
             this.name = name;
@@ -22,7 +22,7 @@ namespace LiveChart {
 
         public void render(Context ctx, Geometry geometry) {
             if (buffer.size == 0) return;
-            this.line.render(ctx, geometry, buffer);
+            this.renderer.render(ctx, geometry, buffer);
         }
     }
 }

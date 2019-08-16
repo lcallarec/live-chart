@@ -1,7 +1,7 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Line : SerieRenderer, Object {
+    public class Bar : SerieRenderer, Object {
         public Gdk.RGBA color { 
             get; set; default= Gdk.RGBA() {
                 red = 1.0,
@@ -11,12 +11,9 @@ namespace LiveChart {
             };
         }
 
-        public double width { get; set; default = 1;}
-
         public void render(Context ctx, Geometry geometry, Gee.ArrayList<Point?> buffer) {
                 
             ctx.set_source_rgba(this.color.red, this.color.green, this.color.blue, this.color.alpha);
-            ctx.set_line_width(this.width);
 
             double current_x_pos = geometry.width - geometry.padding.right;
             for (int pos = buffer.size - 1; pos >= 0; pos--) {
@@ -27,13 +24,13 @@ namespace LiveChart {
                 var current_point = buffer[pos];
                 var previous_point = pos == buffer.size - 1 ? current_point : buffer[pos + 1];
 
-                ctx.move_to(current_x_pos, geometry.height - geometry.padding.bottom - (previous_point.y * geometry.y_ratio));
-
+                var bar_width = (current_point.x - previous_point.x) / 1.2;
+                ctx.rectangle(current_x_pos, geometry.height - geometry.padding.bottom - (current_point.y * geometry.y_ratio), bar_width, (current_point.y * geometry.y_ratio));
+                ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
+                ctx.fill();
                 current_x_pos = current_x_pos - (previous_point.x - current_point.x);
-
-                ctx.line_to(current_x_pos, geometry.height  - geometry.padding.bottom - (current_point.y * geometry.y_ratio));
             }
-            
+
             ctx.stroke();
         }
     }
