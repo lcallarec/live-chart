@@ -26,20 +26,20 @@ namespace LiveChart {
             ctx.set_source_rgba(this.line.color.red, this.line.color.green, this.line.color.blue, this.line.color.alpha);
             ctx.set_line_width(this.line.line_width);
 
-            double current_x_pos = geometry.width - geometry.padding;
+            double current_x_pos = geometry.width - geometry.padding.right;
             for (int pos = buffer.size - 1; pos >= 0; pos--) {
                 
-                if (current_x_pos < geometry.padding) {
+                if (current_x_pos < geometry.padding.left) {
                     break;
                 }
                 var current_point = buffer[pos];
                 var previous_point = pos == buffer.size - 1 ? current_point : buffer[pos + 1];
 
-                ctx.move_to(current_x_pos, geometry.height - geometry.padding - (previous_point.y * geometry.y_ratio));
+                ctx.move_to(current_x_pos, geometry.height - geometry.padding.bottom - (previous_point.y * geometry.y_ratio));
 
                 current_x_pos = current_x_pos - (previous_point.x - current_point.x);
 
-                ctx.line_to(current_x_pos, geometry.height  - geometry.padding - (current_point.y * geometry.y_ratio));
+                ctx.line_to(current_x_pos, geometry.height  - geometry.padding.bottom - (current_point.y * geometry.y_ratio));
             }
             
             ctx.stroke();

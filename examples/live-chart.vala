@@ -14,7 +14,12 @@ public class Example : Gtk.Window {
         heap.line.color = { 0.8, 0.8, 0.1, 1.0};
 
         var chart = new LiveChart.Chart();
-        chart.geometry.padding = 45;
+        chart.geometry.padding = LiveChart.Padding() {
+            top = 30,
+            right = 30,
+            bottom = 30,
+            left = 30
+        };
         
         var grid = new LiveChart.Grid();
         grid.unit = "MB";

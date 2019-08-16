@@ -17,8 +17,8 @@ namespace LiveChart {
             ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
             ctx.set_line_width(0.5);
             
-            ctx.move_to(geometry.padding + 0.5, geometry.height - geometry.padding + 0.5);
-            ctx.line_to(geometry.width - geometry.padding  + 0.5, geometry.height - geometry.padding + 0.5);
+            ctx.move_to(geometry.padding.left + 0.5, geometry.height - geometry.padding.bottom + 0.5);
+            ctx.line_to(geometry.width - geometry.padding.right + 0.5, geometry.height - geometry.padding.bottom + 0.5);
             ctx.stroke();            
         }
 
@@ -26,8 +26,8 @@ namespace LiveChart {
             ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
             ctx.set_line_width(0.5);
 
-            ctx.move_to(geometry.padding + 0.5, geometry.height - geometry.padding + 0.5);
-            ctx.line_to(geometry.padding + 0.5, geometry.padding + 0.5);
+            ctx.move_to(geometry.padding.left + 0.5, geometry.height - geometry.padding.bottom + 0.5);
+            ctx.line_to(geometry.padding.left + 0.5, geometry.padding.top + 0.5);
             ctx.stroke();
         }
 
@@ -42,20 +42,20 @@ namespace LiveChart {
 
         private void render_hgrid(Context ctx, Geometry geometry) {
             var y_scaled_pos = 0.0;
-            for (double i = geometry.height - geometry.padding; i > geometry.padding; i -= STEPS * geometry.y_ratio) {
+            for (double i = geometry.height - geometry.padding.bottom; i > geometry.padding.top; i -= STEPS * geometry.y_ratio) {
 
-                if (i < geometry.padding) {
+                if (i < geometry.padding.top) {
                     break;
                 }
                 ctx.set_dash({5.0}, 0);
-                ctx.move_to(0.5 + geometry.width - geometry.padding, i + 0.5);
-                ctx.line_to(geometry.padding + 0.5, i + 0.5);
+                ctx.move_to(0.5 + geometry.width - geometry.padding.right, i + 0.5);
+                ctx.line_to(geometry.padding.left + 0.5, i + 0.5);
 
                 //Values
                 var s = @"$y_scaled_pos" + unit;
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
-                ctx.move_to(geometry.padding - extents.width - 5, i + 0.5);
+                ctx.move_to(geometry.padding.left - extents.width - 5, i + 0.5);
                 ctx.show_text(s);
                 y_scaled_pos += STEPS;
             }
@@ -64,17 +64,17 @@ namespace LiveChart {
 
         private void render_vgrid(Context ctx, Geometry geometry) {
             var time = new DateTime.now().to_unix();
-            for (double i = geometry.width - geometry.padding; i > geometry.padding; i -= STEPS) {
+            for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= STEPS) {
                 ctx.set_dash({5.0}, 0);
-                ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding);
-                ctx.line_to(i + 0.5, 0.5 + geometry.padding);
+                ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding.bottom);
+                ctx.line_to(i + 0.5, 0.5 + geometry.padding.top);
 
                 // Values
                 var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
                 TextExtents extents;
                 ctx.text_extents(text, out extents);
 
-                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding +10);
+                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom +10);
                 ctx.show_text(text);
                 time -= STEPS;
             }

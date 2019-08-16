@@ -16,7 +16,7 @@ namespace LiveChart {
         public Grid grid { get; set; default = new Grid(); }
         public Geometry geometry;
         
-        private const double RATIO_THRESHOLD = 1.618;
+        private const double RATIO_THRESHOLD = 1.218;
 
         private Background background { get; public set; default = new Background(); } 
         private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
@@ -27,7 +27,7 @@ namespace LiveChart {
             this.geometry = Geometry() {
                 height = this.get_allocated_height(),
                 width = this.get_allocated_width(),
-                padding = 30,
+                padding = { 30, 30, 30, 30 },
                 y_ratio = ratio_from(this.get_allocated_height())
             };
             
@@ -71,7 +71,7 @@ namespace LiveChart {
         }
 
         private double ratio_from(int height) {
-            return this.limits.max > height / RATIO_THRESHOLD ? (double) height / this.limits.max / RATIO_THRESHOLD : 1;
+            return this.limits.max > (height - this.geometry.padding.top - this.geometry.padding.bottom) / RATIO_THRESHOLD ? (double) (height - this.geometry.padding.top - this.geometry.padding.bottom) / this.limits.max / RATIO_THRESHOLD : 1;
         }
     }
 }
