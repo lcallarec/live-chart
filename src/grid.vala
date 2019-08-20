@@ -33,8 +33,6 @@ namespace LiveChart {
 
         private void render_grid(Context ctx, Geometry geometry) {
             ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
-            ctx.select_font_face("Sans serif", FontSlant.NORMAL, FontWeight.BOLD);
-            ctx.set_font_size(10);
 
             this.render_hgrid(ctx, geometry);
             this.render_vgrid(ctx, geometry);
@@ -74,7 +72,7 @@ namespace LiveChart {
                 TextExtents extents;
                 ctx.text_extents(text, out extents);
 
-                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom +10);
+                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + 11);
                 ctx.show_text(text);
                 time -= STEPS;
             }

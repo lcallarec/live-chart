@@ -18,12 +18,14 @@ namespace LiveChart {
         public int width;
         public int height;
         public Padding padding;
+        public bool auto_padding;
         public double y_ratio;
         
         public Geometry() {
             width = 0;
             height = 0;
             padding = Padding();
+            auto_padding = false;
             y_ratio = 1.0;
         }
     }

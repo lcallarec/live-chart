@@ -15,12 +15,7 @@ public class Example : Gtk.Window {
         heap.renderer = bar;
 
         var chart = new LiveChart.Chart();
-        chart.geometry.padding = LiveChart.Padding() {
-            top = 30,
-            right = 30,
-            bottom = 30,
-            left = 30
-        };
+        chart.geometry.auto_padding = true;
         
         var grid = new LiveChart.Grid();
         grid.unit = "MB";
@@ -35,7 +30,7 @@ public class Example : Gtk.Window {
         chart.add_point("rss", rss_value);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.8) {
-                var new_value = Random.double_range(-20, 20.0);
+                var new_value = Random.double_range(-20, 100.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_point("rss", rss_value);
