@@ -23,5 +23,9 @@ namespace LiveChart {
             return points.get(at);
         }
 
+        public Point after(int at) {
+            if (at == size - 1) return this.get(at);
+            return this.get(at + 1);
+        }
     }
 }

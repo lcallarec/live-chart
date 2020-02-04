@@ -30,8 +30,8 @@ namespace LiveChart {
                 if (current_x_pos < geometry.padding.left) {
                     break;
                 }
-                var current_point = geometry.translate(this.points[pos]);
-                var previous_point = pos == this.points.size - 1 ? current_point : geometry.translate(this.points.get(pos + 1));
+                var current_point = geometry.translate(this.points.get(pos));
+                var previous_point = geometry.translate(this.points.after(pos));
 
                 ctx.move_to(current_x_pos, boundaries.y.max - previous_point.y);
 
