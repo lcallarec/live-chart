@@ -19,11 +19,12 @@ namespace LiveChart {
         }
 
         public void draw(Context ctx, Geometry geometry) {
-                
+            Boundaries boundaries = geometry.boundaries();
+
             ctx.set_source_rgba(this.color.red, this.color.green, this.color.blue, this.color.alpha);
             ctx.set_line_width(this.width);
 
-            double current_x_pos = geometry.width - geometry.padding.right;
+            double current_x_pos = boundaries.x.max;
             for (int pos = this.points.size - 1; pos >= 0; pos--) {
                 
                 if (current_x_pos < geometry.padding.left) {
@@ -32,11 +33,11 @@ namespace LiveChart {
                 var current_point = this.points[pos];
                 var previous_point = pos == this.points.size - 1 ? current_point : this.points.get(pos + 1);
 
-                ctx.move_to(current_x_pos, geometry.height - geometry.padding.bottom - (previous_point.y * geometry.y_ratio));
+                ctx.move_to(current_x_pos, boundaries.y.max - (previous_point.y * geometry.y_ratio));
 
                 current_x_pos = current_x_pos - (previous_point.x - current_point.x);
 
-                ctx.line_to(current_x_pos, geometry.height  - geometry.padding.bottom - (current_point.y * geometry.y_ratio));
+                ctx.line_to(current_x_pos, boundaries.y.max - (current_point.y * geometry.y_ratio));
             }
             
             ctx.stroke();
