@@ -14,14 +14,14 @@ public class Example : Gtk.Window {
 
         var chart = new LiveChart.Chart();
         chart.geometry.auto_padding = true;
+
+        chart.add_serie(line);
+        chart.add_serie(bar);
         
         var grid = new LiveChart.Grid();
         grid.unit = "MB";
         chart.grid = grid;
-
-        chart.serie("rss", line);
-        chart.serie("heap", bar);
-        
+         
         this.add(chart);
 
         var rss_value = 300.0;

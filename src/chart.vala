@@ -1,10 +1,11 @@
 using Cairo;
 
 namespace LiveChart {
-        public struct Limits {
-            double min;
-            double max;
-        }
+    
+    public struct Limits {
+        double min;
+        double max;
+    }
 
     public class Chart : Gtk.DrawingArea {
 
@@ -17,8 +18,7 @@ namespace LiveChart {
 
         private Background background { get; public set; default = new Background(); } 
 
-
-        private Gee.HashMap<string, Drawable> series = new Gee.HashMap<string, Drawable>();
+        private Gee.ArrayList<Drawable> series = new Gee.ArrayList<Drawable>();
 
         private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
 
@@ -40,8 +40,8 @@ namespace LiveChart {
             this.draw.connect(render);
         }
 
-        public void serie(string name, Drawable serie) {
-            this.series.set(name, serie);
+        public void add_serie(Drawable serie) {
+            this.series.add(serie);
         }
 
         public void add_point(Points points, double value) {
@@ -66,7 +66,7 @@ namespace LiveChart {
             
             this.background.render(ctx, geometry);
             this.grid.render(ctx, geometry);
-            foreach (Drawable serie in this.series.values) {
+            foreach (Drawable serie in this.series) {
                 serie.draw(ctx, geometry);
             }
             
