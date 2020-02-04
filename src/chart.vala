@@ -1,15 +1,10 @@
 using Cairo;
 
 namespace LiveChart {
-
-    public errordomain LiveChartError {
-        SERIE_NOT_FOUND
-    }
-
-    public struct Limits {
-        double min;
-        double max;
-    }
+        public struct Limits {
+            double min;
+            double max;
+        }
 
     public class Chart : Gtk.DrawingArea {
 
@@ -21,9 +16,11 @@ namespace LiveChart {
         private const string FONT_FACE = "Sans serif";
 
         private Background background { get; public set; default = new Background(); } 
-        private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
 
-        private Gee.HashMap<string, Serie> series = new Gee.HashMap<string, Serie>();
+
+        private Gee.HashMap<string, Drawable> series = new Gee.HashMap<string, Drawable>();
+
+        private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
 
         public Chart() {
             this.geometry = Geometry() {
@@ -43,23 +40,18 @@ namespace LiveChart {
             this.draw.connect(render);
         }
 
-        public void serie(Serie serie) {
-            this.series.set(serie.name, serie);
+        public void serie(string name, Drawable serie) {
+            this.series.set(name, serie);
         }
 
-        public void add_point(string serie_name, double value) throws LiveChartError  {
-            var serie = this.series.get(serie_name);
-            if (serie == null) {
-                throw new LiveChartError.SERIE_NOT_FOUND("Can't add a new point to unknown serie %s".printf(serie_name));
-            }
-
+        public void add_point(Points points, double value) {
             if (value > this.limits.max) {
                 this.limits = Limits() {min = this.limits.min, max = value};
                 this.geometry.y_ratio = ratio_from(this.get_allocated_height());                
             }
             if (value < this.limits.min) this.limits = Limits() {min = value, max = this.limits.max};
             
-            serie.add(value);
+            points.add(value);
             this.queue_draw();
         }
 
@@ -74,8 +66,8 @@ namespace LiveChart {
             
             this.background.render(ctx, geometry);
             this.grid.render(ctx, geometry);
-            foreach (Serie serie in this.series.values) {
-                serie.render(ctx, geometry);
+            foreach (Drawable serie in this.series.values) {
+                serie.draw(ctx, geometry);
             }
             
             return true;
