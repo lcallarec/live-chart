@@ -1,7 +1,7 @@
 using Cairo;
 
 namespace LiveChart {
-    
+
     public struct Limits {
         double min;
         double max;
@@ -10,7 +10,7 @@ namespace LiveChart {
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
-        public Geometry geometry;
+        private Geometry geometry;
         
         private const double RATIO_THRESHOLD = 1.218;
         private const int FONT_SIZE = 10;
@@ -22,15 +22,10 @@ namespace LiveChart {
 
         private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
 
-        public Chart() {
-            this.geometry = Geometry() {
-                height = this.get_allocated_height(),
-                width = this.get_allocated_width(),
-                padding = { 30, 30, 30, 30 },
-                auto_padding = false,
-                y_ratio = ratio_from(this.get_allocated_height())
-            };
-            
+        public Chart(Geometry geometry) {
+            this.geometry = geometry;
+            this.geometry.y_ratio = ratio_from(this.get_allocated_height());
+
             this.size_allocate.connect((allocation) => {
                 this.geometry.height = allocation.height;
                 this.geometry.width = allocation.width;

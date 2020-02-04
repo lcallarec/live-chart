@@ -12,8 +12,13 @@ public class Example : Gtk.Window {
         var heap = new LiveChart.Points();
         var bar = new LiveChart.Bar(heap);
 
-        var chart = new LiveChart.Chart();
-        chart.geometry.auto_padding = true;
+        var geometry = LiveChart.Geometry() {
+            height = this.get_allocated_height(),
+            width = this.get_allocated_width(),
+            padding = { 30, 30, 30, 30 },
+            auto_padding = true
+        };
+        var chart = new LiveChart.Chart(geometry);
 
         chart.add_serie(line);
         chart.add_serie(bar);
