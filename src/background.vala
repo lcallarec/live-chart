@@ -1,7 +1,7 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Background {
+    public class Background: Drawable, Object {
         public Gdk.RGBA color { 
             get; set; default= Gdk.RGBA() {
                 red = 0.1,
@@ -11,7 +11,7 @@ namespace LiveChart {
             };
         }
 
-        public void render(Context ctx, Geometry geometry) {
+        public void draw(Context ctx, Geometry geometry) {
             ctx.rectangle(0, 0, geometry.width, geometry.height);
             ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
             ctx.fill();

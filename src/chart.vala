@@ -10,19 +10,18 @@ namespace LiveChart {
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
-        private Geometry geometry;
+        public Drawable background { get; public set; default = new Background(); } 
         
+        private Geometry geometry;
         private const double RATIO_THRESHOLD = 1.218;
         private const int FONT_SIZE = 10;
         private const string FONT_FACE = "Sans serif";
-
-        private Background background { get; public set; default = new Background(); } 
 
         private Gee.ArrayList<Drawable> series = new Gee.ArrayList<Drawable>();
 
         private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
 
-        public Chart(Geometry geometry) {
+        public Chart(Geometry geometry, string unit = "") {
             this.geometry = geometry;
             this.geometry.y_ratio = ratio_from(this.get_allocated_height());
 
@@ -54,13 +53,13 @@ namespace LiveChart {
             ctx.select_font_face(FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(FONT_SIZE);
             
-            Geometry geometry = this.geometry;;
+            Geometry geometry = this.geometry;
             if (this.geometry.auto_padding) {
                 geometry = this.compute_new_geometry(ctx, geometry);
             }
             
-            this.background.render(ctx, geometry);
-            this.grid.render(ctx, geometry);
+            this.background.draw(ctx, geometry);
+            this.grid.draw(ctx, geometry);
             foreach (Drawable serie in this.series) {
                 serie.draw(ctx, geometry);
             }

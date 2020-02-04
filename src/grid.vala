@@ -2,7 +2,7 @@ using Cairo;
 
 namespace LiveChart {
 
-    public class Grid : Object {
+    public class Grid : Drawable, Object {
 
         private const int STEPS = 60;
         public string unit { get; set construct ; default = ""; }
@@ -11,7 +11,7 @@ namespace LiveChart {
             this.unit = unit;
         }
 
-        public void render(Context ctx, Geometry geometry) {
+        public void draw(Context ctx, Geometry geometry) {
             this.render_abscissa(ctx, geometry);
             this.render_ordinate(ctx, geometry);            
             this.render_grid(ctx, geometry);
