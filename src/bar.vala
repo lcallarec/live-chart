@@ -26,11 +26,11 @@ namespace LiveChart {
                 if (current_x_pos < geometry.padding.left) {
                     break;
                 }
-                var current_point = this.points[pos];
-                var previous_point = pos == this.points.size - 1 ? current_point : this.points.get(pos + 1);
+                var current_point = geometry.translate(this.points[pos]);
+                var previous_point = pos == this.points.size - 1 ? current_point : geometry.translate(this.points.get(pos + 1));
 
                 var bar_width = (current_point.x - previous_point.x) / 1.2;
-                ctx.rectangle(current_x_pos, boundaries.y.max - (current_point.y * geometry.y_ratio), bar_width, (current_point.y * geometry.y_ratio));
+                ctx.rectangle(current_x_pos, boundaries.y.max - current_point.y, bar_width, current_point.y);
                 ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
                 ctx.fill();
                 current_x_pos = current_x_pos - (previous_point.x - current_point.x);
