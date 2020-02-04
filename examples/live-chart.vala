@@ -23,8 +23,7 @@ public class Example : Gtk.Window {
         chart.add_serie(line);
         chart.add_serie(bar);
         
-        var grid = new LiveChart.Grid();
-        grid.unit = "MB";
+        var grid = new LiveChart.Grid("MB");
         chart.grid = grid;
          
         this.add(chart);

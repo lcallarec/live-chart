@@ -4,8 +4,12 @@ namespace LiveChart {
 
     public class Grid : Object {
 
-        public string unit { get; set; default = ""; }
         private const int STEPS = 60;
+        public string unit { get; set construct ; default = ""; }
+
+        public Grid(string unit = "") {
+            this.unit = unit;
+        }
 
         public void render(Context ctx, Geometry geometry) {
             this.render_abscissa(ctx, geometry);
