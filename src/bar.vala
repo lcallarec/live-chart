@@ -11,16 +11,16 @@ namespace LiveChart {
             };
         }
 
-        private Points points;
-        public Bar(Points points) {
-            this.points = points;
+        private Values values;
+        public Bar(Values values) {
+            this.values = values;
         }
 
         public void draw(Context ctx, Geometry geometry) {
 
             ctx.set_source_rgba(this.color.red, this.color.green, this.color.blue, this.color.alpha);
-            var points = this.points.translate(geometry);
-            for (int pos = 0; pos <= points.size - 1; pos++) {
+            var points = Points.create(values, geometry);
+            for (int pos = 0; pos <= points.size -1; pos++) {
                 var current_point = points.get(pos);
                 var next_point = points.after(pos);
 
@@ -28,8 +28,9 @@ namespace LiveChart {
                     continue;
                 }
                 var bar_width = (current_point.x - next_point.x) / 1.2;
-                ctx.rectangle(next_point.x, next_point.y, bar_width, this.points.after(pos).y * geometry.y_ratio);
+                ctx.rectangle(next_point.x, next_point.y, bar_width, next_point.height);
             }
+              
             ctx.fill();
         }
     }

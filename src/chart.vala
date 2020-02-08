@@ -38,14 +38,14 @@ namespace LiveChart {
             this.series.add(serie);
         }
 
-        public void add_point(Points points, double value) {
+        public void add_value(Values values, double value) {
             if (value > this.limits.max) {
                 this.limits = Limits() {min = this.limits.min, max = value};
                 this.geometry.y_ratio = ratio_from(this.get_allocated_height());                
             }
             if (value < this.limits.min) this.limits = Limits() {min = value, max = this.limits.max};
             
-            points.add({new DateTime.now().to_unix(), value});
+            values.add({new DateTime.now().to_unix(), value});
             this.queue_draw();
         }
 
