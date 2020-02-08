@@ -45,7 +45,7 @@ namespace LiveChart {
             }
             if (value < this.limits.min) this.limits = Limits() {min = value, max = this.limits.max};
             
-            points.add(value);
+            points.add({new DateTime.now().to_unix(), value});
             this.queue_draw();
         }
 

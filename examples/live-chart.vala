@@ -31,8 +31,8 @@ public class Example : Gtk.Window {
         var rss_value = 300.0;
         chart.add_point(rss, rss_value);
         Timeout.add(1000, () => {
-            if (Random.double_range(0.0, 1.0) > 0.8) {
-                var new_value = Random.double_range(-20, 100.0);
+            if (Random.double_range(0.0, 1.0) > 0.3) {
+                var new_value = Random.double_range(-20, 20.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_point(rss, rss_value);

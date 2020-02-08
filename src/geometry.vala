@@ -37,13 +37,7 @@ namespace LiveChart {
                y = {padding.top, height - padding.bottom}
             };
         }
-        public Point translate(Point point) {
-            return Point() {
-                x = point.x,
-                y = point.y * y_ratio
-            };
-        }
-        
+          
         public Geometry() {
             width = 0;
             height = 0;

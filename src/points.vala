@@ -15,8 +15,12 @@ namespace LiveChart {
             }
         }
 
-        public void add(double value) {
-            points.add({new DateTime.now().to_unix() - time_start, value});
+        public void add(Point point) {
+            points.add({point.x - time_start, point.y});
+        }
+
+        public void add_raw(Point point) {
+            points.add(point);
         }
 
         public new Point get(int at) {
@@ -26,6 +30,34 @@ namespace LiveChart {
         public Point after(int at) {
             if (at == size - 1) return this.get(at);
             return this.get(at + 1);
+        }
+
+        public Point before(int at) {
+            if (at == 0) return this.get(at);
+            return this.get(at - 1);
+        }
+
+        public Point last() {
+            return this.get(this.size - 1);
+        }
+
+        public Point first() {
+            return this.get(0);
+        }
+
+        public Points translate(Geometry geometry) {
+            var boundaries = geometry.boundaries();
+
+            Points translated_points = new Points();
+            var raw_last_point = points.last();
+
+            foreach (Point point in points) {
+                translated_points.add_raw(Point() {
+                    x = boundaries.x.max - raw_last_point.x + point.x,
+                    y =  boundaries.y.max - (point.y *  geometry.y_ratio)
+                });
+            }
+            return translated_points;
         }
     }
 }
