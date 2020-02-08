@@ -6,6 +6,9 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var rss = new LiveChart.Values();
+        var curve = new LiveChart.Curve(rss);
+        curve.color = { 0.3, 0.8, 0.1, 1.0};
+
         var line = new LiveChart.Line(rss);
         line.color = { 0.8, 0.1, 0.1, 1.0};
 
@@ -21,6 +24,7 @@ public class Example : Gtk.Window {
         var chart = new LiveChart.Chart(geometry);
 
         chart.add_serie(line);
+        chart.add_serie(curve);
         chart.add_serie(bar);
         
         var grid = new LiveChart.Grid("MB");
@@ -32,7 +36,7 @@ public class Example : Gtk.Window {
         chart.add_value(rss, rss_value);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.3) {
-                var new_value = Random.double_range(-20, 20.0);
+                var new_value = Random.double_range(-100, 100.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);
