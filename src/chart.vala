@@ -2,11 +2,6 @@ using Cairo;
 
 namespace LiveChart {
 
-    public struct Limits {
-        double min;
-        double max;
-    }
-
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
@@ -19,7 +14,7 @@ namespace LiveChart {
 
         private Gee.ArrayList<Drawable> series = new Gee.ArrayList<Drawable>();
 
-        private Limits limits { get; set; default = Limits() {min = 0.0, max = 0.0};}
+        private Limits limits = new Limits();
 
         public Chart(Geometry geometry, string unit = "") {
             this.geometry = geometry;
@@ -40,11 +35,9 @@ namespace LiveChart {
 
         public void add_value(Values values, double value) {
             if (value > this.limits.max) {
-                this.limits = Limits() {min = this.limits.min, max = value};
                 this.geometry.y_ratio = ratio_from(this.get_allocated_height());                
             }
-            if (value < this.limits.min) this.limits = Limits() {min = value, max = this.limits.max};
-            
+            limits.update(value);            
             values.add({new DateTime.now().to_unix(), value});
             this.queue_draw();
         }
