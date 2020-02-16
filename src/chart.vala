@@ -69,18 +69,19 @@ namespace LiveChart {
             ctx.text_extents(max_value_displayed.to_string() + this.grid.unit, out max_value_displayed_extents);
             ctx.text_extents(time_displayed, out time_displayed_extents);
             
-            return Geometry() {
-                height = geometry.height,
-                width = geometry.width,
-                padding = { 
+            var new_geometry = new Geometry();
+            new_geometry.height = geometry.height;
+            new_geometry.width = geometry.width;
+            new_geometry.padding = { 
                     10,
                     10 + (int) time_displayed_extents.width / 2,
                     15 + (int) max_value_displayed_extents.height,
                     10 + (int) max_value_displayed_extents.width, 
-                },
-                auto_padding = geometry.auto_padding,
-                y_ratio = geometry.y_ratio
             };
+            new_geometry.auto_padding = geometry.auto_padding;
+            new_geometry.y_ratio = geometry.y_ratio;
+
+            return new_geometry;
         }
 
         private double ratio_from(int height) {

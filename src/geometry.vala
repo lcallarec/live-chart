@@ -25,25 +25,28 @@ namespace LiveChart {
     }
     
 
-    public struct Geometry {
-        public int width;
-        public int height;
-        public Padding padding;
-        public bool auto_padding;
-        public double y_ratio;
+    public class Geometry {
+        public int width {
+            get; set; default = 0;
+        }
+
+        public int height {
+            get; set; default = 0;
+        }
+
+        public Padding padding = Padding();
+
+        public bool auto_padding {
+            get; set; default = false;
+        }
+
+        public double y_ratio = 1.0;
+        
         public Boundaries boundaries() {
             return Boundaries() {
                x = {padding.left, width - padding.right},
                y = {padding.top, height - padding.bottom}
             };
-        }
-          
-        public Geometry() {
-            width = 0;
-            height = 0;
-            padding = Padding();
-            auto_padding = false;
-            y_ratio = 1.0;
         }
     }
 }

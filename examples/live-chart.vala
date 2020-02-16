@@ -15,12 +15,12 @@ public class Example : Gtk.Window {
         var heap = new LiveChart.Values();
         var bar = new LiveChart.Bar(heap);
 
-        var geometry = LiveChart.Geometry() {
-            height = this.get_allocated_height(),
-            width = this.get_allocated_width(),
-            padding = { 30, 30, 30, 30 },
-            auto_padding = true
-        };
+        var geometry = new LiveChart.Geometry();
+        geometry.height = this.get_allocated_height();
+        geometry.width = this.get_allocated_width();
+        geometry.padding = { 30, 30, 30, 30 };
+        geometry.auto_padding = true;
+
         var chart = new LiveChart.Chart(geometry);
 
         chart.add_serie(line);
