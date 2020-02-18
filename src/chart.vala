@@ -8,22 +8,25 @@ namespace LiveChart {
         public Drawable background { get; public set; default = new Background(); } 
         
         private Geometry geometry;
-        private const double RATIO_THRESHOLD = 1.218;
+
         private const int FONT_SIZE = 10;
         private const string FONT_FACE = "Sans serif";
 
         private Gee.ArrayList<Drawable> series = new Gee.ArrayList<Drawable>();
 
-        private Limits limits = new Limits();
+        private Bounds bounds = new Bounds();
 
         public Chart(Geometry geometry, string unit = "") {
             this.geometry = geometry;
-            this.geometry.y_ratio = ratio_from(this.get_allocated_height());
 
             this.size_allocate.connect((allocation) => {
                 this.geometry.height = allocation.height;
                 this.geometry.width = allocation.width;
-                this.geometry.y_ratio = ratio_from(allocation.height);
+                this.geometry.update_yratio(bounds.upper, allocation.height);
+            });
+
+            this.bounds.upper_bound_updated.connect((value) => {
+                geometry.update_yratio(bounds.upper, this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -34,11 +37,8 @@ namespace LiveChart {
         }
 
         public void add_value(Values values, double value) {
-            if (value > this.limits.max) {
-                this.geometry.y_ratio = ratio_from(this.get_allocated_height());                
-            }
-            limits.update(value);            
             values.add({new DateTime.now().to_unix(), value});
+            bounds.update(value);
             this.queue_draw();
         }
 
@@ -82,10 +82,6 @@ namespace LiveChart {
             new_geometry.y_ratio = geometry.y_ratio;
 
             return new_geometry;
-        }
-
-        private double ratio_from(int height) {
-            return this.limits.max > (height - this.geometry.padding.top - this.geometry.padding.bottom) / RATIO_THRESHOLD ? (double) (height - this.geometry.padding.top - this.geometry.padding.bottom) / this.limits.max / RATIO_THRESHOLD : 1;
         }
     }
 }
