@@ -25,3 +25,11 @@ Compile and run with (you need to have cario-dev installed)
 ```bash
 $ make
 ```
+
+## Dependencies
+
+| dependency | 
+|---------|
+| libcairo2-dev   |
+| libgee-0.8-dev   |
+| libgtk-3-dev  |
