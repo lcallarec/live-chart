@@ -78,7 +78,7 @@ namespace LiveChart {
 
                 ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + 11);
                 ctx.show_text(text);
-                time -= STEPS;
+                time -= STEPS / (int) geometry.x_ratio;
             }
             ctx.stroke();
             ctx.set_dash(null, 0.0);           

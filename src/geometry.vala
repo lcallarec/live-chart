@@ -41,8 +41,9 @@ namespace LiveChart {
         }
 
         public double y_ratio = 1.0;
+        public double x_ratio = 1.0;
 
-        private const double RATIO_THRESHOLD = 1.218;
+        private const double Y_RATIO_THRESHOLD = 1.218;
 
         public Boundaries boundaries() {
             return Boundaries() {
@@ -52,7 +53,7 @@ namespace LiveChart {
         }
 
         public void update_yratio(double max_value, int height) {
-            y_ratio = max_value > (height - padding.top - padding.bottom) / RATIO_THRESHOLD ? (double) (height - padding.top - padding.bottom) / max_value / RATIO_THRESHOLD : 1;
+            y_ratio = max_value > (height - padding.top - padding.bottom) / Y_RATIO_THRESHOLD ? (double) (height - padding.top - padding.bottom) / max_value / Y_RATIO_THRESHOLD : 1;
         }
     }
 }

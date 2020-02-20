@@ -37,7 +37,7 @@ namespace LiveChart {
 
             foreach (TimestampedValue value in values) {
                 points.add(Point() {
-                    x = boundaries.x.max - last_value.timestamp + value.timestamp,
+                    x = boundaries.x.max - (last_value.timestamp - value.timestamp) * geometry.x_ratio,
                     y =  boundaries.y.max - (value.value *  geometry.y_ratio),
                     height = value.value * geometry.y_ratio
                 });
