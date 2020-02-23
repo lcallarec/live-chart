@@ -30,6 +30,11 @@ namespace LiveChart {
             });
 
             this.draw.connect(render);
+            
+            Timeout.add(100, () => {
+                this.queue_draw();
+                return true;
+            });
         }
 
         public void add_serie(Drawable serie) {
@@ -37,7 +42,7 @@ namespace LiveChart {
         }
 
         public void add_value(Values values, double value) {
-            values.add({new DateTime.now().to_unix(), value});
+            values.add({GLib.get_real_time() / 1000, value});
             bounds.update(value);
             this.queue_draw();
         }
