@@ -16,7 +16,7 @@ namespace LiveChart {
 
         private Bounds bounds = new Bounds();
 
-        public Chart(Geometry geometry, string unit = "") {
+        public Chart(Geometry geometry) {
             this.geometry = geometry;
 
             this.size_allocate.connect((allocation) => {
