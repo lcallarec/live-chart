@@ -1,3 +1,5 @@
+![CI](https://github.com/lcallarec/live-chart/workflows/CI/badge.svg)
+
 # Live Chart
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
