@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install deps
+        run: |
+          sudo apt-get install valac libgee-dev libgtk-3-dev libcairo-dev
       - name: Compile example
         run: make
       - name: Run tests
