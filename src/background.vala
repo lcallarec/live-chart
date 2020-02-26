@@ -11,7 +11,7 @@ namespace LiveChart {
             };
         }
 
-        public void draw(Context ctx, Geometry geometry) {
+        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
             ctx.rectangle(0, 0, geometry.width, geometry.height);
             ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
             ctx.fill();

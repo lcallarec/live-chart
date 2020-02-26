@@ -56,10 +56,10 @@ namespace LiveChart {
                 geometry = this.compute_new_geometry(ctx, geometry);
             }
             
-            this.background.draw(ctx, geometry);
-            this.grid.draw(ctx, geometry);
+            this.background.draw(bounds, ctx, geometry);
+            this.grid.draw(bounds, ctx, geometry);
             foreach (Drawable serie in this.series) {
-                serie.draw(ctx, geometry);
+                serie.draw(bounds, ctx, geometry);
             }
             
             return true;

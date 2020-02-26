@@ -16,7 +16,7 @@ namespace LiveChart {
             this.values = values;
         }
 
-        public void draw(Context ctx, Geometry geometry) {
+        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
 
             ctx.set_source_rgba(this.color.red, this.color.green, this.color.blue, this.color.alpha);
             var points = Points.create(values, geometry);
