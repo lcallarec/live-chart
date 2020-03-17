@@ -58,7 +58,10 @@ namespace LiveChart {
             
             this.background.draw(bounds, ctx, geometry);
             this.grid.draw(bounds, ctx, geometry);
+            var boundaries = geometry.boundaries();
             foreach (Drawable serie in this.series) {
+                ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.x.max, boundaries.y.max);
+                ctx.clip();
                 serie.draw(bounds, ctx, geometry);
             }
             
