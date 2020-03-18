@@ -4,6 +4,7 @@ void main (string[] args) {
 
     register_geometry();
     register_bounds();
-
+    register_values();
+    
     Test.run();
 }

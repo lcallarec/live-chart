@@ -5,14 +5,21 @@ namespace LiveChart {
     public class Values : Object {
 
         private Gee.ArrayList<TimestampedValue?> values = new Gee.ArrayList<TimestampedValue?>();
-
+        private int buffer_size;
         public int size {
             get {
                 return values.size;
             }
         }
 
+        public Values(int buffer_size = 1000) {
+            this.buffer_size = buffer_size;
+        }
+
         public void add(TimestampedValue value) {
+            if (this.size == buffer_size) {
+                values.remove_at(0);
+            }
             values.add(value);
         }
 
