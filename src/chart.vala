@@ -6,13 +6,11 @@ namespace LiveChart {
 
         public Grid grid { get; set; default = new Grid(); }
         public Drawable background { get; public set; default = new Background(); } 
+        public Legend legend { get; public set; } 
         
         private Geometry geometry;
 
-        private const int FONT_SIZE = 10;
-        private const string FONT_FACE = "Sans serif";
-
-        private Gee.ArrayList<Drawable> series = new Gee.ArrayList<Drawable>();
+        private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
 
         private Bounds bounds = new Bounds();
 
@@ -37,27 +35,29 @@ namespace LiveChart {
             });
         }
 
-        public void add_serie(Drawable serie) {
+        public void add_serie(Serie serie) {
             this.series.add(serie);
+            if(this.legend != null) this.legend.add_legend(serie);
         }
 
-        public void add_value(Values values, double value) {
-            values.add({GLib.get_real_time() / 1000, value});
+        public void add_value(Serie serie, double value) {
+            serie.add({GLib.get_real_time() / 1000, value});
             bounds.update(value);
             this.queue_draw();
         }
 
         private bool render(Gtk.Widget _, Context ctx) {
-            ctx.select_font_face(FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
-            ctx.set_font_size(FONT_SIZE);
+            ctx.select_font_face(Geometry.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
+            ctx.set_font_size(Geometry.FONT_SIZE);
             
-            Geometry geometry = this.geometry;
-            if (this.geometry.auto_padding) {
-                geometry = this.compute_new_geometry(ctx, geometry);
+            if (geometry.auto_padding) {
+                geometry = geometry.recreate(ctx, grid, legend);
             }
             
             this.background.draw(bounds, ctx, geometry);
             this.grid.draw(bounds, ctx, geometry);
+            if(this.legend != null) this.legend.draw(bounds, ctx, geometry);
+
             var boundaries = geometry.boundaries();
             foreach (Drawable serie in this.series) {
                 ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.x.max, boundaries.y.max);
@@ -66,30 +66,6 @@ namespace LiveChart {
             }
             
             return true;
-        }
-
-        private Geometry compute_new_geometry(Context ctx, Geometry geometry) {
-            var max_value_displayed = (int) Math.round((geometry.height - geometry.padding.bottom - geometry.padding.top) / geometry.y_ratio);
-            var time_displayed = "00:00:00";
-
-            TextExtents max_value_displayed_extents;
-            TextExtents time_displayed_extents;            
-            ctx.text_extents(max_value_displayed.to_string() + this.grid.unit, out max_value_displayed_extents);
-            ctx.text_extents(time_displayed, out time_displayed_extents);
-            
-            var new_geometry = new Geometry();
-            new_geometry.height = geometry.height;
-            new_geometry.width = geometry.width;
-            new_geometry.padding = { 
-                    10,
-                    10 + (int) time_displayed_extents.width / 2,
-                    15 + (int) max_value_displayed_extents.height,
-                    10 + (int) max_value_displayed_extents.width, 
-            };
-            new_geometry.auto_padding = geometry.auto_padding;
-            new_geometry.y_ratio = geometry.y_ratio;
-
-            return new_geometry;
         }
     }
 }

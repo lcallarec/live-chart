@@ -1,26 +1,15 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Curve : Drawable, Object {
-        public Gdk.RGBA color { 
-            get; set; default= Gdk.RGBA() {
-                red = 1.0,
-                green = 1.0,
-                blue = 1.0,
-                alpha = 1.0
-            };
-        }
+    public class Curve : DrawableSerie {
 
-        public double width { get; set; default = 1;}
-
-        private Values values;
         public Curve(Values values) {
             this.values = values;
         }
 
-        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
-            ctx.set_source_rgba(this.color.red, this.color.green, this.color.blue, this.color.alpha);
-            ctx.set_line_width(this.width);
+        public override void draw(Bounds bounds, Context ctx, Geometry geometry) {
+            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
+            ctx.set_line_width(this.outline_width);
             
             var points = Points.create(values, geometry);
             var first_point = points.first();

@@ -11,6 +11,7 @@ namespace LiveChart {
                 return values.size;
             }
         }
+
         public void add(TimestampedValue value) {
             values.add(value);
         }
