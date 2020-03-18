@@ -1,5 +1,5 @@
 
-private void register_limits() {
+private void register_bounds() {
 
     Test.add_func("/LiveChart/Bounds#UpdateBounds", () => {
         //given
