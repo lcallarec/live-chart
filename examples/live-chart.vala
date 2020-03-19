@@ -28,7 +28,7 @@ public class Example : Gtk.Window {
         chart.add_serie(rss);
         chart.add_serie(heap);
         
-        var grid = new LiveChart.Grid("MB");
+        var grid = new LiveChart.FixedDistanceGrid("MB", 100);
         chart.grid = grid;
          
         var rss_value = 300.0;

@@ -9,7 +9,7 @@ namespace LiveChart {
 
     public class Chart : Gtk.DrawingArea {
 
-        public Grid grid { get; set; default = new Grid(); }
+        public Grid grid { get; set construct; }
         public Drawable background { get; public set; default = new Background(); } 
         public Legend legend { get; public set; } 
         
