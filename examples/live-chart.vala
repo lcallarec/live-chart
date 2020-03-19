@@ -22,7 +22,7 @@ public class Example : Gtk.Window {
         geometry.auto_padding = true;
 
         var chart = new LiveChart.Chart(geometry);
-        chart.legend = new LiveChart.Legend();
+        chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);
         chart.add_serie(rss);
