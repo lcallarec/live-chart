@@ -17,9 +17,9 @@ private void register_bounds() {
         bounds.update(5.0);
 
         //then
-        assert(bounds.lower == 0.0);
+        assert(bounds.lower == 5.0);
         assert(bounds.upper == 5.0);
-        assert(lower_bound_updated == false);
+        assert(lower_bound_updated == true);
         assert(upper_bound_updated == true);
         
         //when
