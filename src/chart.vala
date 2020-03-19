@@ -2,6 +2,11 @@ using Cairo;
 
 namespace LiveChart {
 
+    public errordomain ChartError
+    {
+        EXPORT_ERROR
+    }
+
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
@@ -44,6 +49,15 @@ namespace LiveChart {
             serie.add({GLib.get_real_time() / 1000, value});
             bounds.update(value);
             this.queue_draw();
+        }
+
+        public void to_png(string filename) throws Error {
+            var window = this.get_window();
+            if (window == null) {
+                throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
+            }
+            var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, this.geometry.width, this.geometry.height);
+            pixbuff.savev(filename, "png", {}, {});
         }
 
         private bool render(Gtk.Widget _, Context ctx) {

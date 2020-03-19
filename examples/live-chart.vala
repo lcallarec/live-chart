@@ -31,8 +31,6 @@ public class Example : Gtk.Window {
         var grid = new LiveChart.Grid("MB");
         chart.grid = grid;
          
-        this.add(chart);
-
         var rss_value = 300.0;
         chart.add_value(rss, rss_value);
         Timeout.add(1000, () => {
@@ -65,6 +63,23 @@ public class Example : Gtk.Window {
             chart.add_value(heat, heat_value);
             return true;
         });
+
+        var export_button = new Gtk.Button.with_label("Export to PNG");
+		export_button.clicked.connect (() => {
+            try {
+                chart.to_png("export.png");
+            } catch (Error e) {
+                GLib.error(e.message);
+            }
+            
+        });
+        
+        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        box.pack_start(export_button, false, false, 5);
+        box.pack_start(chart, true, true, 0);
+
+        this.add(box);
+
      }
 }
 
