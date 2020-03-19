@@ -56,7 +56,7 @@ namespace LiveChart {
             if (window == null) {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
             }
-            var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, this.geometry.width, this.geometry.height);
+            var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
             pixbuff.savev(filename, "png", {}, {});
         }
 

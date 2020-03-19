@@ -6,8 +6,8 @@ void main (string[] args) {
     register_geometry();
     register_bounds();
     register_values();
-    register_chart();
     register_points();
-
+    register_chart();
+    
     Test.run();
 }
