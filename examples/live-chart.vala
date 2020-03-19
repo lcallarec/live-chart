@@ -19,7 +19,6 @@ public class Example : Gtk.Window {
         geometry.height = this.get_allocated_height();
         geometry.width = this.get_allocated_width();
         geometry.padding = { 30, 30, 30, 30 };
-        geometry.auto_padding = true;
 
         var chart = new LiveChart.Chart(geometry);
         chart.legend = new LiveChart.HorizontalLegend();
@@ -28,7 +27,7 @@ public class Example : Gtk.Window {
         chart.add_serie(rss);
         chart.add_serie(heap);
         
-        var grid = new LiveChart.FixedDistanceGrid("MB", 100);
+        var grid = new LiveChart.FixedValueGrid("MB", 100);
         chart.grid = grid;
          
         var rss_value = 300.0;

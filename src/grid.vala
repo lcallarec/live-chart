@@ -3,15 +3,27 @@ using Cairo;
 namespace LiveChart {
 
     public abstract class Grid : Drawable, Object {
-
+        private const int ABSCISSA_TIME_PADDING = 14;
         public string unit {
             get; set construct;
         }
-        
+        protected BoundingBox bounding_box = BoundingBox() {
+            x=0, 
+            y=0, 
+            width=0,
+            height=0
+        };
+
         public void draw(Bounds bounds, Context ctx, Geometry geometry) {
             this.render_abscissa(ctx, geometry);
             this.render_ordinate(ctx, geometry);            
             this.render_grid(bounds, ctx, geometry);
+            this.update_bounding_box(geometry);
+            this.debug(ctx);
+        }
+
+        public BoundingBox get_bounding_box() {
+            return this.bounding_box;
         }
 
         protected virtual void render_abscissa(Context ctx, Geometry geometry) {
@@ -42,6 +54,7 @@ namespace LiveChart {
         protected virtual void render_vgrid(Context ctx, Geometry geometry) {
             var time = new DateTime.now().to_unix();
             ctx.set_dash({5.0}, 0);
+            
             for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= 60) {
                 ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding.bottom);
                 ctx.line_to(i + 0.5, 0.5 + geometry.padding.top);
@@ -51,7 +64,7 @@ namespace LiveChart {
                 TextExtents extents;
                 ctx.text_extents(text, out extents);
                 
-                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + 11);
+                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
                 ctx.show_text(text);
                 time -= 60 / (int) geometry.x_ratio;
             }
@@ -59,6 +72,22 @@ namespace LiveChart {
             ctx.set_dash(null, 0.0);           
         }
 
+        protected void update_bounding_box(Geometry geometry) {
+            var boundaries = geometry.boundaries();
+            this.bounding_box = BoundingBox() {
+                x=boundaries.x.min,
+                y=boundaries.y.min,
+                width=boundaries.x.max - boundaries.x.min, 
+                height=boundaries.y.max - boundaries.y.min + Grid.ABSCISSA_TIME_PADDING
+            };
+        }
+        protected void debug(Context ctx) {
+            var debug = Environment.get_variable("LIVE_CHART_DEBUG");
+            if(debug != null) {
+                ctx.rectangle(bounding_box.x, bounding_box.y, bounding_box.width, bounding_box.height);
+                ctx.stroke();
+            }
+        }    
         protected abstract void render_hgrid(Bounds bounds, Context ctx, Geometry geometry);
     }
 
@@ -96,7 +125,7 @@ namespace LiveChart {
     public class WIPFixedDistanceGrid : Grid {
 
         private int distance;
-        public FixedDistanceGrid(string unit = "",int distance = 20) {
+        public WIPFixedDistanceGrid(string unit = "",int distance = 20) {
             this.unit = unit;
             this.distance = distance;
         }

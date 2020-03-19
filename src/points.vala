@@ -5,8 +5,16 @@ namespace LiveChart {
     public class Points : Object {
 
         private Gee.ArrayList<Point?> points = new Gee.ArrayList<Point?>();
-        
+        public Bounds bounds {
+            get; construct set;
+        }
+
+        public Points() {
+            this.bounds = new Bounds();
+        }
+
         public void add(Point point) {
+            bounds.update(point.y);
             points.add(point);
         }
 
@@ -33,6 +41,10 @@ namespace LiveChart {
             return this.get(0);
         }
 
+        public Point last() {
+            return this.get(this.size - 1);
+        }
+
         public static Points create(Values values, Geometry geometry) {
             var boundaries = geometry.boundaries();
 
@@ -41,14 +53,19 @@ namespace LiveChart {
             points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * geometry.x_ratio) / 1000;
 
             foreach (TimestampedValue value in values) {
-                points.add(Point() {
-                    x = (boundaries.x.max - (last_value.timestamp - value.timestamp) / 1000 * geometry.x_ratio) - points.realtime_delta,
-                    y = boundaries.y.max - (value.value *  geometry.y_ratio),
-                    height = value.value * geometry.y_ratio
-                });
+                var point = Points.value_to_point(last_value, value, geometry, boundaries, points.realtime_delta);
+                points.add(point);
             }
 
             return points;
+        }
+
+        private static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Geometry geometry, Boundaries boundaries, double realtime_delta) {
+            return Point() {
+                x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * geometry.x_ratio) - realtime_delta,
+                y = boundaries.y.max - (current_value.value *  geometry.y_ratio),
+                height = current_value.value * geometry.y_ratio
+            };
         }
     }
 }

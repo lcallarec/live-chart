@@ -1,11 +1,12 @@
 using Cairo;
 namespace LiveChart { 
 
-    public class Serie : Drawable, Object {
+    public class Serie : DrawableSerie {
 
         public string name {
             get; construct set;
         }
+
         private DrawableSerie renderer;
 
         public Serie(string name, DrawableSerie renderer) {
@@ -13,7 +14,7 @@ namespace LiveChart {
             this.renderer = renderer;
         }
 
-        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
+        public override void draw(Bounds bounds, Context ctx, Geometry geometry) {
             this.renderer.draw(bounds, ctx, geometry);
         }
 

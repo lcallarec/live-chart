@@ -15,6 +15,9 @@ namespace LiveChart {
             var points = Points.create(values, geometry);
             var first_point = points.first();
 
+            this.update_bounding_box(points, geometry);
+            this.debug(ctx);
+
             ctx.move_to(first_point.x, first_point.y);
             for (int pos = 1; pos <= points.size -1; pos++) {
                 var current_point = points.get(pos);
@@ -27,6 +30,16 @@ namespace LiveChart {
             }
             
             ctx.stroke();
+        }
+
+
+        private void update_bounding_box(Points points, Geometry geometry) {
+            this.bounding_box = BoundingBox() {
+                x=points.first().x,
+                y=points.bounds.lower,
+                width=points.last().x - points.first().x,
+                height=points.bounds.upper - points.bounds.lower
+            };
         }
     }
 }

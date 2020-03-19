@@ -42,7 +42,7 @@ namespace LiveChart {
         public Padding padding = Padding();
 
         public bool auto_padding {
-            get; set; default = false;
+            get; set; default = true;
         }
 
         public double y_ratio = 1.0;
@@ -62,30 +62,37 @@ namespace LiveChart {
         }
 
         public Geometry recreate(Context ctx, Grid grid, Legend? legend) {
+            // Not very scalable
             var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_ratio);
-            var time_displayed = "00:00:00";
-
             TextExtents max_value_displayed_extents;
-            TextExtents time_displayed_extents;            
             ctx.text_extents(max_value_displayed.to_string() + grid.unit, out max_value_displayed_extents);
-            ctx.text_extents(time_displayed, out time_displayed_extents);
             
+            var time_format_extents = abscissa_time_extents(ctx);
+
             var new_geometry = new Geometry();
             new_geometry.height = this.height;
             new_geometry.width = this.width;
             new_geometry.padding = { 
                     10,
-                    10 + (int) time_displayed_extents.width / 2,
-                    15 + (int) max_value_displayed_extents.height,
+                    10 + (int) time_format_extents.width / 2,
+                    15 + (int) time_format_extents.height,
                     10 + (int) max_value_displayed_extents.width, 
             };
 
-            if(legend != null) new_geometry.padding.bottom = new_geometry.padding.bottom + 20;
+            if(legend != null) new_geometry.padding.bottom = new_geometry.padding.bottom + (int) legend.get_bounding_box().height + 5;
 
             new_geometry.auto_padding = this.auto_padding;
             new_geometry.y_ratio = this.y_ratio;
 
             return new_geometry;
+        }
+
+        protected TextExtents abscissa_time_extents(Context ctx) {
+            var time_format = "00:00:00";
+            TextExtents time_extents;
+            ctx.text_extents(time_format, out time_extents);
+
+            return time_extents;
         }
     }
 }

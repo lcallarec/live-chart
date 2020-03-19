@@ -7,6 +7,7 @@ void main (string[] args) {
     register_bounds();
     register_values();
     register_chart();
+    register_points();
 
     Test.run();
 }

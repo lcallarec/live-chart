@@ -2,7 +2,6 @@ using Cairo;
 
 namespace LiveChart { 
     public class Bar : DrawableSerie {
-
         public Bar(Values values) {
             this.values = values;
         }
@@ -13,6 +12,10 @@ namespace LiveChart {
             ctx.set_line_width(this.outline_width);
 
             var points = Points.create(values, geometry);
+
+            this.update_bounding_box(points, geometry);
+            this.debug(ctx);
+
             for (int pos = 0; pos <= points.size -1; pos++) {
                 var current_point = points.get(pos);
                 var next_point = points.after(pos);
@@ -25,6 +28,15 @@ namespace LiveChart {
             }
               
             ctx.fill();
+        }
+
+        private void update_bounding_box(Points points, Geometry geometry) {
+            this.bounding_box = BoundingBox() {
+                x=points.first().x,
+                y=points.bounds.lower,
+                width=points.last().x - points.first().x,
+                height=geometry.boundaries().y.max - points.bounds.lower
+            };
         }
     }
 }
