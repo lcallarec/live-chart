@@ -91,10 +91,10 @@ namespace LiveChart {
         protected abstract void render_hgrid(Bounds bounds, Context ctx, Geometry geometry);
     }
 
-    public class FixedValueGrid : Grid {
+    public class FixedTickIntervalGrid : Grid {
 
         private int steps;
-        public FixedValueGrid(string unit = "",int steps = 20) {
+        public FixedTickIntervalGrid(string unit = "",int steps = 20) {
             this.unit = unit;
             this.steps = steps;
         }

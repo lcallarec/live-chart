@@ -22,7 +22,7 @@ public class Example : Gtk.Window {
         chart.add_serie(rss);
         chart.add_serie(heap);
         
-        var grid = new LiveChart.FixedValueGrid("MB", 100);
+        var grid = new LiveChart.FixedTickIntervalGrid("MB", 100);
         chart.grid = grid;
          
         var rss_value = 300.0;
