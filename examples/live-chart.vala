@@ -19,8 +19,8 @@ public class Example : Gtk.Window {
         chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);
-        chart.add_serie(rss);
         chart.add_serie(heap);
+        chart.add_serie(rss);
         
         var grid = new LiveChart.FixedTickIntervalGrid("MB", 100);
         chart.grid = grid;
@@ -49,7 +49,7 @@ public class Example : Gtk.Window {
 
         var heat_value = 200.0;
         chart.add_value(heat, heat_value);
-        Timeout.add(5000, () => {
+        Timeout.add(2000, () => {
             if (Random.double_range(0.0, 1.0) > 0.1) {
                 var new_value = Random.double_range(-20, 20.0);
                 if (heat_value + new_value > 0) heat_value += new_value;
