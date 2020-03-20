@@ -3,7 +3,7 @@ using Cairo;
 namespace LiveChart { 
     public class Line : DrawableSerie {
 
-        public Line(Values values) {
+        public Line(Values values = new Values()) {
             this.values = values;
         }
 
