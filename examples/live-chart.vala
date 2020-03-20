@@ -15,12 +15,7 @@ public class Example : Gtk.Window {
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar(new LiveChart.Values()));
         heap.set_main_color({ 0.0, 0.1, 0.8, 1.0});
 
-        var geometry = new LiveChart.Geometry();
-        geometry.height = this.get_allocated_height();
-        geometry.width = this.get_allocated_width();
-        geometry.padding = { 30, 30, 30, 30 };
-
-        var chart = new LiveChart.Chart(geometry);
+        var chart = new LiveChart.Chart();
         chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);

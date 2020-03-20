@@ -19,9 +19,9 @@ namespace LiveChart {
 
         private Bounds bounds = new Bounds();
 
-        public Chart(Geometry geometry) {
+        public Chart(Geometry geometry = new Geometry()) {
             this.geometry = geometry;
-
+            this.init_geometry();
             this.size_allocate.connect((allocation) => {
                 this.geometry.height = allocation.height;
                 this.geometry.width = allocation.width;
@@ -29,7 +29,7 @@ namespace LiveChart {
             });
 
             this.bounds.upper_bound_updated.connect((value) => {
-                geometry.update_yratio(bounds.upper, this.get_allocated_height());
+                this.geometry.update_yratio(value, this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -64,22 +64,27 @@ namespace LiveChart {
             ctx.select_font_face(Geometry.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(Geometry.FONT_SIZE);
             
-            if (geometry.auto_padding) {
-                geometry = geometry.recreate(ctx, grid, legend);
+            if (this.geometry.auto_padding) {
+                this.geometry = this.geometry.recreate(ctx, grid, legend);
             }
             
             this.background.draw(bounds, ctx, geometry);
             this.grid.draw(bounds, ctx, geometry);
             if(this.legend != null) this.legend.draw(bounds, ctx, geometry);
 
-            var boundaries = geometry.boundaries();
+            var boundaries = this.geometry.boundaries();
             foreach (Drawable serie in this.series) {
                 ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.x.max, boundaries.y.max);
                 ctx.clip();
-                serie.draw(bounds, ctx, geometry);
+                serie.draw(bounds, ctx, this.geometry);
             }
             
             return true;
+        }
+
+        private void init_geometry() {
+            geometry.height = this.get_allocated_height();
+            geometry.width = this.get_allocated_width();
         }
     }
 }

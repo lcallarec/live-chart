@@ -1,8 +1,8 @@
 namespace LiveChart {
 
     public class Bounds {
-        public signal void upper_bound_updated(Value value);
-        public signal void lower_bound_updated(Value value);        
+        public signal void upper_bound_updated(double value);
+        public signal void lower_bound_updated(double value);        
 
         public double? lower {
             get; private set;
