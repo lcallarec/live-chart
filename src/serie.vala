@@ -9,7 +9,7 @@ namespace LiveChart {
 
         private DrawableSerie renderer;
 
-        public Serie(string name, DrawableSerie renderer) {
+        public Serie(string name, DrawableSerie renderer = new Line()) {
             this.name = name;
             this.renderer = renderer;
         }

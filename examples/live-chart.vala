@@ -9,7 +9,7 @@ public class Example : Gtk.Window {
         var heat = new LiveChart.Serie("HEAT", new LiveChart.Curve());
         heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
         
-        var rss = new LiveChart.Serie("RSS", new LiveChart.Line());
+        var rss = new LiveChart.Serie("RSS");
         rss.set_main_color({ 0.8, 0.1, 0.1, 1.0});
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
