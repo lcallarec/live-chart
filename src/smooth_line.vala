@@ -1,9 +1,9 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Curve : DrawableSerie {
+    public class SmoothLine : DrawableSerie {
 
-        public Curve(Values values = new Values()) {
+        public SmoothLine(Values values = new Values()) {
             this.values = values;
         }
 

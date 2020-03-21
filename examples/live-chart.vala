@@ -6,7 +6,7 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
 
-        var heat = new LiveChart.Serie("HEAT", new LiveChart.Curve());
+        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLine());
         heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
         
         var rss = new LiveChart.Serie("RSS");

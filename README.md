@@ -80,7 +80,7 @@ chart.add_value(paris_temperature, 19.5);
 There's currently 3 built-in series available:
 
 * Line series: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-* Curve series: [`LiveChart.Curve`](https://github.com/lcallarec/live-chart/blob/master/src/curve.vala) for smooth lines
+* SmoothLine series: [`LiveChart.Curve`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
 * Bar series: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
 
 #### Configure a renderer
