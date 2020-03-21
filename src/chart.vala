@@ -25,11 +25,14 @@ namespace LiveChart {
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
-                this.config.update_yratio(bounds.upper, allocation.height);
+                
+                this.config.y_axis.max_value = bounds.upper;
+                this.config.y_axis.update_ratio(config.boundaries(), allocation.height);
             });
 
             this.bounds.upper_bound_updated.connect((value) => {
-                this.config.update_yratio(value, this.get_allocated_height());
+                this.config.y_axis.max_value = value;
+                this.config.y_axis.update_ratio(config.boundaries(), this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -65,7 +68,7 @@ namespace LiveChart {
             ctx.set_font_size(Config.FONT_SIZE);
             
             if (this.config.auto_padding) {
-                this.config = this.config.recreate(ctx, grid, legend);
+                this.config.reconfigure(ctx, grid, legend);
             }
             
             this.background.draw(bounds, ctx, config);

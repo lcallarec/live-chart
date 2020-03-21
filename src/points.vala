@@ -63,8 +63,8 @@ namespace LiveChart {
         private static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Config config, Boundaries boundaries, double realtime_delta) {
             return Point() {
                 x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * config.x_axis.ratio()) - realtime_delta,
-                y = boundaries.y.max - (current_value.value * config.y_ratio),
-                height = current_value.value * config.y_ratio
+                y = boundaries.y.max - (current_value.value * config.y_axis.ratio),
+                height = current_value.value * config.y_axis.ratio
             };
         }
     }

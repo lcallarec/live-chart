@@ -101,7 +101,7 @@ namespace LiveChart {
    
         protected override void render_hgrid(Bounds bounds, Context ctx, Config config) {
             var y_scaled_pos = 0.0;
-            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= steps * config.y_ratio) {
+            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= steps * config.y_axis.ratio) {
 
                 if (i < config.padding.top) {
                     break;
