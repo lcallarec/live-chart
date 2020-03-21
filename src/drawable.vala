@@ -8,7 +8,7 @@ namespace LiveChart {
         double height;
     }
     public interface Drawable : Object {
-        public abstract void draw(Bounds bounds, Context ctx, Geometry geometry);
+        public abstract void draw(Bounds bounds, Context ctx, Config config);
         public abstract BoundingBox get_bounding_box();
     }
 }

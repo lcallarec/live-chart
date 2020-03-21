@@ -45,26 +45,26 @@ namespace LiveChart {
             return this.get(this.size - 1);
         }
 
-        public static Points create(Values values, Geometry geometry) {
-            var boundaries = geometry.boundaries();
+        public static Points create(Values values, Config config) {
+            var boundaries = config.boundaries();
 
             Points points = new Points();
             var last_value = values.last();
-            points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * geometry.x_axis.ratio()) / 1000;
+            points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.ratio()) / 1000;
 
             foreach (TimestampedValue value in values) {
-                var point = Points.value_to_point(last_value, value, geometry, boundaries, points.realtime_delta);
+                var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);
                 points.add(point);
             }
 
             return points;
         }
 
-        private static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Geometry geometry, Boundaries boundaries, double realtime_delta) {
+        private static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Config config, Boundaries boundaries, double realtime_delta) {
             return Point() {
-                x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * geometry.x_axis.ratio()) - realtime_delta,
-                y = boundaries.y.max - (current_value.value * geometry.y_ratio),
-                height = current_value.value * geometry.y_ratio
+                x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * config.x_axis.ratio()) - realtime_delta,
+                y = boundaries.y.max - (current_value.value * config.y_ratio),
+                height = current_value.value * config.y_ratio
             };
         }
     }

@@ -13,23 +13,23 @@ namespace LiveChart {
         public Drawable background { get; public set; default = new Background(); } 
         public Legend legend { get; public set; } 
         
-        private Geometry geometry;
+        private Config config;
 
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
 
         private Bounds bounds = new Bounds();
 
-        public Chart(Geometry geometry = new Geometry()) {
-            this.geometry = geometry;
+        public Chart(Config config = new Config()) {
+            this.config = config;
             this.init_geometry();
             this.size_allocate.connect((allocation) => {
-                this.geometry.height = allocation.height;
-                this.geometry.width = allocation.width;
-                this.geometry.update_yratio(bounds.upper, allocation.height);
+                this.config.height = allocation.height;
+                this.config.width = allocation.width;
+                this.config.update_yratio(bounds.upper, allocation.height);
             });
 
             this.bounds.upper_bound_updated.connect((value) => {
-                this.geometry.update_yratio(value, this.get_allocated_height());
+                this.config.update_yratio(value, this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -61,30 +61,30 @@ namespace LiveChart {
         }
 
         private bool render(Gtk.Widget _, Context ctx) {
-            ctx.select_font_face(Geometry.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
-            ctx.set_font_size(Geometry.FONT_SIZE);
+            ctx.select_font_face(Config.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
+            ctx.set_font_size(Config.FONT_SIZE);
             
-            if (this.geometry.auto_padding) {
-                this.geometry = this.geometry.recreate(ctx, grid, legend);
+            if (this.config.auto_padding) {
+                this.config = this.config.recreate(ctx, grid, legend);
             }
             
-            this.background.draw(bounds, ctx, geometry);
-            this.grid.draw(bounds, ctx, geometry);
-            if(this.legend != null) this.legend.draw(bounds, ctx, geometry);
+            this.background.draw(bounds, ctx, config);
+            this.grid.draw(bounds, ctx, config);
+            if(this.legend != null) this.legend.draw(bounds, ctx, config);
 
-            var boundaries = this.geometry.boundaries();
+            var boundaries = this.config.boundaries();
             foreach (Drawable serie in this.series) {
                 ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.x.max, boundaries.y.max);
                 ctx.clip();
-                serie.draw(bounds, ctx, this.geometry);
+                serie.draw(bounds, ctx, this.config);
             }
             
             return true;
         }
 
         private void init_geometry() {
-            geometry.height = this.get_allocated_height();
-            geometry.width = this.get_allocated_width();
+            config.height = this.get_allocated_height();
+            config.width = this.get_allocated_width();
         }
     }
 }

@@ -14,8 +14,8 @@ namespace LiveChart {
             this.renderer = renderer;
         }
 
-        public override void draw(Bounds bounds, Context ctx, Geometry geometry) {
-            this.renderer.draw(bounds, ctx, geometry);
+        public override void draw(Bounds bounds, Context ctx, Config config) {
+            this.renderer.draw(bounds, ctx, config);
         }
 
         public void add(TimestampedValue value) {

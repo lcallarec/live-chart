@@ -14,11 +14,11 @@ namespace LiveChart {
             height=0
         };
 
-        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
-            this.render_abscissa(ctx, geometry);
-            this.render_ordinate(ctx, geometry);            
-            this.render_grid(bounds, ctx, geometry);
-            this.update_bounding_box(geometry);
+        public void draw(Bounds bounds, Context ctx, Config config) {
+            this.render_abscissa(ctx, config);
+            this.render_ordinate(ctx, config);            
+            this.render_grid(bounds, ctx, config);
+            this.update_bounding_box(config);
             this.debug(ctx);
         }
 
@@ -26,54 +26,54 @@ namespace LiveChart {
             return this.bounding_box;
         }
 
-        protected virtual void render_abscissa(Context ctx, Geometry geometry) {
+        protected virtual void render_abscissa(Context ctx, Config config) {
             ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
             ctx.set_line_width(0.5);
             
-            ctx.move_to(geometry.padding.left + 0.5, geometry.height - geometry.padding.bottom + 0.5);
-            ctx.line_to(geometry.width - geometry.padding.right + 0.5, geometry.height - geometry.padding.bottom + 0.5);
+            ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
+            ctx.line_to(config.width - config.padding.right + 0.5, config.height - config.padding.bottom + 0.5);
             ctx.stroke();       
         }
 
-        protected virtual void render_ordinate(Context ctx, Geometry geometry) {
+        protected virtual void render_ordinate(Context ctx, Config config) {
             ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
             ctx.set_line_width(0.5);
 
-            ctx.move_to(geometry.padding.left + 0.5, geometry.height - geometry.padding.bottom + 0.5);
-            ctx.line_to(geometry.padding.left + 0.5, geometry.padding.top + 0.5);
+            ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
+            ctx.line_to(config.padding.left + 0.5, config.padding.top + 0.5);
             ctx.stroke();
         }
 
-        protected virtual void render_grid(Bounds bounds, Context ctx, Geometry geometry) {
+        protected virtual void render_grid(Bounds bounds, Context ctx, Config config) {
             ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
 
-            this.render_hgrid(bounds, ctx, geometry);
-            this.render_vgrid(ctx, geometry);
+            this.render_hgrid(bounds, ctx, config);
+            this.render_vgrid(ctx, config);
         }
 
-        protected virtual void render_vgrid(Context ctx, Geometry geometry) {
+        protected virtual void render_vgrid(Context ctx, Config config) {
             var time = new DateTime.now().to_unix();
             ctx.set_dash({5.0}, 0);
             
-            for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= geometry.x_axis.tick_length) {
-                ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding.bottom);
-                ctx.line_to(i + 0.5, 0.5 + geometry.padding.top);
+            for (double i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length) {
+                ctx.move_to(i + 0.5, 0.5 + config.height - config.padding.bottom);
+                ctx.line_to(i + 0.5, 0.5 + config.padding.top);
                 
                 // Values
                 var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
                 TextExtents extents;
                 ctx.text_extents(text, out extents);
                 
-                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
+                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
                 ctx.show_text(text);
-                time -= geometry.x_axis.tick_interval;
+                time -= config.x_axis.tick_interval;
             }
             ctx.stroke();
             ctx.set_dash(null, 0.0);           
         }
 
-        protected void update_bounding_box(Geometry geometry) {
-            var boundaries = geometry.boundaries();
+        protected void update_bounding_box(Config config) {
+            var boundaries = config.boundaries();
             this.bounding_box = BoundingBox() {
                 x=boundaries.x.min,
                 y=boundaries.y.min,
@@ -88,7 +88,7 @@ namespace LiveChart {
                 ctx.stroke();
             }
         }    
-        protected abstract void render_hgrid(Bounds bounds, Context ctx, Geometry geometry);
+        protected abstract void render_hgrid(Bounds bounds, Context ctx, Config config);
     }
 
     public class FixedTickIntervalGrid : Grid {
@@ -99,22 +99,22 @@ namespace LiveChart {
             this.steps = steps;
         }
    
-        protected override void render_hgrid(Bounds bounds, Context ctx, Geometry geometry) {
+        protected override void render_hgrid(Bounds bounds, Context ctx, Config config) {
             var y_scaled_pos = 0.0;
-            for (double i = geometry.height - geometry.padding.bottom; i > geometry.padding.top; i -= steps * geometry.y_ratio) {
+            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= steps * config.y_ratio) {
 
-                if (i < geometry.padding.top) {
+                if (i < config.padding.top) {
                     break;
                 }
                 ctx.set_dash({5.0}, 0);
-                ctx.move_to(0.5 + geometry.width - geometry.padding.right, i + 0.5);
-                ctx.line_to(geometry.padding.left + 0.5, i + 0.5);
+                ctx.move_to(0.5 + config.width - config.padding.right, i + 0.5);
+                ctx.line_to(config.padding.left + 0.5, i + 0.5);
 
                 //Values
                 var s = @"$y_scaled_pos" + unit;
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
-                ctx.move_to(geometry.padding.left - extents.width - 5, i + 0.5);
+                ctx.move_to(config.padding.left - extents.width - 5, i + 0.5);
                 ctx.show_text(s);
                 y_scaled_pos += steps;
             }
@@ -130,24 +130,24 @@ namespace LiveChart {
             this.distance = distance;
         }
    
-        protected override void render_hgrid(Bounds bounds, Context ctx, Geometry geometry) {
+        protected override void render_hgrid(Bounds bounds, Context ctx, Config config) {
             var y_scaled_pos = 0.0;
-            for (double i = geometry.height - geometry.padding.bottom; i > geometry.padding.top; i -= this.distance) {
+            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= this.distance) {
 
-                if (i < geometry.padding.top) {
+                if (i < config.padding.top) {
                     break;
                 }
                 ctx.set_dash({5.0}, 0);
-                ctx.move_to(0.5 + geometry.width - geometry.padding.right, i + 0.5);
-                ctx.line_to(geometry.padding.left + 0.5, i + 0.5);
+                ctx.move_to(0.5 + config.width - config.padding.right, i + 0.5);
+                ctx.line_to(config.padding.left + 0.5, i + 0.5);
 
                 //Values
                 var s = @"$y_scaled_pos" + unit;
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
-                ctx.move_to(geometry.padding.left - extents.width - 5, i + 0.5);
+                ctx.move_to(config.padding.left - extents.width - 5, i + 0.5);
                 ctx.show_text(s);
-                y_scaled_pos += (geometry.height / (int) bounds.upper) * this.distance;
+                y_scaled_pos += (config.height / (int) bounds.upper) * this.distance;
             }
             ctx.stroke();            
         }

@@ -3,10 +3,10 @@ private void register_points() {
 
     Test.add_func("/LiveChart/Points#Create", () => {
         //given
-        var geometry = new LiveChart.Geometry();
-        geometry.width = 100;
-        geometry.height = 100;
-        geometry.padding = { 0, 0, 0, 00 };
+        var config = new LiveChart.Config();
+        config.width = 100;
+        config.height = 100;
+        config.padding = { 0, 0, 0, 00 };
 
         var values = new LiveChart.Values();
         var now = GLib.get_real_time() / 1000;
@@ -16,7 +16,7 @@ private void register_points() {
         values.add({now, 100});
 
         //when 
-        var points = LiveChart.Points.create(values, geometry);
+        var points = LiveChart.Points.create(values, config);
 
         //then
         assert(points.size == values.size);

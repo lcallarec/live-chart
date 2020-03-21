@@ -26,7 +26,7 @@ namespace LiveChart {
         public Boundary y;
     }
 
-    public class Geometry {
+    public class Config {
 
         public const int FONT_SIZE = 10;
         public const string FONT_FACE = "Sans serif";
@@ -61,7 +61,7 @@ namespace LiveChart {
             y_ratio = max_value > (height - padding.top - padding.bottom) / Y_RATIO_THRESHOLD ? (double) (height - padding.top - padding.bottom) / max_value / Y_RATIO_THRESHOLD : 1;
         }
 
-        public Geometry recreate(Context ctx, Grid grid, Legend? legend) {
+        public Config recreate(Context ctx, Grid grid, Legend? legend) {
             // Not very scalable
             var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_ratio);
             TextExtents max_value_displayed_extents;
@@ -69,7 +69,7 @@ namespace LiveChart {
             
             var time_format_extents = abscissa_time_extents(ctx);
 
-            var new_geometry = new Geometry();
+            var new_geometry = new Config();
             new_geometry.height = this.height;
             new_geometry.width = this.width;
             new_geometry.padding = { 

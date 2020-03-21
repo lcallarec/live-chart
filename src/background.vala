@@ -17,9 +17,9 @@ namespace LiveChart {
             };
         }
 
-        public void draw(Bounds bounds, Context ctx, Geometry geometry) {
-            this.update_bounding_box(geometry);
-            ctx.rectangle(0, 0, geometry.width, geometry.height);
+        public void draw(Bounds bounds, Context ctx, Config config) {
+            this.update_bounding_box(config);
+            ctx.rectangle(0, 0, config.width, config.height);
             ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
             ctx.fill();
         }
@@ -28,12 +28,12 @@ namespace LiveChart {
             return bounding_box;
         }
 
-        private void update_bounding_box(Geometry geometry) {
+        private void update_bounding_box(Config config) {
             this.bounding_box = BoundingBox() {
                 x=0, 
                 y=0, 
-                width=geometry.width,
-                height=geometry.height
+                width=config.width,
+                height=config.height
             };
         }
     }

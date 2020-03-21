@@ -22,7 +22,7 @@ namespace LiveChart {
             return this.values;
         }
 
-        public abstract void draw(Bounds bounds, Context ctx, Geometry geometry);
+        public abstract void draw(Bounds bounds, Context ctx, Config config);
         public BoundingBox get_bounding_box() {
             return bounding_box;
         }

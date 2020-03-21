@@ -4,7 +4,7 @@ private void register_chart() {
     Test.add_func("/LiveChart/Chart#Export", () => {
         //given
         var window = new Gtk.Window();
-        var chart = new LiveChart.Chart(new LiveChart.Geometry());
+        var chart = new LiveChart.Chart(new LiveChart.Config());
         window.add(chart);
         window.show();
         window.resize(50, 50);
@@ -24,7 +24,7 @@ private void register_chart() {
 
     Test.add_func("/LiveChart/Chart#ExportWhenNotRealized", () => {
         //given
-        var chart = new LiveChart.Chart(new LiveChart.Geometry());
+        var chart = new LiveChart.Chart(new LiveChart.Config());
 
         //when //then
         try {
