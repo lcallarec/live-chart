@@ -16,15 +16,22 @@ namespace LiveChart {
             
             this.update_bounding_box(points, geometry);
             this.debug(ctx);
+
             ctx.move_to(first_point.x, first_point.y);
-            for (int pos = 1; pos <= points.size -1; pos = pos + 3) {
-                var start_point = points.get(pos);
-                var middle_point = points.after(pos);
-                var end_point = points.after(pos + 1);
-                if (start_point.x < geometry.padding.left) {
+            for (int pos = 0; pos <= points.size -1; pos++) {
+                var previous_point = points.get(pos);
+                var target_point = points.after(pos);
+                var pressure = (target_point.x - previous_point.x) / 2.0;
+
+                if (previous_point.x < geometry.padding.left) {
                     continue;
                 }
-                ctx.curve_to(start_point.x + (middle_point.x - start_point.x) * 0.5f, start_point.y, start_point.x + (middle_point.x - start_point.x) * 0.5f, middle_point.y, end_point.x, end_point.y);
+
+                ctx.curve_to(
+                    previous_point.x + pressure, previous_point.y,
+                    target_point.x - pressure, target_point.y, 
+                    target_point.x, target_point.y
+                );
             }
             
             ctx.stroke();
