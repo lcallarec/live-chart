@@ -55,7 +55,7 @@ namespace LiveChart {
             var time = new DateTime.now().to_unix();
             ctx.set_dash({5.0}, 0);
             
-            for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= 60) {
+            for (double i = geometry.width - geometry.padding.right; i > geometry.padding.left; i -= geometry.x_axis.tick_length) {
                 ctx.move_to(i + 0.5, 0.5 + geometry.height - geometry.padding.bottom);
                 ctx.line_to(i + 0.5, 0.5 + geometry.padding.top);
                 
@@ -66,7 +66,7 @@ namespace LiveChart {
                 
                 ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + geometry.height - geometry.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
                 ctx.show_text(text);
-                time -= 60 / (int) geometry.x_ratio;
+                time -= geometry.x_axis.tick_interval;
             }
             ctx.stroke();
             ctx.set_dash(null, 0.0);           

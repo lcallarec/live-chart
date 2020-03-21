@@ -8,6 +8,7 @@ void main (string[] args) {
     register_values();
     register_points();
     register_chart();
+    register_axis();
     
     Test.run();
 }

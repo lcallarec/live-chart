@@ -46,7 +46,7 @@ namespace LiveChart {
         }
 
         public double y_ratio = 1.0;
-        public double x_ratio = 1.0;
+        public XAxis x_axis = XAxis();
 
         private const double Y_RATIO_THRESHOLD = 1.218;
 
