@@ -2,6 +2,9 @@ using Cairo;
 
 namespace LiveChart { 
     public abstract class DrawableSerie : Drawable, Object {
+
+        private const int VIRTUAL_LEFT_PADDING = -200;
+
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 1.0,
@@ -34,6 +37,10 @@ namespace LiveChart {
                 ctx.rectangle(bounding_box.x, bounding_box.y, bounding_box.width, bounding_box.height);
                 ctx.stroke();
             }
+        }
+
+        protected bool is_out_of_area(Point point) {
+            return point.x < DrawableSerie.VIRTUAL_LEFT_PADDING;
         }
     }
 }

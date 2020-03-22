@@ -23,7 +23,7 @@ namespace LiveChart {
                 var target_point = points.after(pos);
                 var pressure = (target_point.x - previous_point.x) / 2.0;
 
-                if (previous_point.x < config.padding.left) {
+                if (this.is_out_of_area(previous_point)) {
                     continue;
                 }
 

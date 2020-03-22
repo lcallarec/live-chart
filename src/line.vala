@@ -22,7 +22,7 @@ namespace LiveChart {
             for (int pos = 1; pos <= points.size -1; pos++) {
                 var current_point = points.get(pos);
                 var next_point = points.after(pos);
-                if (current_point.x < config.padding.left) {
+                if (this.is_out_of_area(current_point)) {
                     ctx.move_to(current_point.x, current_point.y);
                     continue;
                 }
