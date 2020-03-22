@@ -17,22 +17,13 @@ namespace LiveChart {
 
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
 
-        private Bounds bounds = new Bounds();
-
         public Chart(Config config = new Config()) {
             this.config = config;
             this.init_geometry();
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
-                
-                this.config.y_axis.max_value = bounds.upper;
                 this.config.y_axis.update_ratio(config.boundaries(), allocation.height);
-            });
-
-            this.bounds.upper_bound_updated.connect((value) => {
-                this.config.y_axis.max_value = value;
-                this.config.y_axis.update_ratio(config.boundaries(), this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -50,7 +41,9 @@ namespace LiveChart {
 
         public void add_value(Serie serie, double value) {
             serie.add({GLib.get_real_time() / 1000, value});
-            bounds.update(value);
+            if (config.y_axis.update_bounds(value)) {
+                this.config.y_axis.update_ratio(config.boundaries(), this.get_allocated_height());
+            }
             this.queue_draw();
         }
 
@@ -71,15 +64,15 @@ namespace LiveChart {
                 this.config.reconfigure(ctx, grid, legend);
             }
             
-            this.background.draw(bounds, ctx, config);
-            this.grid.draw(bounds, ctx, config);
-            if(this.legend != null) this.legend.draw(bounds, ctx, config);
+            this.background.draw(ctx, config);
+            this.grid.draw(ctx, config);
+            if(this.legend != null) this.legend.draw(ctx, config);
 
             var boundaries = this.config.boundaries();
             foreach (Drawable serie in this.series) {
                 ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.x.max, boundaries.y.max);
                 ctx.clip();
-                serie.draw(bounds, ctx, this.config);
+                serie.draw(ctx, this.config);
             }
             
             return true;

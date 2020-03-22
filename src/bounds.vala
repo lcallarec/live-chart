@@ -1,8 +1,6 @@
 namespace LiveChart {
 
     public class Bounds {
-        public signal void upper_bound_updated(double value);
-        public signal void lower_bound_updated(double value);        
 
         public double? lower {
             get; private set;
@@ -11,24 +9,31 @@ namespace LiveChart {
             get; private set;
         }
 
-        public void update(double value) {
+        public Bounds(double? lower = null, double? upper = null) {
+            this.lower = lower;
+            this.upper = upper;
+        }
+
+        public bool update(double value) {
+            var updated = false;
             if (lower == null) {
                 lower = value;
-                this.lower_bound_updated(value);  
+                updated = true;
             }
 
             if (upper == null) {
                 upper = value;
-                this.upper_bound_updated(value);
+                updated = true;             
             }
             if (value < lower) {
                 lower = value;
-                this.lower_bound_updated(value);                
+                updated = true;             
             }
             if (value > upper) {
                 upper = value;
-                this.upper_bound_updated(value);
+                updated = true;
             }
+            return updated;
         }
     }
 }

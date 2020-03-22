@@ -1,39 +1,36 @@
 namespace LiveChart { 
-    public struct XAxis {
+    public class XAxis {
 
-        public int tick_interval;
-        public int tick_length;
+        public int tick_interval { get; set; default = 10;}
+        public int tick_length { get; set; default = 60;}
 
-        public double ratio() {
+        public double get_ratio() {
             return tick_length / tick_interval;
-        }
-
-        public XAxis() {
-            tick_interval = 10;
-            tick_length = 60;
         }
     }
 
-    public struct YAxis {
+    public class YAxis {
         private const double Y_RATIO_THRESHOLD = 1.218;
-        public int tick_interval;
-        public int tick_length;
+        private Bounds bounds = new Bounds();
+        private double ratio = 1;
 
-        public double max_value;
-        public double min_value;
+        public int tick_interval { get; set; default = 60;}
+        public int tick_length { get; set; default = 60;}
 
-        public double ratio;
-
-        public void update_ratio(Boundaries boundaries, int height) {
-            this.ratio = max_value > (boundaries.height) / Y_RATIO_THRESHOLD ? (double) (boundaries.height) / max_value / Y_RATIO_THRESHOLD : 1;
+        public double get_ratio() {
+            return this.ratio;
         }
 
-        public YAxis() {
-            max_value = 0;
-            min_value = 0;
-            tick_length = 60;
-            tick_length = 60;
-            ratio = 1;
+        public Bounds get_bounds() {
+            return new Bounds(this.bounds.lower, this.bounds.upper);
+        }
+
+        public bool update_bounds(double value) {
+            return this.bounds.update(value);
+        }
+
+        public void update_ratio(Boundaries boundaries, int height) {
+            this.ratio = this.bounds.upper > (boundaries.height) / Y_RATIO_THRESHOLD ? (double) (boundaries.height) / this.bounds.upper / Y_RATIO_THRESHOLD : 1;
         }
     }
 }

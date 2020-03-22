@@ -47,8 +47,8 @@ namespace LiveChart {
             get; set; default = true;
         }
 
-        public YAxis y_axis = YAxis();
-        public XAxis x_axis = XAxis();
+        public YAxis y_axis = new YAxis();
+        public XAxis x_axis = new XAxis();
 
         public Boundaries boundaries() {
             return Boundaries() {
@@ -61,7 +61,7 @@ namespace LiveChart {
 
         public void reconfigure(Context ctx, Grid grid, Legend? legend) {
             // Not very scalable
-            var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_axis.ratio);
+            var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_axis.get_ratio());
             TextExtents max_value_displayed_extents;
             ctx.text_extents(max_value_displayed.to_string() + grid.unit, out max_value_displayed_extents);
             

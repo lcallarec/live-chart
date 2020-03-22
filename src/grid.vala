@@ -14,10 +14,10 @@ namespace LiveChart {
             height=0
         };
 
-        public void draw(Bounds bounds, Context ctx, Config config) {
+        public void draw(Context ctx, Config config) {
             this.render_abscissa(ctx, config);
             this.render_ordinate(ctx, config);            
-            this.render_grid(bounds, ctx, config);
+            this.render_grid(ctx, config);
             this.update_bounding_box(config);
             this.debug(ctx);
         }
@@ -44,10 +44,10 @@ namespace LiveChart {
             ctx.stroke();
         }
 
-        protected virtual void render_grid(Bounds bounds, Context ctx, Config config) {
+        protected virtual void render_grid(Context ctx, Config config) {
             ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
 
-            this.render_hgrid(bounds, ctx, config);
+            this.render_hgrid(ctx, config);
             this.render_vgrid(ctx, config);
         }
 
@@ -88,7 +88,7 @@ namespace LiveChart {
                 ctx.stroke();
             }
         }    
-        protected abstract void render_hgrid(Bounds bounds, Context ctx, Config config);
+        protected abstract void render_hgrid(Context ctx, Config config);
     }
 
     public class FixedTickIntervalGrid : Grid {
@@ -99,9 +99,9 @@ namespace LiveChart {
             this.steps = steps;
         }
    
-        protected override void render_hgrid(Bounds bounds, Context ctx, Config config) {
+        protected override void render_hgrid(Context ctx, Config config) {
             var y_scaled_pos = 0.0;
-            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= steps * config.y_axis.ratio) {
+            for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= steps * config.y_axis.get_ratio()) {
 
                 if (i < config.padding.top) {
                     break;
@@ -130,7 +130,7 @@ namespace LiveChart {
             this.distance = distance;
         }
    
-        protected override void render_hgrid(Bounds bounds, Context ctx, Config config) {
+        protected override void render_hgrid(Context ctx, Config config) {
             var y_scaled_pos = 0.0;
             for (double i = config.height - config.padding.bottom; i > config.padding.top; i -= this.distance) {
 
@@ -147,7 +147,7 @@ namespace LiveChart {
                 ctx.text_extents(s, out extents);
                 ctx.move_to(config.padding.left - extents.width - 5, i + 0.5);
                 ctx.show_text(s);
-                y_scaled_pos += (config.height / (int) bounds.upper) * this.distance;
+                y_scaled_pos += (config.height / (int) config.y_axis.get_bounds().upper) * this.distance;
             }
             ctx.stroke();            
         }

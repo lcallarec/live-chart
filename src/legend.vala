@@ -19,7 +19,7 @@ namespace LiveChart {
             series.add(serie);
         }
 
-        public abstract void draw(Bounds bounds, Context ctx, Config config);
+        public abstract void draw(Context ctx, Config config);
         public BoundingBox get_bounding_box() {
             return bounding_box;
         }
@@ -29,7 +29,7 @@ namespace LiveChart {
         
         private const int COLOR_BLOCK_WIDTH = 15;
 
-        public override void draw(Bounds bounds, Context ctx, Config config) {
+        public override void draw(Context ctx, Config config) {
             var boundaries = config.boundaries();
             var pos = 0;
             series.foreach((serie) => {
@@ -75,6 +75,6 @@ namespace LiveChart {
     }
 
     public class NoopLegend : Legend {
-        public override void draw(Bounds bounds, Context ctx, Config config) {}
+        public override void draw(Context ctx, Config config) {}
     }
 }
