@@ -8,10 +8,15 @@ namespace LiveChart {
         }
 
         public override void draw(Context ctx, Config config) {
+            var points = Points.create(values, config);
+            this.draw_smooth_line(points, ctx, config);
+            ctx.stroke();
+        }
+
+        public void draw_smooth_line(Points points, Context ctx, Config config) {
             ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
             ctx.set_line_width(this.outline_width);
             
-            var points = Points.create(values, config);
             var first_point = points.first();
             
             this.update_bounding_box(points, config);
@@ -33,8 +38,6 @@ namespace LiveChart {
                     target_point.x, target_point.y
                 );
             }
-            
-            ctx.stroke();
         }
 
         private void update_bounding_box(Points points, Config config) {

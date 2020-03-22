@@ -9,6 +9,7 @@ void main (string[] args) {
     register_points();
     register_chart();
     register_axis();
+    register_line_area();
     
     Test.run();
 }

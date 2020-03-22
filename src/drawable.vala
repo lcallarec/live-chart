@@ -8,6 +8,7 @@ namespace LiveChart {
         double height;
     }
     public interface Drawable : Object {
+        public abstract Gdk.RGBA main_color { get; set; }
         public abstract void draw(Context ctx, Config config);
         public abstract BoundingBox get_bounding_box();
     }

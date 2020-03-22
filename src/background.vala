@@ -8,7 +8,7 @@ namespace LiveChart {
             width=0,
             height=0
         };
-        public Gdk.RGBA color { 
+        public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 0.1,
                 green = 0.1,
@@ -20,7 +20,7 @@ namespace LiveChart {
         public void draw(Context ctx, Config config) {
             this.update_bounding_box(config);
             ctx.rectangle(0, 0, config.width, config.height);
-            ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
+            ctx.set_source_rgba(main_color.red, main_color.green, main_color.blue, main_color.alpha);
             ctx.fill();
         }
 

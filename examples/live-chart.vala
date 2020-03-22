@@ -6,10 +6,10 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
 
-        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLine());
+        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
         heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
         
-        var rss = new LiveChart.Serie("RSS");
+        var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
         rss.set_main_color({ 0.8, 0.1, 0.1, 1.0});
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
@@ -29,7 +29,7 @@ public class Example : Gtk.Window {
         chart.add_value(rss, rss_value);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.3) {
-                var new_value = Random.double_range(-10, 10.0);
+                var new_value = Random.double_range(-50, 50.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);

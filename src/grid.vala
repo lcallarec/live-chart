@@ -4,15 +4,25 @@ namespace LiveChart {
 
     public abstract class Grid : Drawable, Object {
         private const int ABSCISSA_TIME_PADDING = 14;
-        public string unit {
-            get; set construct;
-        }
         protected BoundingBox bounding_box = BoundingBox() {
             x=0, 
             y=0, 
             width=0,
             height=0
         };
+        
+        public Gdk.RGBA main_color { 
+            get; set; default= Gdk.RGBA() {
+                red = 0.5,
+                green = 0.5,
+                blue = 0.5,
+                alpha = 1.0
+            };
+        }
+
+        public string unit {
+            get; set construct;
+        }
 
         public void draw(Context ctx, Config config) {
             this.render_abscissa(ctx, config);
@@ -27,7 +37,7 @@ namespace LiveChart {
         }
 
         protected virtual void render_abscissa(Context ctx, Config config) {
-            ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
+            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
             ctx.set_line_width(0.5);
             
             ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);

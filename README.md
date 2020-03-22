@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta1 (API freezed)
+## 1.0.0-beta2 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -15,7 +15,7 @@
 
 ## Screenshots
 
-![](docs/chart1.gif)  ![chart_1](docs/chart2.gif)
+![](docs/chart1.gif)  ![](docs/chart2.gif)
   
 ## API
  
@@ -77,11 +77,45 @@ chart.add_value(paris_temperature, 19.5);
 
 ### Serie renderer
 
-There's currently 3 built-in series available:
+There's currently 5 built-in series available:
 
-* Line series: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-* SmoothLine series: [`LiveChart.Curve`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
-* Bar series: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+#### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+![](docs/serie_line.png)
+
+Line serie connect each data point with a straight segment.
+
+#### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
+![](docs/serie_smooth_line.png)
+
+Smooth line serie connect each data point with a bezier spline for a smoother rendering.
+
+#### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+![](docs/serie_bar.png)
+
+#### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
+![](docs/serie_line_area.png)
+
+#### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
+![](docs/serie_smooth_line_area.png)
+
+#### Serie renderer API
+
+For all series, you can control the line or the bar color via the `main_color: Gdk.RGBA` property:
+
+```vala
+var smooth_line = LiveChart.SmoothLine();
+smooth_line.main_color = Gdk.RGBA() {red: 0, green: 0, blue: 1, alpha: 1}; // Pure blue
+```
+
+For area series, you can control the area color via the `area_alpha: double` property (default : 0.1):
+
+```vala
+var smooth_line = LiveChart.SmoothLineArea();
+smooth_line.main_color = Gdk.RGBA() {red: 0, green: 0, blue: 1, alpha: 1};
+smooth_line.area_alpha = 0.5;
+```
+
+The area color is always the same as `main_color` value.
 
 #### Configure a renderer
 
