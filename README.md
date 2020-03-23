@@ -137,22 +137,16 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## Deps
-
-| dependency     | 
-|----------------|
-| libcairo2-dev  |
-| libgee-0.8-dev |
-| libgtk-3-dev   |
-
 ## Example 
 
 Example source code available [here](examples/live-chart.vala)
 
-Compile and run with (you need to have cario-dev installed)
+Compile and run with :
 
 ```bash
-$ make
+meson build
+ninja -C build
+./build/examples/example
 ```
 
 ## Dependencies
