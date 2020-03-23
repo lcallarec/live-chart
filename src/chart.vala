@@ -58,7 +58,7 @@ namespace LiveChart {
 
         private bool render(Gtk.Widget _, Context ctx) {
             
-            this.config.reconfigure(ctx, grid, legend);
+            this.config.reconfigure(ctx, legend);
 
             ctx.select_font_face(Config.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(Config.FONT_SIZE);

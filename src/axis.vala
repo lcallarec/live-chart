@@ -16,6 +16,11 @@ namespace LiveChart {
 
         public int tick_interval { get; set; default = 60;}
         public int tick_length { get; set; default = 60;}
+        public string unit { get; set; default = "";}
+
+        public YAxis(string unit = "") {
+            this.unit = unit;
+        }
 
         public double get_ratio() {
             return this.ratio;

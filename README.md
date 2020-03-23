@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta2 (API freezed)
+## 1.0.0-beta3 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -184,6 +184,15 @@ y_axis.tick_length = 60; // 60 pixels between each ticks
 ```
 
 For example, with `tick_interval=100`  and `tick_length=20`, each unit is displayed as 0.2 pixels on the chart.
+
+* Unit
+
+Define the unit of values displayed along y-axis. Default to empty string.
+
+```vala
+var y_axis = config.y_axis;
+y_axis.unit = "%";
+```
 
 #### Paddings
 

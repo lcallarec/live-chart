@@ -20,10 +20,6 @@ namespace LiveChart {
             };
         }
 
-        public string unit {
-            get; set construct;
-        }
-
         public void draw(Context ctx, Config config) {
             this.render_abscissa(ctx, config);
             this.render_ordinate(ctx, config);            
@@ -104,8 +100,7 @@ namespace LiveChart {
     public class FixedTickIntervalGrid : Grid {
 
         private int steps;
-        public FixedTickIntervalGrid(string unit = "",int steps = 20) {
-            this.unit = unit;
+        public FixedTickIntervalGrid(int steps = 20) {
             this.steps = steps;
         }
    
@@ -121,7 +116,7 @@ namespace LiveChart {
                 ctx.line_to(config.padding.left + 0.5, i + 0.5);
 
                 //Values
-                var s = @"$y_scaled_pos" + unit;
+                var s = @"$y_scaled_pos" + config.y_axis.unit;
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
                 ctx.move_to(config.padding.left - extents.width - 5, i + 0.5);
@@ -135,8 +130,7 @@ namespace LiveChart {
     public class WIPFixedDistanceGrid : Grid {
 
         private int distance;
-        public WIPFixedDistanceGrid(string unit = "",int distance = 20) {
-            this.unit = unit;
+        public WIPFixedDistanceGrid(int distance = 20) {
             this.distance = distance;
         }
    
@@ -152,7 +146,7 @@ namespace LiveChart {
                 ctx.line_to(config.padding.left + 0.5, i + 0.5);
 
                 //Values
-                var s = @"$y_scaled_pos" + unit;
+                var s = @"$y_scaled_pos" + config.y_axis.unit;
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
                 ctx.move_to(config.padding.left - extents.width - 5, i + 0.5);

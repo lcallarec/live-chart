@@ -65,11 +65,11 @@ namespace LiveChart {
             };
         }
 
-        public void reconfigure(Context ctx, Grid grid, Legend? legend) {
+        public void reconfigure(Context ctx,Legend? legend) {
             // Not very scalable
             var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_axis.get_ratio());
             TextExtents max_value_displayed_extents;
-            ctx.text_extents(max_value_displayed.to_string() + grid.unit, out max_value_displayed_extents);
+            ctx.text_extents(max_value_displayed.to_string() + y_axis.unit, out max_value_displayed_extents);
             
             var time_format_extents = abscissa_time_extents(ctx);
 

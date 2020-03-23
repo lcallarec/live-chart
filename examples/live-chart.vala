@@ -15,14 +15,17 @@ public class Example : Gtk.Window {
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
         heap.set_main_color({ 0.0, 0.1, 0.8, 1.0});
 
-        var chart = new LiveChart.Chart();
+        var config = new LiveChart.Config();
+        config.y_axis.unit = "MB";
+        
+        var chart = new LiveChart.Chart(config);
         chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);
         chart.add_serie(heap);
         chart.add_serie(rss);
         
-        var grid = new LiveChart.FixedTickIntervalGrid("MB", 100);
+        var grid = new LiveChart.FixedTickIntervalGrid(100);
         chart.grid = grid;
          
         var rss_value = 300.0;
