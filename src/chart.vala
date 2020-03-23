@@ -57,12 +57,11 @@ namespace LiveChart {
         }
 
         private bool render(Gtk.Widget _, Context ctx) {
+            
+            this.config.reconfigure(ctx, grid, legend);
+
             ctx.select_font_face(Config.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(Config.FONT_SIZE);
-            
-            if (this.config.auto_padding) {
-                this.config.reconfigure(ctx, grid, legend);
-            }
             
             this.background.draw(ctx, config);
             this.grid.draw(ctx, config);

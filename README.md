@@ -145,7 +145,6 @@ var chart = new LiveChart.Chart(config);
 
 Define the time laps, in seconds, between each ticks on x-axis.
 
-
 ```vala
 var x_axis = config.x_axis;
 x_axis.tick_interval = 10; // 10 seconds between each ticks
@@ -185,6 +184,48 @@ y_axis.tick_length = 60; // 60 pixels between each ticks
 ```
 
 For example, with `tick_interval=100`  and `tick_length=20`, each unit is displayed as 0.2 pixels on the chart.
+
+#### Paddings
+
+Paddings are distance between the chart window and the real drawing area where your data will be displayed.
+
+```vala
+var config = new LiveChart.Config();
+var chart = new LiveChart.Chart(config);
+
+/*
+public Padding() {
+    smart = AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
+    top = 0;
+    right = 0;
+    bottom = 0;
+    left = 0;
+}
+*/
+```
+
+#### smart paddings
+
+By default, because side paddings may depends on text length and font size, smart auto-padding feature is set to `AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT`. It means all paddings are smart computed.
+
+Smart paddings are bit fields (a.k.a flags), so you can apply bitwise operators to combine them :
+
+```vala
+// Smart padding only for Left and Bottom paddings
+config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM;
+```
+
+When a side isn't configured as "smart", it fallbacks to global padding settings.
+
+#### global paddings
+
+Paddings can be set - in pixel - for each sides. If you need to force a padding, remember to disable the smart padding for this side.
+
+```vala
+// Remove AutoPadding.TOP from smart padding before setting a custom padding.top value
+config.padding.smart = AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
+config.padding.top = 10 // in pixels
+```
 
 ### Programmatic export
 

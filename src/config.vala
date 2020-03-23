@@ -2,17 +2,27 @@ using Cairo;
 
 namespace LiveChart { 
 
+    [Flags]
+    public enum AutoPadding {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT
+    }
+
     public struct Padding {
+        public AutoPadding? smart;
         public int top;
         public int right;
         public int bottom;
         public int left;
 
         public Padding() {
-            top = 0;
-            right = 0;
-            bottom = 0;
-            left = 0;
+            smart = AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
+            top = 20;
+            right = 20;
+            bottom = 20;
+            left = 20;
         }
     }
 
@@ -43,10 +53,6 @@ namespace LiveChart {
 
         public Padding padding = Padding();
 
-        public bool auto_padding {
-            get; set; default = true;
-        }
-
         public YAxis y_axis = new YAxis();
         public XAxis x_axis = new XAxis();
 
@@ -67,14 +73,12 @@ namespace LiveChart {
             
             var time_format_extents = abscissa_time_extents(ctx);
 
-            this.padding = { 
-                10,
-                10 + (int) time_format_extents.width / 2,
-                15 + (int) time_format_extents.height,
-                10 + (int) max_value_displayed_extents.width, 
-            };
-
-            if(legend != null) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
+            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_displayed_extents.width;
+            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
+            if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
+            
+            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
         }
 
         protected TextExtents abscissa_time_extents(Context ctx) {
