@@ -226,6 +226,14 @@ Paddings can be set - in pixel - for each sides. If you need to force a padding,
 config.padding.smart = AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
 config.padding.top = 10 // in pixels
 ```
+### Background
+
+Chart has a default colored background that can be changed via the `Background.main_color` attribute :
+
+```vala
+var chart = new LiveChart.Chart();
+chart.background.main_color = Gdk.RGBA() {red: 1, green: 1, blue: 1, alpha: 1}; //White background
+```
 
 ### Programmatic export
 
