@@ -17,6 +17,7 @@ namespace LiveChart {
         public int tick_interval { get; set; default = 60;}
         public int tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
+        public bool smart_ratio = false;
 
         public YAxis(string unit = "") {
             this.unit = unit;
@@ -35,7 +36,11 @@ namespace LiveChart {
         }
 
         public void update_ratio(Boundaries boundaries, int height) {
-            this.ratio = this.bounds.upper > (boundaries.height) / Y_RATIO_THRESHOLD ? (double) (boundaries.height) / this.bounds.upper / Y_RATIO_THRESHOLD : 1;
+            var ratio = this.bounds.upper > (boundaries.height) / Y_RATIO_THRESHOLD ? (double) (boundaries.height) / this.bounds.upper / Y_RATIO_THRESHOLD : 1;
+            if(ratio > 0) {
+                this.ratio = ratio;
+                this.tick_length = (int) (this.tick_interval / ratio);
+            }
         }
     }
 }

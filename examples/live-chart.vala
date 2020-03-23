@@ -5,7 +5,6 @@ public class Example : Gtk.Window {
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
-
         var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
         heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
         
@@ -17,22 +16,20 @@ public class Example : Gtk.Window {
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
-        
+        config.y_axis.smart_ratio = true;
+
         var chart = new LiveChart.Chart(config);
         chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);
         chart.add_serie(heap);
         chart.add_serie(rss);
-        
-        var grid = new LiveChart.FixedTickIntervalGrid(100);
-        chart.grid = grid;
          
         var rss_value = 300.0;
         chart.add_value(rss, rss_value);
         Timeout.add(1000, () => {
-            if (Random.double_range(0.0, 1.0) > 0.3) {
-                var new_value = Random.double_range(-50, 50.0);
+            if (Random.double_range(0.0, 1.0) > 0.13) {
+                var new_value = Random.double_range(-50, 90.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);
@@ -41,7 +38,7 @@ public class Example : Gtk.Window {
 
         var heap_value = 50.0;
         chart.add_value(heap, heap_value);
-        Timeout.add(10000, () => {
+        Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.1) {
                 var new_value = Random.double_range(-10, 10.0);
                 if (heap_value + new_value > 0) heap_value += new_value;

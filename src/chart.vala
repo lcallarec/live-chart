@@ -9,9 +9,9 @@ namespace LiveChart {
 
     public class Chart : Gtk.DrawingArea {
 
-        public Grid grid { get; set construct; }
-        public Drawable background { get; public set; default = new Background(); } 
-        public Legend legend { get; public set; } 
+        public Grid grid { get; set; default = new Grid(); }
+        public Drawable background { get; set; default = new Background(); } 
+        public Legend legend { get; set; } 
         
         private Config config;
 
@@ -41,7 +41,7 @@ namespace LiveChart {
 
         public void add_value(Serie serie, double value) {
             serie.add({GLib.get_real_time() / 1000, value});
-            if (config.y_axis.update_bounds(value)) {
+            if (config.y_axis.update_bounds(value) && config.y_axis.smart_ratio) {
                 this.config.y_axis.update_ratio(config.boundaries(), this.get_allocated_height());
             }
             this.queue_draw();

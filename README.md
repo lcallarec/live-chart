@@ -168,7 +168,6 @@ For example, with `tick_interval=10`  and `tick_length=60`, each second is displ
 
 Define the value gap (in unit) between each ticks on y-axis.
 
-
 ```vala
 var y_axis = config.y_axis;
 y_axis.tick_interval = 60; // 60 units
@@ -193,6 +192,17 @@ Define the unit of values displayed along y-axis. Default to empty string.
 var y_axis = config.y_axis;
 y_axis.unit = "%";
 ```
+
+* Smart ratio (default false)
+
+When you don't know the max value that will be displayed on y-axis, you may want the chart smartly adjust the `tick_interval`, without changing the `tick_length`.
+
+```vala
+var y_axis = config.y_axis;
+y_axis.smart_ratio = true;
+```
+
+![](docs/y_axis_smart_ratio.gif)
 
 #### Paddings
 
