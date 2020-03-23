@@ -128,6 +128,64 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 paris_temperature.set_main_color({ 0.0, 0.1, 0.8, 1.0});
 ```
 
+## Global chart configuration
+
+Configuration object is injected in `Chart` class constructor :
+
+```vala
+var config = new LiveChart.Config();
+var chart = new LiveChart.Chart(config);
+```
+
+### Axis configuration
+
+#### x-axis
+
+* Tick interval (*in seconds*, default 10)
+
+Define the time laps, in seconds, between each ticks on x-axis.
+
+
+```vala
+var x_axis = config.x_axis;
+x_axis.tick_interval = 10; // 10 seconds between each ticks
+```
+
+* Tick length (*in pixels*, default 60)
+
+Define the distance, in pixels, between each ticks on x-axis.
+
+
+```vala
+var x_axis = config.x_axis;
+x_axis.tick_length = 60; // 60 pixels between each ticks
+```
+
+For example, with `tick_interval=10`  and `tick_length=60`, each second is displayed as 6 pixels on the chart.
+
+#### y-axis
+
+* Tick interval (*in unit*, default 60)
+
+Define the value gap (in unit) between each ticks on y-axis.
+
+
+```vala
+var y_axis = config.y_axis;
+y_axis.tick_interval = 60; // 60 units
+```
+
+* Tick length (*in pixels*, default 60)
+
+Define the distance, in pixels, between each ticks on y-axis.
+
+```vala
+var y_axis = config.y_axis;
+y_axis.tick_length = 60; // 60 pixels between each ticks
+```
+
+For example, with `tick_interval=100`  and `tick_length=20`, each unit is displayed as 0.2 pixels on the chart.
+
 ### Programmatic export
 
 You can export your chart in `PNG` format :
