@@ -79,6 +79,8 @@ namespace LiveChart {
             if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
             
             if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+
+            this.y_axis.update_ratio(this.boundaries().height, this.height) ;
         }
 
         protected TextExtents abscissa_time_extents(Context ctx) {

@@ -19,11 +19,13 @@ namespace LiveChart {
 
         public Chart(Config config = new Config()) {
             this.config = config;
-            this.init_geometry();
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
-                this.config.y_axis.update_ratio(config.boundaries(), allocation.height);
+                this.config.y_axis.update_ratio(config.boundaries().height, allocation.height);
+            });
+            this.realize.connect(() => {
+                this.config.y_axis.update_ratio(config.boundaries().height, this.get_allocated_height());
             });
 
             this.draw.connect(render);
@@ -41,9 +43,9 @@ namespace LiveChart {
 
         public void add_value(Serie serie, double value) {
             serie.add({GLib.get_real_time() / 1000, value});
-            if (config.y_axis.update_bounds(value) && config.y_axis.smart_ratio) {
-                this.config.y_axis.update_ratio(config.boundaries(), this.get_allocated_height());
-            }
+            if ((config.y_axis.update_bounds(value) && config.y_axis.smart_ratio)) {
+                this.config.y_axis.update_ratio(config.boundaries().height, this.get_allocated_height());
+            } 
             this.queue_draw();
         }
 
@@ -75,11 +77,6 @@ namespace LiveChart {
             }
             
             return true;
-        }
-
-        private void init_geometry() {
-            config.height = this.get_allocated_height();
-            config.width = this.get_allocated_width();
         }
     }
 }

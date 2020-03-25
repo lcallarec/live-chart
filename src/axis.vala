@@ -9,6 +9,11 @@ namespace LiveChart {
         }
     }
 
+    public struct FixedBounds {
+        double min;
+        double max;
+    }
+
     public class YAxis {
         private const double Y_RATIO_THRESHOLD = 1.218;
         private Bounds bounds = new Bounds();
@@ -18,6 +23,7 @@ namespace LiveChart {
         public int tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
         public bool smart_ratio = false;
+        public double? fixed_max;
 
         public YAxis(string unit = "") {
             this.unit = unit;
@@ -35,12 +41,27 @@ namespace LiveChart {
             return this.bounds.update(value);
         }
 
-        public void update_ratio(Boundaries boundaries, int height) {
-            var ratio = this.bounds.upper > (boundaries.height) / Y_RATIO_THRESHOLD ? (double) (boundaries.height) / this.bounds.upper / Y_RATIO_THRESHOLD : 1;
-            if(ratio > 0) {
-                this.ratio = ratio;
-                this.tick_length = (int) (this.tick_interval / ratio);
+        public void update_ratio(int area_height, int height) {
+            if (bounds.upper != null && this.fixed_max == null) {
+                var ratio = this.bounds.upper * this.get_ratio_threshold() > area_height ? (double) (area_height) / this.bounds.upper / this.get_ratio_threshold() : 1;
+                if(ratio > 0) {
+                    this.ratio = ratio;
+                    this.tick_length = (int) (this.tick_interval / ratio);
+                }
             }
+            
+            if (this.fixed_max != null) {
+                this.ratio = (double) area_height / ((double) this.fixed_max);
+                this.tick_length = this.tick_interval;
+            }
+        }
+
+        public double get_ratio_threshold() {
+            if (this.fixed_max != null) {
+                return 1;
+            }
+
+            return Y_RATIO_THRESHOLD;
         }
     }
 }

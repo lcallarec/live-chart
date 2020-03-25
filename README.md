@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta3 (API freezed)
+## 1.0.0-beta4 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -204,6 +204,21 @@ y_axis.smart_ratio = true;
 
 ![](docs/y_axis_smart_ratio.gif)
 
+* Fixed maximum value (default null)
+
+Sometimes, the maximum value displayed on y-axis must be fixed, for example when value is a percentage, or whenever you know the maximum possible value.
+
+```vala
+var y_axis = config.y_axis;
+y_axis.unit = "%";
+y_axis.fixed_max = 100.0;
+y_axis.tick_interval = 25.0;
+```
+
+![](docs/y_axis_fixed_max.png)
+
+With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
+
 #### Paddings
 
 Paddings are distance between the chart window and the real drawing area where your data will be displayed.
@@ -243,7 +258,7 @@ Paddings can be set - in pixel - for each sides. If you need to force a padding,
 ```vala
 // Remove AutoPadding.TOP from smart padding before setting a custom padding.top value
 config.padding.smart = AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
-config.padding.top = 10 // in pixels
+config.padding.top = 10; // in pixels
 ```
 ### Background
 
@@ -263,9 +278,12 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## Example 
+## Examples
 
-Example source code available [here](examples/live-chart.vala)
+Example source code
+
+* [General example](examples/live-chart.vala)
+* [Fixed max y-axis value](examples/fixed-max.vala)
 
 Compile and run with :
 
@@ -273,6 +291,7 @@ Compile and run with :
 meson build
 ninja -C build
 ./build/examples/example
+./build/examples/example-fixed-max
 ```
 
 ## Dependencies
