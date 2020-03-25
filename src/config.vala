@@ -66,21 +66,20 @@ namespace LiveChart {
         }
 
         public void reconfigure(Context ctx,Legend? legend) {
-            // Not very scalable
-            var max_value_displayed = (int) Math.round((this.height - this.padding.bottom - this.padding.top) / this.y_axis.get_ratio());
-            TextExtents max_value_displayed_extents;
-            ctx.text_extents(max_value_displayed.to_string() + y_axis.unit, out max_value_displayed_extents);
+            var max_value = (double) Math.round(this.y_axis.get_bounds().upper);
+            TextExtents max_value_extents;
+            ctx.text_extents(max_value.to_string() + y_axis.unit, out max_value_extents);
             
             var time_format_extents = abscissa_time_extents(ctx);
 
             if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
-            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_displayed_extents.width;
+            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
             if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
             if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
             
             if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
 
-            this.y_axis.update_ratio(this.boundaries().height, this.height) ;
+            this.y_axis.update_ratio(this.boundaries().height, this.height);
         }
 
         protected TextExtents abscissa_time_extents(Context ctx) {
