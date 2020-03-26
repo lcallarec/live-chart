@@ -75,6 +75,21 @@ chart.add_serie(paris);
 chart.add_value(paris_temperature, 19.5);
 ```
 
+#### Datapoint buffer
+
+When you add a data point to a serie, data are stored in a `LiveChart.Values` object, which is nothing more than a wrapper around a `Gee.LinkedList`.
+To avoid your program growing too much in memory, be default, `LiveChart.Values` keeps only the last 1000 values.
+You can change that behaviour by injecting manually a `LiveChart.Values` object in your serie. 
+
+```vala
+var serie_name = "Temperature in Paris";
+Values values = new Values(50000); // buffer of 50 000 data points
+var paris_temperature = new LiveChart.Serie(serie_name, new LiceChart.Line(values));
+
+chart.add_serie(paris);
+```
+
+
 ### Serie renderer
 
 There's currently 5 built-in series available:
