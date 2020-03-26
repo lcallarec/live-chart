@@ -31,8 +31,6 @@ public class Example : Gtk.Window {
 
         this.add(box);
 
-        chart.legend = new LiveChart.HorizontalLegend();
-        
         chart.add_serie(cpu);
          
         var cpu_value = 50.0;

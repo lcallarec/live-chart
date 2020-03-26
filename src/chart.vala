@@ -11,7 +11,7 @@ namespace LiveChart {
 
         public Grid grid { get; set; default = new Grid(); }
         public Drawable background { get; set; default = new Background(); } 
-        public Legend legend { get; set; } 
+        public Legend legend { get; set; default = new HorizontalLegend(); } 
         
         private Config config;
 

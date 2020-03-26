@@ -19,7 +19,6 @@ public class Example : Gtk.Window {
         config.y_axis.smart_ratio = true;
 
         var chart = new LiveChart.Chart(config);
-        chart.legend = new LiveChart.HorizontalLegend();
         
         chart.add_serie(heat);
         chart.add_serie(heap);
