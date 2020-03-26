@@ -89,7 +89,6 @@ var paris_temperature = new LiveChart.Serie(serie_name, new LiceChart.Line(value
 chart.add_serie(paris);
 ```
 
-
 ### Serie renderer
 
 There's currently 5 built-in series available:
@@ -143,7 +142,7 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 paris_temperature.set_main_color({ 0.0, 0.1, 0.8, 1.0});
 ```
 
-## Global chart configuration
+### Global chart configuration
 
 Configuration object is injected in `Chart` class constructor :
 
@@ -152,9 +151,9 @@ var config = new LiveChart.Config();
 var chart = new LiveChart.Chart(config);
 ```
 
-### Axis configuration
+#### Axis configuration
 
-#### x-axis
+##### x-axis
 
 * Tick interval (*in seconds*, default 10)
 
@@ -177,7 +176,7 @@ x_axis.tick_length = 60; // 60 pixels between each ticks
 
 For example, with `tick_interval=10`  and `tick_length=60`, each second is displayed as 6 pixels on the chart.
 
-#### y-axis
+##### y-axis
 
 * Tick interval (*in unit*, default 60)
 
@@ -234,7 +233,7 @@ y_axis.tick_interval = 25.0;
 
 With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
 
-#### Paddings
+##### Paddings
 
 Paddings are distance between the chart window and the real drawing area where your data will be displayed.
 
@@ -253,7 +252,7 @@ public Padding() {
 */
 ```
 
-#### smart paddings
+##### Smart paddings
 
 By default, because side paddings may depends on text length and font size, smart auto-padding feature is set to `AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT`. It means all paddings are smart computed.
 
@@ -266,7 +265,7 @@ config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM
 
 When a side isn't configured as "smart", it fallbacks to global padding settings.
 
-#### global paddings
+##### Global paddings
 
 Paddings can be set - in pixel - for each sides. If you need to force a padding, remember to disable the smart padding for this side.
 
