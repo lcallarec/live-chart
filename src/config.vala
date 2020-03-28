@@ -66,7 +66,7 @@ namespace LiveChart {
         }
 
         public void reconfigure(Context ctx,Legend? legend) {
-            var max_value = (double) Math.round(this.y_axis.get_bounds().upper);
+            var max_value = (int) Math.round(boundaries().height / this.y_axis.get_ratio());
             TextExtents max_value_extents;
             ctx.text_extents(max_value.to_string() + y_axis.unit, out max_value_extents);
             
