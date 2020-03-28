@@ -17,8 +17,10 @@ compile:
 test:
 	valac --pkg gtk+-3.0 --pkg gee-0.8 -X -lm \
 	src/config.vala src/bounds.vala src/drawable.vala src/serie.vala src/drawable_serie.vala src/chart.vala src/background.vala \
-	src/line.vala src/legend.vala src/grid.vala src/values.vala src/value.vala src/point.vala src/points.vala src/axis.vala src/area.vala src/line_area.vala \
-	tests/runner.vala tests/config.vala tests/bounds.vala tests/values.vala tests/chart.vala tests/points.vala tests/axis.vala tests/area.vala \
+	src/line.vala src/legend.vala src/grid.vala src/values.vala src/value.vala src/point.vala src/points.vala src/axis.vala src/area.vala \
+	src/line_area.vala src/smooth_line.vala src/smooth_line_area.vala src/bar.vala \
+	tests/runner.vala tests/config.vala tests/bounds.vala tests/values.vala tests/chart.vala tests/points.vala tests/axis.vala \
+	tests/cairo.vala tests/line_area.vala tests/line.vala tests/area.vala tests/smooth_line.vala tests/smooth_line_area.vala tests/bar.vala \
 	-o test
 	./test
 	

@@ -11,12 +11,13 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             var points = Points.create(values, config);
-            
-            this.draw_line(points, ctx, config);
-            ctx.stroke_preserve();   
+            if (points.size > 0) {
+                this.draw_line(points, ctx, config);
+                ctx.stroke_preserve();   
 
-            var area = new Area(points, this.main_color, this.area_alpha);
-            area.draw(ctx, config);
+                var area = new Area(points, this.main_color, this.area_alpha);
+                area.draw(ctx, config);
+            }
         }
     }
 }

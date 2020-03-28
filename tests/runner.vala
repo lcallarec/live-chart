@@ -9,7 +9,13 @@ void main (string[] args) {
     register_points();
     register_chart();
     register_axis();
+    register_area();
     register_line_area();
-    
+    register_line();
+    register_smooth_line();
+    register_smooth_line_area();
+    register_bar();
+
+
     Test.run();
 }

@@ -9,8 +9,10 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             var points = Points.create(values, config);
-            this.draw_line(points, ctx, config);
-            ctx.stroke();
+            if (points.size > 0) {
+                this.draw_line(points, ctx, config);
+                ctx.stroke();
+            }
         }
 
         protected Points draw_line(Points points, Context ctx, Config config) {

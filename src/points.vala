@@ -49,14 +49,16 @@ namespace LiveChart {
             var boundaries = config.boundaries();
 
             Points points = new Points();
-            var last_value = values.last();
-            points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
+            if (values.size > 0) {
+                var last_value = values.last();
+                points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
 
-            foreach (TimestampedValue value in values) {
-                var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);
-                points.add(point);
+                foreach (TimestampedValue value in values) {
+                    var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);
+                    points.add(point);
+                }
             }
-
+         
             return points;
         }
 

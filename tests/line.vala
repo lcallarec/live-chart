@@ -1,16 +1,17 @@
-private void register_area() {
-    Test.add_func("/LiveChart/Area#Draw#ShouldntRenderIfNoValues", () => {
+private void register_line() {
+    Test.add_func("/LiveChart/Line#Draw#ShouldntRenderIfNoValues", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
         cairo_background(context);
 
-        var points = LiveChart.Points.create(new LiveChart.Values(), create_config());
+        var values = new LiveChart.Values();
        
-        var area = new LiveChart.Area(points, Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 }, 1.0);
+        var line = new LiveChart.Line(values);
+        line.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 
         //When
-        area.draw(context, create_config());
+        line.draw(context, create_config());
  
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT) ;

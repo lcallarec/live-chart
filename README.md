@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta4 (API freezed)
+## 1.0.0-beta5 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 

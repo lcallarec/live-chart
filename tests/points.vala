@@ -31,4 +31,13 @@ private void register_points() {
         assert((int) last_point.y == 00);
         assert((int) last_point.height == 100);
     });
+
+    Test.add_func("/LiveChart/Points#Create#ShouldntCrashOnEmptyValues", () => {
+        //given
+        var config = new LiveChart.Config();
+        var values = new LiveChart.Values();
+
+        //when //then
+        LiveChart.Points.create(values, config);
+    });  
 }

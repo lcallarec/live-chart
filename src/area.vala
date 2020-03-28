@@ -26,17 +26,20 @@
         }
 
         public void draw(Context ctx, Config config) {
-            var boundaries = config.boundaries();
-            var first_point = points.first();
-            var last_point = points.last();
+            if (this.points.size > 0) {
+                var boundaries = config.boundaries();
+                var first_point = points.first();
+                var last_point = points.last();
 
-            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, alpha);
-            ctx.line_to(last_point.x, last_point.y);
-            ctx.line_to(last_point.x, boundaries.y.max);
-            ctx.line_to(first_point.x, boundaries.y.max);
-            ctx.line_to(first_point.x, first_point.y);
-            ctx.close_path();
-            ctx.fill_preserve();
+                ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, alpha);
+                ctx.line_to(last_point.x, last_point.y);
+                ctx.line_to(last_point.x, boundaries.y.max);
+                ctx.line_to(first_point.x, boundaries.y.max);
+                ctx.line_to(first_point.x, first_point.y);
+                ctx.close_path();
+                ctx.fill_preserve();
+            }
+  
         }
         public BoundingBox get_bounding_box() {
             return bounding_box;

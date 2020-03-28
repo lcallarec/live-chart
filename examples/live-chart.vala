@@ -24,11 +24,10 @@ public class Example : Gtk.Window {
         chart.add_serie(heap);
         chart.add_serie(rss);
          
-        var rss_value = 300.0;
-        chart.add_value(rss, rss_value);
+        double rss_value = 200.0;
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.13) {
-                var new_value = Random.double_range(-50, 90.0);
+                var new_value = Random.double_range(-50, 60.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);
