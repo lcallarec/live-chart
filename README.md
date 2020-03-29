@@ -135,6 +135,8 @@ The area color is always the same as `main_color` value.
 
 * Main color [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html)
 
+Conveniant method. Give back the main color to the underlying renderer.
+
 ```vala
 var serie_name = "Temperature in Paris";
 var paris_temperature = new LiveChart.Serie(serie_name);
