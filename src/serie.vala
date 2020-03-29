@@ -12,6 +12,9 @@ namespace LiveChart {
         public Serie(string name, DrawableSerie renderer = new Line()) {
             this.name = name;
             this.renderer = renderer;
+            this.notify["main-color"].connect(() => {
+                 set_main_color(this.main_color);
+            });
         }
 
         public override void draw(Context ctx, Config config) {
