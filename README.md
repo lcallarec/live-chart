@@ -231,6 +231,18 @@ y_axis.fixed_max = 100.0;
 y_axis.tick_interval = 25.0;
 ```
 
+Sometimes, you won't know the fixed max value. Think about the total memory available a system. In that case, you may want to cap it a bit higher in order to keep optimal chart ventilation.
+For instance, if the max value is `8.2`, you may want to ceil it to `9`, or if the max value is `859` you may want to ceil it to `900`.
+
+For that purpose, use `LiveChart.cap` method :
+
+```vala
+var y_axis = config.y_axis;
+y_axis.unit = "GB";
+y_axis.fixed_max = LiveChart.ceil((int) max_mem));
+```
+
+
 ![](docs/y_axis_fixed_max.png)
 
 With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.

@@ -15,7 +15,7 @@ void main (string[] args) {
     register_smooth_line();
     register_smooth_line_area();
     register_bar();
-
+    register_utils();
 
     Test.run();
 }

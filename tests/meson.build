@@ -13,6 +13,7 @@ test_sources = files(
     'runner.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
+    'utils.vala',    
     'values.vala',
 )
 

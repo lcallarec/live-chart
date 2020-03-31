@@ -11,7 +11,7 @@ public class Example : Gtk.Window {
         var config = new LiveChart.Config();
         config.y_axis.unit = "%";
         config.y_axis.tick_interval = 25;
-        config.y_axis.fixed_max = 100;
+        config.y_axis.fixed_max = LiveChart.cap(96);
 
         var chart = new LiveChart.Chart(config);
 
