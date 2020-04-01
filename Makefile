@@ -21,7 +21,7 @@ test:
 	src/line_area.vala src/smooth_line.vala src/smooth_line_area.vala src/bar.vala src/utils.vala \
 	tests/runner.vala tests/config.vala tests/bounds.vala tests/values.vala tests/chart.vala tests/points.vala tests/axis.vala \
 	tests/cairo.vala tests/line_area.vala tests/line.vala tests/area.vala tests/smooth_line.vala tests/smooth_line_area.vala \
-	tests/bar.vala tests/utils.vala \
+	tests/bar.vala tests/utils.vala tests/grid.vala  \
 	-o test
 	./test
 	

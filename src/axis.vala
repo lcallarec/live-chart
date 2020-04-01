@@ -24,7 +24,8 @@ namespace LiveChart {
         public string unit { get; set; default = "";}
         public bool smart_ratio = false;
         public double? fixed_max;
-
+        public float max_displayed_value = 0f;
+        
         public YAxis(string unit = "") {
             this.unit = unit;
         }

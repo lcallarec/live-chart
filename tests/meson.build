@@ -7,6 +7,7 @@ test_sources = files(
     'cairo.vala',
     'chart.vala',
     'config.vala',
+    'grid.vala',
     'line_area.vala',
     'line.vala',
     'points.vala',
