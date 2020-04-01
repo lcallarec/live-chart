@@ -14,8 +14,8 @@ namespace LiveChart {
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         
         private Config config;
-
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
+        private uint source_timeout = 0;
 
         public Chart(Config config = new Config()) {
             this.config = config;
@@ -23,13 +23,10 @@ namespace LiveChart {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
             });
-            
+
             this.draw.connect(render);
             
-            Timeout.add(100, () => {
-                this.queue_draw();
-                return true;
-            });
+            this.refresh_every(100);
         }
 
         public void add_serie(Serie serie) {
@@ -52,6 +49,16 @@ namespace LiveChart {
             }
             var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
             pixbuff.savev(filename, "png", {}, {});
+        }
+
+        public void refresh_every(int ms) {
+            if (source_timeout != 0) {
+                GLib.Source.remove(source_timeout); 
+            }
+            source_timeout = Timeout.add(ms, () => {
+                this.queue_draw();
+                return true;
+            });
         }
 
         private bool render(Gtk.Widget _, Context ctx) {

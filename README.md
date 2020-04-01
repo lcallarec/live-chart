@@ -34,6 +34,16 @@ var window = new Gtk.Window();
 window.add(chart);
 ```
 
+#### Refresh rate
+
+By default, the chart is rendered every `100ms`.
+If it doesn't fit your needs, you can adjust the rate :
+
+```vala  
+var chart = LiveChart.Chart();
+vhart.refresh_every(1000); // refresh every 1000ms
+```
+
 ### Series
 
 A `Serie` is basically a structure that :
