@@ -39,7 +39,6 @@ namespace LiveChart {
             if ((config.y_axis.update_bounds(value) && config.y_axis.smart_ratio)) {
                 this.config.y_axis.update_ratio(config.boundaries().height, this.get_allocated_height());
             } 
-            this.queue_draw();
         }
 
         public void to_png(string filename) throws Error {
