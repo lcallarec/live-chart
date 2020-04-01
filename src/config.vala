@@ -81,7 +81,7 @@ namespace LiveChart {
 
         private TextExtents ordinate_time_extents(Context ctx) {
             TextExtents max_value_extents;
-            ctx.text_extents(y_axis.max_displayed_value.to_string() + y_axis.unit, out max_value_extents);
+            ctx.text_extents(y_axis.get_max_displayed_values(), out max_value_extents);
 
             return max_value_extents;
         }

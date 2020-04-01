@@ -87,25 +87,19 @@ namespace LiveChart {
                 ctx.move_to(0.5 + boundaries.x.max, i + 0.5);
                 ctx.line_to(boundaries.x.min + 0.5, i + 0.5);
 
-                //Values
-                string pattern = "%0.0f%s";
-                if (has_fractional_part(y_scaled_pos)) {
-                    pattern = "%0.2f%s";
-                }
-                var s = pattern.printf(y_scaled_pos, config.y_axis.unit);
+                var value = format_for_y_axis(config.y_axis.unit, y_scaled_pos);
 
                 TextExtents extents;
-                ctx.text_extents(s, out extents);
+                ctx.text_extents(value, out extents);
                 ctx.move_to(boundaries.x.min - extents.width - 5, i + (extents.height / 2) + 0.5);
-                ctx.show_text(s);
+                ctx.show_text(value);
                 
                 if (i <= config.padding.top) {
                     break;
                 }
                 y_scaled_pos += config.y_axis.tick_length;
+                config.y_axis.displayed_values.add(value);
             }
-            
-            config.y_axis.max_displayed_value = y_scaled_pos;
 
             ctx.stroke();
         }

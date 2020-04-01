@@ -62,7 +62,8 @@ namespace LiveChart {
 
         private bool render(Gtk.Widget _, Context ctx) {
             
-            this.config.reconfigure(ctx, legend);
+            config.reconfigure(ctx, legend);
+            config.y_axis.displayed_values = new Gee.LinkedList<string>();
 
             ctx.select_font_face(Config.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(Config.FONT_SIZE);

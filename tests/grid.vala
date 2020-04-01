@@ -20,6 +20,6 @@ private void register_grid() {
         grid.draw(context, config);
 
         //then
-        assert(config.y_axis.max_displayed_value == 100f);
+        assert(config.y_axis.get_max_displayed_values() == "90");
     });
 }

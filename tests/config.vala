@@ -19,4 +19,19 @@ private void register_config() {
         assert(boundaries.width == 45);
         assert(boundaries.height == 170);        
     });
+
+    Test.add_func("/LiveChart/Config#get_max_displayed_values", () => {
+        //given
+        var config = new LiveChart.Config();
+        config.y_axis.unit = "GB";
+
+        //when 
+        config.y_axis.displayed_values.add("0GB");
+        config.y_axis.displayed_values.add("1GB");
+        config.y_axis.displayed_values.add("1.57GB");
+        config.y_axis.displayed_values.add("2.5GB");
+        
+        //then
+        assert(config.y_axis.get_max_displayed_values() == "1.57GB");
+    });    
 }
