@@ -66,14 +66,17 @@ namespace LiveChart {
         }
 
         public string get_max_displayed_values() {
-            string max_displayed_value = displayed_values.first();
-            foreach(string value in displayed_values) {
-                if (value.length >= max_displayed_value.length) {
-                    max_displayed_value = value;
+            if (displayed_values.size > 0) {
+                string max_displayed_value = displayed_values.first();
+                foreach(string value in displayed_values) {
+                    if (value.length >= max_displayed_value.length) {
+                        max_displayed_value = value;
+                    }
                 }
+                return max_displayed_value;
             }
 
-            return max_displayed_value;
+            return unit;
         }
     }
 }
