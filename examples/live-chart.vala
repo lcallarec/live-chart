@@ -19,7 +19,7 @@ public class Example : Gtk.Window {
         config.y_axis.smart_ratio = true;
 
         var chart = new LiveChart.Chart(config);
-        chart.refresh_every(150);
+
         chart.add_serie(heat);
         chart.add_serie(heap);
         chart.add_serie(rss);
@@ -27,7 +27,7 @@ public class Example : Gtk.Window {
         double rss_value = 200.0;
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.13) {
-                var new_value = Random.double_range(-50, 100.0);
+                var new_value = Random.double_range(-50, 60.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);

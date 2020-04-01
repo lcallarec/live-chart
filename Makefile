@@ -12,7 +12,7 @@ compile:
 	valac --pkg gtk+-3.0 --pkg gee-0.8 -X -lm \
 	examples/live-chart.vala src/drawable.vala src/chart.vala src/grid.vala src/points.vala src/background.vala src/config.vala src/point.vala \
 	src/bar.vala src/line.vala src/values.vala src/value.vala src/smooth_line.vala src/axis.vala src/line_area.vala src/smooth_line_area.vala src/area.vala \
-	src/bounds.vala src/serie.vala src/drawable_serie.vala src/legend.vala
+	src/bounds.vala src/serie.vala src/drawable_serie.vala src/legend.vala src/utils.vala
 
 test:
 	valac --pkg gtk+-3.0 --pkg gee-0.8 -X -lm \

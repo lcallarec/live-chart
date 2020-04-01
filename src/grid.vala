@@ -105,6 +105,8 @@ namespace LiveChart {
                 y_scaled_pos += config.y_axis.tick_length;
             }
             
+            config.y_axis.max_displayed_value = y_scaled_pos;
+
             ctx.stroke();
         }
 
