@@ -65,11 +65,8 @@ namespace LiveChart {
             };
         }
 
-        public void reconfigure(Context ctx,Legend? legend) {
-            var max_value = (int) Math.round(boundaries().height / this.y_axis.get_ratio());
-            TextExtents max_value_extents;
-            ctx.text_extents(max_value.to_string() + y_axis.unit, out max_value_extents);
-            
+        public void reconfigure(Context ctx, Legend? legend) {
+            var max_value_extents = ordinate_time_extents(ctx);
             var time_format_extents = abscissa_time_extents(ctx);
 
             if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
@@ -82,12 +79,20 @@ namespace LiveChart {
             this.y_axis.update_ratio(this.boundaries().height, this.height);
         }
 
-        protected TextExtents abscissa_time_extents(Context ctx) {
-            var time_format = "00:00:00";
-            TextExtents time_extents;
-            ctx.text_extents(time_format, out time_extents);
+        private TextExtents ordinate_time_extents(Context ctx) {
+            var max_value = (int) Math.round(boundaries().height / y_axis.get_ratio());
+            TextExtents max_value_extents;
+            ctx.text_extents(max_value.to_string() + y_axis.unit, out max_value_extents);
 
-            return time_extents;
+            return max_value_extents;
+        }
+
+        private TextExtents abscissa_time_extents(Context ctx) {
+                var time_format = "00:00:00";
+                TextExtents time_extents;
+                ctx.text_extents(time_format, out time_extents);
+
+                return time_extents;
         }
     }
 }

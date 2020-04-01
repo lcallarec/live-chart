@@ -22,12 +22,8 @@ namespace LiveChart {
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
-                this.config.y_axis.update_ratio(config.boundaries().height, allocation.height);
             });
-            this.realize.connect(() => {
-                this.config.y_axis.update_ratio(config.boundaries().height, this.get_allocated_height());
-            });
-
+            
             this.draw.connect(render);
             
             Timeout.add(100, () => {
