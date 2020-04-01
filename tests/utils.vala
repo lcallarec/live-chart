@@ -31,5 +31,38 @@ private void register_utils() {
         
         //then
         assert(next == 1000f);
+    });
+
+    Test.add_func("/LiveChart/Utils/HasFractionalPart#8", () => {
+        //given
+        var value = 8;
+
+        //when 
+        var has_fractional_part = LiveChart.has_fractional_part(value);
+        
+        //then
+        assert(has_fractional_part == false);
+    });
+
+    Test.add_func("/LiveChart/Utils/HasFractionalPart#8.00", () => {
+        //given
+        var value = 8.00f;
+
+        //when 
+        var has_fractional_part = LiveChart.has_fractional_part(value);
+        
+        //then
+        assert(has_fractional_part == false);
+    });
+
+    Test.add_func("/LiveChart/Utils/HasFractionalPart#8.86", () => {
+        //given
+        var value = 8.86f;
+
+        //when 
+        var has_fractional_part = LiveChart.has_fractional_part(value);
+        
+        //then
+        assert(has_fractional_part == true);
     });     
 }

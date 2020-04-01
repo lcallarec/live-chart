@@ -13,6 +13,10 @@ namespace LiveChart {
 
         return (int) (value + delta);
     }
+    
+    public bool has_fractional_part(float value) {
+       return value != (int) value;
+    }
 
     private static int num_of_digits(int value) {
         var num_digits = 0;

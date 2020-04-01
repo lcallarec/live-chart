@@ -79,7 +79,7 @@ namespace LiveChart {
         }
 
         protected void render_hgrid(Context ctx, Config config) {
-            var y_scaled_pos = 0.0;
+            float y_scaled_pos = 0f;
             var boundaries = config.boundaries();
             for (double i = boundaries.y.max; i >= boundaries.y.min; i -= config.y_axis.tick_length * config.y_axis.get_ratio()) {
 
@@ -88,19 +88,24 @@ namespace LiveChart {
                 ctx.line_to(boundaries.x.min + 0.5, i + 0.5);
 
                 //Values
-                var s = @"$y_scaled_pos" + config.y_axis.unit;
+                string pattern = "%0.0f%s";
+                if (has_fractional_part(y_scaled_pos)) {
+                    pattern = "%0.2f%s";
+                }
+                var s = pattern.printf(y_scaled_pos, config.y_axis.unit);
+
                 TextExtents extents;
                 ctx.text_extents(s, out extents);
                 ctx.move_to(boundaries.x.min - extents.width - 5, i + (extents.height / 2) + 0.5);
                 ctx.show_text(s);
-                y_scaled_pos += config.y_axis.tick_length;
                 
-                if (i < config.padding.top) {
+                if (i <= config.padding.top) {
                     break;
                 }
+                y_scaled_pos += config.y_axis.tick_length;
             }
             
-            ctx.stroke();            
+            ctx.stroke();
         }
 
         protected void update_bounding_box(Config config) {
