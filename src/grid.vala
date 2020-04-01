@@ -72,7 +72,7 @@ namespace LiveChart {
                 
                 ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
                 ctx.show_text(text);
-                time -= config.x_axis.tick_interval;
+                time -= (int) config.x_axis.tick_interval;
             }
             ctx.stroke();
             ctx.set_dash(null, 0.0);           

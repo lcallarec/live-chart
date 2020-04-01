@@ -1,8 +1,8 @@
 namespace LiveChart { 
     public class XAxis {
 
-        public int tick_interval { get; set; default = 10;}
-        public int tick_length { get; set; default = 60;}
+        public float tick_interval { get; set; default = 10;}
+        public float tick_length { get; set; default = 60;}
 
         public double get_ratio() {
             return tick_length / tick_interval;
@@ -19,8 +19,8 @@ namespace LiveChart {
         private Bounds bounds = new Bounds();
         private double ratio = 1;
 
-        public int tick_interval { get; set; default = 60;}
-        public int tick_length { get; set; default = 60;}
+        public float tick_interval { get; set; default = 60;}
+        public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
         public bool smart_ratio = false;
         public double? fixed_max;
