@@ -4,7 +4,7 @@ namespace LiveChart {
     public class Serie : DrawableSerie {
 
         public string name {
-            get; construct set;
+            get; set;
         }
 
         private DrawableSerie renderer;

@@ -62,6 +62,18 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 chart.add_serie(paris);
 ```
 
+The serie name can be adjusted after initalization, for example if the y-axis unit changes during runtime or if you want to display the last value for this serie :
+
+```vala
+var serie_name = "Temperature in Paris (°C)";
+var paris_temperature = new LiveChart.Serie(serie_name);
+chart.add_serie(paris);
+
+paris_temperature.name = "Temperature in Paris (°F)";
+//
+paris_temperature.name = "Temperature in Paris (%s)".printf(last_value);
+```
+
 #### Adding data points
 
 Your `Serie` must have been registererd to the `Chart` before being able to add data points to this serie. 
@@ -130,6 +142,7 @@ smooth_line.area_alpha = 0.5;
 ```
 
 The area color is always the same as `main_color` value.
+
 
 #### Configure a renderer
 
@@ -241,7 +254,6 @@ var y_axis = config.y_axis;
 y_axis.unit = "GB";
 y_axis.fixed_max = LiveChart.ceil((int) max_mem));
 ```
-
 
 ![](docs/y_axis_fixed_max.png)
 
