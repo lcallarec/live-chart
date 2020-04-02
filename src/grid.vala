@@ -84,6 +84,9 @@ namespace LiveChart {
                 ctx.set_dash({5.0}, 0);
 
                 var y = boundaries.height + boundaries.y.min - position * config.y_axis.get_ratio();
+                if(y < boundaries.y.min) {
+                    break;
+                }
                 ctx.move_to(0.5 + boundaries.x.max, y + 0.5);
                 ctx.line_to(boundaries.x.min + 0.5, y + 0.5);
 
