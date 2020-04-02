@@ -27,8 +27,9 @@ private void register_points() {
         assert((int) first_point.height == 1);
         
         var last_point = points.get(2);
+        stdout.printf("(int) last_point.x == 100 %f\n", last_point.x);
         assert((int) last_point.x == 100);
-        assert((int) last_point.y == 00);
+        assert((int) last_point.y == 0);
         assert((int) last_point.height == 100);
     });
 
