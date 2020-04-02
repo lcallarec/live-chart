@@ -22,6 +22,8 @@ namespace LiveChart {
         
         public float ratio_threshold { get; set; default = 1.118f;}
         public float tick_interval { get; set; default = 60;}
+
+        [Version (deprecated = true, deprecated_since = "1.0.0b7")]        
         public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
 

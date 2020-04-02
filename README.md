@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta6 (API freezed)
+## 1.0.0-beta7 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -211,17 +211,6 @@ Define the value gap (in unit) between each ticks on y-axis.
 var y_axis = config.y_axis;
 y_axis.tick_interval = 60; // 60 units
 ```
-
-* Tick length (*in pixels*, default 60)
-
-Define the distance, in pixels, between each ticks on y-axis.
-
-```vala
-var y_axis = config.y_axis;
-y_axis.tick_length = 60; // 60 pixels between each ticks
-```
-
-For example, with `tick_interval=100`  and `tick_length=20`, each unit is displayed as 0.2 pixels on the chart.
 
 * Unit
 

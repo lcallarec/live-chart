@@ -109,7 +109,6 @@ private void register_axis() {
         var y_axis = new LiveChart.YAxis();
         y_axis.fixed_max = 100.0;
         y_axis.tick_interval = 25;
-        y_axis.tick_length = 25;
 
         //when
         var ticks = y_axis.get_ticks();
