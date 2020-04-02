@@ -2,16 +2,20 @@ using Cairo;
 
 namespace LiveChart { 
 
-    public static int cap(int value) {
-        var num_digits = num_of_digits(value);
+    public float cap(float value) {
+        var num_digits = num_of_digits((int) value);
         var size = Math.exp10((double) num_digits - 1);
+
+        if (value % size == 0) {
+            return value;
+        }
 
         double integer_part;
         double fractional_part = Math.modf(value/size, out integer_part) * size;
 
         var delta = size - fractional_part;
 
-        return (int) (value + delta);
+        return (float) (value + delta);
     }
     
     public bool has_fractional_part(float value) {
@@ -26,7 +30,37 @@ namespace LiveChart {
         return pattern.printf(value, unit);
     }
 
-    private static int num_of_digits(int value) {
+    public Gee.List<int> golden_divisors(float value) {
+        var sqrt = Math.sqrtf(value);
+        var divs = new Gee.ArrayList<int>();
+        for (int i = 1; i <= sqrt; i++) { 
+            if (value % i == 0) {
+                divs.add(i);
+                float tmp = value / i;
+                if (tmp != i) {
+                    divs.add((int) tmp);
+                }
+            } 
+        }
+        divs.sort((a, b) => {
+            return a - b;
+        });
+
+        var ndivs = new Gee.ArrayList<int>();
+        var last_div = divs.last();
+        for (int i = divs.size - 1; i >= 0; i--) {
+            var current = divs.get(i);
+            if (last_div / current != 2) {
+                continue;
+            }
+            ndivs.add(current);
+            last_div = current;
+        }
+
+        return ndivs;
+    }
+
+    private int num_of_digits(int value) {
         var num_digits = 0;
         while (value != 0) {
             value /= 10;

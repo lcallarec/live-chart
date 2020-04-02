@@ -9,9 +9,11 @@ namespace LiveChart {
         }
     }
 
-    public struct FixedBounds {
-        double min;
-        double max;
+    public struct Ticks {
+        Gee.List<float?> values;
+        public Ticks() {
+            values = new Gee.ArrayList<float?>();
+        }
     }
 
     public class YAxis {
@@ -25,7 +27,8 @@ namespace LiveChart {
         public bool smart_ratio = false;
         public double? fixed_max;
         public Gee.List<string> displayed_values { get; set; default = new Gee.LinkedList<string>();}
-        
+        public Ticks ticks;
+
         public YAxis(string unit = "") {
             this.unit = unit;
         }
@@ -42,19 +45,19 @@ namespace LiveChart {
             return this.bounds.update(value);
         }
 
-        public void update_ratio(int area_height, int height) {
+        public void update(int area_height) {
             if (bounds.upper != null && this.fixed_max == null) {
                 var ratio = this.bounds.upper * this.get_ratio_threshold() > area_height ? (double) (area_height) / this.bounds.upper / this.get_ratio_threshold() : 1;
                 if(ratio > 0) {
                     this.ratio = ratio;
-                    this.tick_length = (int) (this.tick_interval / ratio);
                 }
             }
             
             if (this.fixed_max != null) {
                 this.ratio = (double) area_height / ((double) this.fixed_max);
-                this.tick_length = this.tick_interval;
             }
+
+            this.ticks = get_ticks(area_height);
         }
 
         public double get_ratio_threshold() {
@@ -77,6 +80,36 @@ namespace LiveChart {
             }
 
             return unit;
+        }
+
+        public Ticks get_ticks(int area_height = 100) {
+            var ticks = Ticks();
+            if (fixed_max != null) {
+                for (var value = 0f; value <= fixed_max; value += tick_interval) {
+                    ticks.values.add(value);
+                }
+
+                return ticks;
+            }
+
+            if (bounds.upper != null && fixed_max == null) {
+                var upper = LiveChart.cap((float) bounds.upper);
+                var divs = LiveChart.golden_divisors((float) upper);
+             
+                float interval = (float) upper / divs.get(0);
+                foreach(var div in divs) {
+                    interval = upper / div;
+                    if (upper / interval > 3 && upper / interval < 7) {
+                        break;
+                    }
+                }
+                var limit = bounds.upper == upper ? upper : bounds.upper + interval;
+                for (var value = 0f; value <= limit; value += interval) {
+                    ticks.values.add(value);
+                }
+            }
+
+            return ticks;
         }
     }
 }

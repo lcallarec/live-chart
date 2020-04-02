@@ -79,25 +79,21 @@ namespace LiveChart {
         }
 
         protected void render_hgrid(Context ctx, Config config) {
-            float y_scaled_pos = 0f;
             var boundaries = config.boundaries();
-            for (double i = boundaries.y.max; i >= boundaries.y.min; i -= config.y_axis.tick_length * config.y_axis.get_ratio()) {
-
+            foreach(float position in config.y_axis.ticks.values) {
                 ctx.set_dash({5.0}, 0);
-                ctx.move_to(0.5 + boundaries.x.max, i + 0.5);
-                ctx.line_to(boundaries.x.min + 0.5, i + 0.5);
 
-                var value = format_for_y_axis(config.y_axis.unit, y_scaled_pos);
+                var y = boundaries.height + boundaries.y.min - position * config.y_axis.get_ratio();
+                ctx.move_to(0.5 + boundaries.x.max, y + 0.5);
+                ctx.line_to(boundaries.x.min + 0.5, y + 0.5);
+
+                var value = format_for_y_axis(config.y_axis.unit, position);
 
                 TextExtents extents;
                 ctx.text_extents(value, out extents);
-                ctx.move_to(boundaries.x.min - extents.width - 5, i + (extents.height / 2) + 0.5);
+                ctx.move_to(boundaries.x.min - extents.width - 5, y + (extents.height / 2) + 0.5);
                 ctx.show_text(value);
-                
-                if (i <= config.padding.top) {
-                    break;
-                }
-                y_scaled_pos += config.y_axis.tick_length;
+
                 config.y_axis.displayed_values.add(value);
             }
 

@@ -21,7 +21,7 @@ private void register_axis() {
         axis.tick_length = 60;
 
         //when 
-        axis.update_ratio(100, 200);
+        axis.update(100);
         
         //then ratio shouldn't not de updated
         assert(axis.get_ratio() == 1);
@@ -35,7 +35,7 @@ private void register_axis() {
         axis.update_bounds(10.0);
 
         //when 
-        axis.update_ratio(100, 200);
+        axis.update(100);
         
         //then ratio shouldn't not de updated
         assert(axis.get_ratio() == 1);
@@ -49,7 +49,7 @@ private void register_axis() {
         axis.update_bounds(200.0);
 
         //when 
-        axis.update_ratio(100, 200);
+        axis.update(100);
         
         //then ratio should de updated
         assert(axis.get_ratio() * axis.get_ratio_threshold() == 0.5);
@@ -63,7 +63,7 @@ private void register_axis() {
         axis.update_bounds(80.0);
 
         //when 
-        axis.update_ratio(100, 200);
+        axis.update(100);
         
         //then ratio should de updated
         assert(axis.get_ratio() == 1);
@@ -77,7 +77,7 @@ private void register_axis() {
         axis.update_bounds(100.0);
 
         //when 
-        axis.update_ratio(30, 50);
+        axis.update(30);
 
         //then ratio should de updated
         assert(axis.get_ratio() == 0.3);
@@ -105,5 +105,106 @@ private void register_axis() {
 
         //when  //then should not crash
         y_axis.get_max_displayed_values();
-    }); 
+    });
+
+    Test.add_func("/LiveChart/YAxis#get_ticks_with_fixed_max", () => {
+        //given
+        var y_axis = new LiveChart.YAxis();
+        y_axis.fixed_max = 100.0;
+        y_axis.tick_interval = 25;
+        y_axis.tick_length = 25;
+
+        //when
+        var ticks = y_axis.get_ticks();
+
+        //then
+        assert(ticks.values.size == 5);
+        assert(ticks.values.get(0) == 0);
+        assert(ticks.values.get(1) == 25);
+        assert(ticks.values.get(2) == 50);
+        assert(ticks.values.get(3) == 75);
+        assert(ticks.values.get(4) == 100);
+    });
+
+    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_no_values", () => {
+        //given
+        var y_axis = new LiveChart.YAxis();
+
+        //when
+        var ticks = y_axis.get_ticks();
+
+        //then
+        assert(ticks.values.size == 0);
+    });
+
+
+    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_bounds", () => {
+        // // For a self-caped value
+            //given
+            var y_axis = new LiveChart.YAxis();
+            y_axis.update_bounds(10.0);
+
+            //when
+            var ticks = y_axis.get_ticks();
+
+
+            //then
+            assert(ticks.values.size == 6);
+            assert(ticks.values.get(0) == 0);
+            assert(ticks.values.get(1) == 2);
+            assert(ticks.values.get(2) == 4);
+            assert(ticks.values.get(3) == 6);
+            assert(ticks.values.get(4) == 8);
+            assert(ticks.values.get(5) == 10);
+
+        // For a value that needs to be caped
+            //given
+            y_axis.update_bounds(12.50);
+
+            //when
+            ticks = y_axis.get_ticks();
+
+            //then
+            assert(ticks.values.size == 5);
+            assert(ticks.values.get(0) == 0);
+            assert(ticks.values.get(1) == 4);
+            assert(ticks.values.get(2) == 8);
+            assert(ticks.values.get(3) == 12);
+            assert(ticks.values.get(4) == 16);
+
+        // For a value that needs to be caped
+            //given
+            y_axis.update_bounds(712);
+
+            //when
+            ticks = y_axis.get_ticks();
+
+            //then
+            assert(ticks.values.size == 6);
+            assert(ticks.values.get(0) == 0);
+            assert(ticks.values.get(1) == 160);
+            assert(ticks.values.get(2) == 320);
+            assert(ticks.values.get(3) == 480);
+            assert(ticks.values.get(4) == 640);
+            assert(ticks.values.get(5) == 800);
+
+
+        // For a value that needs to be caped
+            //given
+            y_axis.update_bounds(815);
+
+            //when
+            ticks = y_axis.get_ticks();
+
+            //then
+            assert(ticks.values.size == 7);
+            assert(ticks.values.get(0) == 0);
+            assert(ticks.values.get(1) == 150);
+            assert(ticks.values.get(2) == 300);
+            assert(ticks.values.get(3) == 450);
+            assert(ticks.values.get(4) == 600);
+            assert(ticks.values.get(5) == 750);
+            assert(ticks.values.get(6) == 900);
+        });
+    
 }

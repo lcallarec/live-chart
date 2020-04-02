@@ -36,9 +36,7 @@ namespace LiveChart {
 
         public void add_value(Serie serie, double value) {
             serie.add({GLib.get_real_time() / 1000, value});
-            if ((config.y_axis.update_bounds(value) && config.y_axis.smart_ratio)) {
-                this.config.y_axis.update_ratio(config.boundaries().height, this.get_allocated_height());
-            } 
+            config.y_axis.update_bounds(value);
         }
 
         public void to_png(string filename) throws Error {
@@ -62,8 +60,7 @@ namespace LiveChart {
 
         private bool render(Gtk.Widget _, Context ctx) {
             
-            config.reconfigure(ctx, legend);
-            config.y_axis.displayed_values = new Gee.LinkedList<string>();
+            config.configure(ctx, legend);
 
             ctx.select_font_face(Config.FONT_FACE, FontSlant.NORMAL, FontWeight.NORMAL);
             ctx.set_font_size(Config.FONT_SIZE);

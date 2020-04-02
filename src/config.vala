@@ -65,18 +65,19 @@ namespace LiveChart {
             };
         }
 
-        public void reconfigure(Context ctx, Legend? legend) {
+        public void configure(Context ctx, Legend? legend) {
             var max_value_extents = ordinate_time_extents(ctx);
             var time_format_extents = abscissa_time_extents(ctx);
 
-            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
-            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
-            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
-            if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
-            
-            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
-
-            this.y_axis.update_ratio(this.boundaries().height, this.height);
+            if (this.padding.smart != null) {
+                if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
+                if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
+                if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
+                if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
+                
+                if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+            }
+            this.y_axis.update(this.boundaries().height);
         }
 
         private TextExtents ordinate_time_extents(Context ctx) {
@@ -87,11 +88,11 @@ namespace LiveChart {
         }
 
         private TextExtents abscissa_time_extents(Context ctx) {
-                var time_format = "00:00:00";
-                TextExtents time_extents;
-                ctx.text_extents(time_format, out time_extents);
+            var time_format = "00:00:00";
+            TextExtents time_extents;
+            ctx.text_extents(time_format, out time_extents);
 
-                return time_extents;
+            return time_extents;
         }
     }
 }

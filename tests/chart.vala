@@ -34,27 +34,4 @@ private void register_chart() {
             assert(e is LiveChart.ChartError.EXPORT_ERROR);
         }
     });
-
-    Test.add_func("/LiveChart/Chart#UpdateBounds", () => {
-        //given
-        var config = new LiveChart.Config();
-        var chart = new LiveChart.Chart(config);
-
-        var serie = new LiveChart.Serie("TEST", new LiveChart.SmoothLineArea());
-        chart.add_serie(serie);
-        
-        //when
-        chart.add_value(serie, 0.0354);
-
-        //then
-        assert(config.y_axis.get_bounds().lower == 0.0354);
-        assert(config.y_axis.get_bounds().upper == 0.0354);
-        
-        //when
-        chart.add_value(serie, 0.0302);
-
-        //then
-        assert(config.y_axis.get_bounds().lower == 0.0302);
-        assert(config.y_axis.get_bounds().upper == 0.0354);        
-    });    
 }

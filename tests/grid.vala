@@ -7,19 +7,19 @@ private void register_grid() {
         Cairo.Context context = new Cairo.Context(surface);
 
         var config = new LiveChart.Config();
+        config.y_axis.update_bounds(95.0);
         config.padding = { smart: null, 0, 0, 0, 0 };
         config.height = 100;
         config.width = 100;
-
-        config.y_axis.tick_interval = 10;
-        config.y_axis.tick_length = 10;
+        config.configure(context, null);
         
         var grid = new LiveChart.Grid();
 
         //when
+
         grid.draw(context, config);
 
         //then
-        assert(config.y_axis.get_max_displayed_values() == "90");
+        assert(config.y_axis.get_max_displayed_values() == "100");
     });
 }
