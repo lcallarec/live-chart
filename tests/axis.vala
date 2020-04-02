@@ -83,27 +83,27 @@ private void register_axis() {
         assert(axis.get_ratio() == 0.3);
     });
 
-    Test.add_func("/LiveChart/Config#get_max_displayed_values", () => {
+    Test.add_func("/LiveChart/YAxis#get_max_displayed_values", () => {
         //given
-        var config = new LiveChart.Config();
-        config.y_axis.unit = "GB";
+        var y_axis = new LiveChart.YAxis();
+        y_axis.unit = "GB";
 
         //when 
-        config.y_axis.displayed_values.add("0GB");
-        config.y_axis.displayed_values.add("1GB");
-        config.y_axis.displayed_values.add("1.57GB");
-        config.y_axis.displayed_values.add("2.5GB");
+        y_axis.displayed_values.add("0GB");
+        y_axis.displayed_values.add("1GB");
+        y_axis.displayed_values.add("1.57GB");
+        y_axis.displayed_values.add("2.5GB");
         
         //then
-        assert(config.y_axis.get_max_displayed_values() == "1.57GB");
+        assert(y_axis.get_max_displayed_values() == "1.57GB");
     });
 
-    Test.add_func("/LiveChart/Config#get_max_displayed_values_with_no_values", () => {
+    Test.add_func("/LiveChart/YAxis#get_max_displayed_values_with_no_values", () => {
         //given
-        var config = new LiveChart.Config();
-        config.y_axis.unit = "GB";
+        var y_axis = new LiveChart.YAxis();
+        y_axis.unit = "GB";
 
         //when  //then should not crash
-        config.y_axis.get_max_displayed_values();
+        y_axis.get_max_displayed_values();
     }); 
 }
