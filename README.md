@@ -232,17 +232,6 @@ var y_axis = config.y_axis;
 y_axis.unit = "%";
 ```
 
-* Smart ratio (default false)
-
-When you don't know the max value that will be displayed on y-axis, you may want the chart smartly adjust the `tick_interval`, without changing the `tick_length`.
-
-```vala
-var y_axis = config.y_axis;
-y_axis.smart_ratio = true;
-```
-
-![](docs/y_axis_smart_ratio.gif)
-
 * Fixed maximum value (default null)
 
 Sometimes, the maximum value displayed on y-axis must be fixed, for example when value is a percentage, or whenever you know the maximum possible value.

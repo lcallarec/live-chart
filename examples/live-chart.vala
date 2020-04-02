@@ -16,7 +16,6 @@ public class Example : Gtk.Window {
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
-        config.y_axis.smart_ratio = true;
 
         var chart = new LiveChart.Chart(config);
 

@@ -24,7 +24,10 @@ namespace LiveChart {
         public float tick_interval { get; set; default = 60;}
         public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
+
+        [Version (deprecated = true, deprecated_since = "1.0.0b7", replacement = "ratio is always smart ;)")]
         public bool smart_ratio = false;
+        
         public double? fixed_max;
         public Gee.List<string> displayed_values { get; set; default = new Gee.LinkedList<string>();}
         public Ticks ticks;
