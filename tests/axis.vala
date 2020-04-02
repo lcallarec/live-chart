@@ -17,8 +17,6 @@ private void register_axis() {
     Test.add_func("/LiveChart/YAxis#UpdateRatioWithNoBoundsSet", () => {
         //given
         var axis = new LiveChart.YAxis();
-        axis.tick_interval = 30;
-        axis.tick_length = 60;
 
         //when 
         axis.update(100);
@@ -30,29 +28,28 @@ private void register_axis() {
     Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet", () => {
         //given
         var axis = new LiveChart.YAxis();
-        axis.tick_interval = 30;
-        axis.tick_length = 60;
         axis.update_bounds(10.0);
+        axis.ratio_threshold = 1f;
 
         //when 
         axis.update(100);
         
-        //then ratio shouldn't not de updated
-        assert(axis.get_ratio() == 1);
+        //then ratio shouldn't not be updated
+        stdout.printf("axis.get_ratio() %f", axis.get_ratio() );
+        assert(axis.get_ratio() == 10);
     });
 
     Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet#RatioUpdated", () => {
         //given
         var axis = new LiveChart.YAxis();
-        axis.tick_interval = 30;
-        axis.tick_length = 60;
+        axis.ratio_threshold = 1f;
         axis.update_bounds(200.0);
 
         //when 
         axis.update(100);
         
         //then ratio should de updated
-        assert(axis.get_ratio() * axis.get_ratio_threshold() == 0.5);
+        assert(axis.get_ratio() == 0.5);
     });
 
     Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet#FixedMax#SufficientAreaSize", () => {

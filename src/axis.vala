@@ -17,17 +17,17 @@ namespace LiveChart {
     }
 
     public class YAxis {
-        private const double Y_RATIO_THRESHOLD = 1.218;
         private Bounds bounds = new Bounds();
         private double ratio = 1;
-
+        
+        public float ratio_threshold { get; set; default = 1.118f;}
         public float tick_interval { get; set; default = 60;}
         public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
 
         [Version (deprecated = true, deprecated_since = "1.0.0b7", replacement = "ratio is always smart ;)")]
         public bool smart_ratio = false;
-        
+
         public double? fixed_max;
         public Gee.List<string> displayed_values { get; set; default = new Gee.LinkedList<string>();}
         public Ticks ticks;
@@ -50,25 +50,14 @@ namespace LiveChart {
 
         public void update(int area_height) {
             if (bounds.upper != null && this.fixed_max == null) {
-                var ratio = this.bounds.upper * this.get_ratio_threshold() > area_height ? (double) (area_height) / this.bounds.upper / this.get_ratio_threshold() : 1;
-                if(ratio > 0) {
-                    this.ratio = ratio;
-                }
+                  this.ratio = (double) area_height / ((double) bounds.upper * ratio_threshold);
             }
             
             if (this.fixed_max != null) {
                 this.ratio = (double) area_height / ((double) this.fixed_max);
             }
 
-            this.ticks = get_ticks(area_height);
-        }
-
-        public double get_ratio_threshold() {
-            if (this.fixed_max != null) {
-                return 1;
-            }
-
-            return Y_RATIO_THRESHOLD;
+            this.ticks = get_ticks();
         }
 
         public string get_max_displayed_values() {
@@ -85,7 +74,7 @@ namespace LiveChart {
             return unit;
         }
 
-        public Ticks get_ticks(int area_height = 100) {
+        public Ticks get_ticks() {
             var ticks = Ticks();
             if (fixed_max != null) {
                 for (var value = 0f; value <= fixed_max; value += tick_interval) {
