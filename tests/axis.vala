@@ -85,23 +85,27 @@ private void register_axis() {
         var y_axis = new LiveChart.YAxis();
         y_axis.unit = "GB";
 
-        //when 
-        y_axis.displayed_values.add("0GB");
-        y_axis.displayed_values.add("1GB");
-        y_axis.displayed_values.add("1.57GB");
-        y_axis.displayed_values.add("2.5GB");
+        //when
+        y_axis.ticks = LiveChart.Ticks();
+        y_axis.ticks.values.add(0f);
+        y_axis.ticks.values.add(0.1f);
+        y_axis.ticks.values.add(0.57f);
+        y_axis.ticks.values.add(2f);
         
+        var max_displayed_value = y_axis.get_max_displayed_value();
+
         //then
-        assert(y_axis.get_max_displayed_values() == "1.57GB");
+        assert(max_displayed_value == "0,57GB" || max_displayed_value == "0.57GB");
     });
 
     Test.add_func("/LiveChart/YAxis#get_max_displayed_values_with_no_values", () => {
         //given
         var y_axis = new LiveChart.YAxis();
+        y_axis.ticks = LiveChart.Ticks();
         y_axis.unit = "GB";
 
         //when  //then should not crash
-        y_axis.get_max_displayed_values();
+        y_axis.get_max_displayed_value();
     });
 
     Test.add_func("/LiveChart/YAxis#get_ticks_with_fixed_max", () => {

@@ -96,8 +96,6 @@ namespace LiveChart {
                 ctx.text_extents(value, out extents);
                 ctx.move_to(boundaries.x.min - extents.width - 5, y + (extents.height / 2) + 0.5);
                 ctx.show_text(value);
-
-                config.y_axis.displayed_values.add(value);
             }
 
             ctx.stroke();

@@ -31,7 +31,6 @@ namespace LiveChart {
         public bool smart_ratio = false;
 
         public double? fixed_max;
-        public Gee.List<string> displayed_values { get; set; default = new Gee.LinkedList<string>();}
         public Ticks ticks;
 
         public YAxis(string unit = "") {
@@ -63,12 +62,13 @@ namespace LiveChart {
             }
         }
 
-        public string get_max_displayed_values() {
-            if (displayed_values.size > 0) {
-                string max_displayed_value = displayed_values.first();
-                foreach(string value in displayed_values) {
-                    if (value.length >= max_displayed_value.length) {
-                        max_displayed_value = value;
+        public string get_max_displayed_value() {
+            if (ticks.values.size > 0) {
+                string max_displayed_value = format_for_y_axis(unit, ticks.values.first());
+                foreach(float value in ticks.values) {
+                    string formatted_value = format_for_y_axis(unit, value);
+                    if (formatted_value.length >= max_displayed_value.length) {
+                        max_displayed_value = formatted_value;
                     }
                 }
                 return max_displayed_value;
