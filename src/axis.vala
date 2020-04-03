@@ -36,6 +36,9 @@ namespace LiveChart {
 
         public YAxis(string unit = "") {
             this.unit = unit;
+            bounds.notify["upper"].connect(() => {
+                this.ticks = get_ticks();
+            });
         }
 
         public double get_ratio() {
@@ -51,15 +54,13 @@ namespace LiveChart {
         }
 
         public void update(int area_height) {
-            if (bounds.upper != null && this.fixed_max == null) {
+            if (bounds.has_upper() && this.fixed_max == null) {
                   this.ratio = (double) area_height / ((double) bounds.upper * ratio_threshold);
             }
             
             if (this.fixed_max != null) {
                 this.ratio = (double) area_height / ((double) this.fixed_max);
             }
-
-            this.ticks = get_ticks();
         }
 
         public string get_max_displayed_values() {
@@ -86,7 +87,7 @@ namespace LiveChart {
                 return ticks;
             }
 
-            if (bounds.upper != null && fixed_max == null) {
+            if (bounds.has_upper() && fixed_max == null) {
                 var upper = LiveChart.cap((float) bounds.upper);
                 var divs = LiveChart.golden_divisors((float) upper);
 
