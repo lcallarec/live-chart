@@ -203,15 +203,6 @@ For example, with `tick_interval=10`  and `tick_length=60`, each second is displ
 
 ##### y-axis
 
-* Tick interval (*in unit*, default 60)
-
-Define the value gap (in unit) between each ticks on y-axis.
-
-```vala
-var y_axis = config.y_axis;
-y_axis.tick_interval = 60; // 60 units
-```
-
 * Unit
 
 Define the unit of values displayed along y-axis. Default to empty string.
