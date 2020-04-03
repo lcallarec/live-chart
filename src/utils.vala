@@ -32,7 +32,7 @@ namespace LiveChart {
 
     public Gee.List<float?> golden_divisors(float value) {
         //Handle values below 1
-        float factor = value < 1 ? cap(100/value) : 1f;
+        float factor = value < 10 ? cap(100 / value) : 1f;
         float working_value = value * factor;
 
         var sqrt = Math.sqrtf(working_value);
