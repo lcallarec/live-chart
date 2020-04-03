@@ -2,7 +2,7 @@
 
 # Live Chart
 
-## 1.0.0-beta7 (API freezed)
+## 1.0.0-beta8 (API freezed)
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -237,6 +237,16 @@ y_axis.fixed_max = LiveChart.ceil((int) max_mem));
 ![](docs/y_axis_fixed_max.png)
 
 With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
+
+* Ratio threshold (default 1.118)
+
+When not using ``fixed_max` options, the chart drawable area is 1.118 times higher than needed to display all points. You can reduce or increase that ratio :
+
+```vala
+var y_axis = config.y_axis;
+y_axis.ratio_threshold = 1.0f; // The higher point will always be on the higher part of the chart
+y_axis.ratio_threshold = 2.0f; // The higher point will always be on the middle of the drawing area
+```
 
 ##### Paddings
 
