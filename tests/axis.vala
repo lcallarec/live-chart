@@ -201,6 +201,22 @@ private void register_axis() {
             assert(ticks.values.get(4) == 600);
             assert(ticks.values.get(5) == 750);
             assert(ticks.values.get(6) == 900);
-        });
+    });
     
+    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_bounds_to_value_below 1", () => {
+     
+        var y_axis = new LiveChart.YAxis();
+        y_axis.update_bounds(0.05);
+
+        //when
+        var ticks = y_axis.get_ticks();
+
+        //then
+        assert(ticks.values.size == 4);
+        assert(ticks.values.get(0) == 0f);
+        assert(ticks.values.get(1) == 0.02f);
+        assert(ticks.values.get(2) == 0.04f);
+        assert(ticks.values.get(3) == 0.06f);
+    });
+
 }

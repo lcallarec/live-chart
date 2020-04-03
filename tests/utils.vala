@@ -92,5 +92,21 @@ private void register_utils() {
         //assert(divisors.get(4) == 4); Not golden
         assert(divisors.get(4) == 2); // Golden
         assert(divisors.get(5) == 1); // Golden
-    });     
+    });
+
+    Test.add_func("/LiveChart/Utils/golden_divisors_value_below_1", () => {
+        //given
+        var value = 0.10f;
+
+        //when 
+        var divisors = LiveChart.golden_divisors(value);
+
+        //then
+        assert(divisors.get(0) == 50f);
+        assert(divisors.get(1) == 25f);
+        assert(divisors.get(2) == 10f);
+        assert(divisors.get(3) == 5f);
+        assert(divisors.get(4) == 2f);
+        assert(divisors.get(5) == 1f);
+    });    
 }

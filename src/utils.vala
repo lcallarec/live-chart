@@ -30,13 +30,18 @@ namespace LiveChart {
         return pattern.printf(value, unit);
     }
 
-    public Gee.List<int> golden_divisors(float value) {
-        var sqrt = Math.sqrtf(value);
+    public Gee.List<float?> golden_divisors(float value) {
+        //Handle values below 1
+        float factor = value < 1 ? cap(100/value) : 1f;
+        float working_value = value * factor;
+
+        var sqrt = Math.sqrtf(working_value);
         var divs = new Gee.ArrayList<int>();
+
         for (int i = 1; i <= sqrt; i++) { 
-            if (value % i == 0) {
+            if (working_value % i == 0) {
                 divs.add(i);
-                float tmp = value / i;
+                float tmp = working_value / i;
                 if (tmp != i) {
                     divs.add((int) tmp);
                 }
@@ -46,14 +51,14 @@ namespace LiveChart {
             return a - b;
         });
 
-        var ndivs = new Gee.ArrayList<int>();
+        var ndivs = new Gee.ArrayList<float?>();
         var last_div = divs.last();
         for (int i = divs.size - 1; i >= 0; i--) {
             var current = divs.get(i);
             if (last_div / current != 2) {
                 continue;
             }
-            ndivs.add(current);
+            ndivs.add((float) current);
             last_div = current;
         }
 

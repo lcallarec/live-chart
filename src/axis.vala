@@ -89,11 +89,11 @@ namespace LiveChart {
             if (bounds.upper != null && fixed_max == null) {
                 var upper = LiveChart.cap((float) bounds.upper);
                 var divs = LiveChart.golden_divisors((float) upper);
-             
+
                 float interval = (float) upper / divs.get(0);
-                foreach(var div in divs) {
+                foreach(float div in divs) {
                     interval = upper / div;
-                    if (upper / interval > 3 && upper / interval < 7) {
+                    if (div > 3f && div < 7f) {
                         break;
                     }
                 }
