@@ -1,5 +1,5 @@
 ![CI](https://github.com/lcallarec/live-chart/workflows/CI/badge.svg) 
-[![codecov](https://codecov.io/gh/lcallarec/live-chart/branch/coverage/graph/badge.svg)](https://codecov.io/gh/lcallarec/live-chart)
+[![codecov](https://codecov.io/gh/lcallarec/live-chart/branch/master/graph/badge.svg)](https://codecov.io/gh/lcallarec/live-chart)
 
 # Live Chart
 
