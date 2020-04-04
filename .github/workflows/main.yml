@@ -6,6 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v1
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
       - uses: actions/checkout@v2
       - name: Install deps
         run: |
