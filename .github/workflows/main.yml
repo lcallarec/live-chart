@@ -10,7 +10,11 @@ jobs:
       - name: Install deps
         run: |
           sudo apt-get install valac libgee-0.8-dev libgtk-3-dev libcairo-dev xvfb
-      - name: Compile example
-        run: make compile
+          pip install meson
+          pip install ninja
+      - name: Build
+        run: |
+          meson build
+          ninja -C build
       - name: Run tests
-        run: xvfb-run make test
+        run: meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1"
