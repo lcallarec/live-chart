@@ -19,7 +19,9 @@ jobs:
           pip install ninja
       - name: Build
         run: |
-          meson build
+          meson build -Ddebug=true -Db_coverage=true
           ninja -C build
       - name: Run tests
         run: meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1"
+      - name: Send coverage report
+        run: bash <(curl -s https://codecov.io/bash)        
