@@ -8,6 +8,10 @@ gee = dependency('gee-0.8')
 
 vala_args = ['--target-glib=2.50']
 
+if get_option('debug') == true
+  vala_args += ['--ccode', '--debug']
+endif
+
 deps = [
   gtk,
   gee,
