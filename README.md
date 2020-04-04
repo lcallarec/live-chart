@@ -141,14 +141,14 @@ For all series, you can control the line or the bar color via the `main_color: G
 
 ```vala
 var smooth_line = LiveChart.SmoothLine();
-smooth_line.main_color = Gdk.RGBA() {red: 0, green: 0, blue: 1, alpha: 1}; // Pure blue
+smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
 ```
 
 For area series, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
-smooth_line.main_color = Gdk.RGBA() {red: 0, green: 0, blue: 1, alpha: 1};
+smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
 smooth_line.area_alpha = 0.5;
 ```
 
@@ -296,7 +296,7 @@ Chart has a default colored background that can be changed via the `Background.m
 
 ```vala
 var chart = new LiveChart.Chart();
-chart.background.main_color = Gdk.RGBA() {red: 1, green: 1, blue: 1, alpha: 1}; //White background
+chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
 
 ### Programmatic export
