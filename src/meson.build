@@ -13,6 +13,7 @@ sources = files(
     'legend.vala',
     'line_area.vala',
     'line.vala',
+    'path.vala',
     'point.vala',
     'points.vala',
     'serie.vala',

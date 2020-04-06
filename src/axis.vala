@@ -22,6 +22,7 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
         public Labels labels = Labels();
         public Axis axis = Axis();
+        public LiveChart.Path lines = new LiveChart.Path();
 
         public XAxis() {
             this.labels = Labels();
@@ -50,6 +51,7 @@ namespace LiveChart {
 
         public Labels labels = Labels();
         public Axis axis = Axis();
+        public LiveChart.Path lines = new LiveChart.Path();
 
         [Version (deprecated = true, deprecated_since = "1.0.0b7")]        
         public float tick_length { get; set; default = 60;}

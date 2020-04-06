@@ -216,6 +216,57 @@ axis = config.y_axis;
 axis.visible = false;
 ```
 
+##### Axis lines
+
+Axis lines are horizontal or vertical lines - depending on which axis they're attached - aligned on labels to helps reading.
+
+![Line axis](docs/axis_lines_config.png)
+
+* Line color
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.lines.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 0.2}; //Light grey
+```
+
+* Line width
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.lines.width = 1.0;
+```
+
+* Line dashes
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
+```
+
+For more information about cairo dashes, please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
+
+* Hidding lines
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.lines.visible = false;
+```
 
 ##### x-axis
 

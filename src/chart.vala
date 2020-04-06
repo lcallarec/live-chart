@@ -6,7 +6,7 @@ namespace LiveChart {
     {
         EXPORT_ERROR
     }
-
+    
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
