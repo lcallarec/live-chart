@@ -25,7 +25,6 @@ namespace LiveChart {
         public void configure(Context ctx) {
             if (visible) {
                 if (dash != null) {
-                    stdout.printf("dash:\n");
                     ctx.set_dash(dash.dashes, dash.offset);
                 }
                 ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
