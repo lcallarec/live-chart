@@ -3,7 +3,7 @@
 ![CI](https://github.com/lcallarec/live-chart/workflows/CI/badge.svg) 
 [![codecov](https://codecov.io/gh/lcallarec/live-chart/branch/master/graph/badge.svg)](https://codecov.io/gh/lcallarec/live-chart)
 [![Release](https://img.shields.io/github/release/lcallarec/live-chart.svg)](https://github.com/lcallarec/live-chart/releases)
-[![License](https://https://img.shields.io/github/license/lcallarec/live-chart.svg)](https://github.com/lcallarec/live-chart/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/lcallarec/live-chart)](https://github.com/lcallarec/live-chart/blob/master/LICENSE)
 
 #### Live Chart is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
