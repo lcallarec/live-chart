@@ -23,6 +23,9 @@ namespace LiveChart {
 
         public void draw(Context ctx, Config config) {
             if (visible) {
+                ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
+                ctx.set_line_width(0.5);
+                
                 this.render_abscissa(ctx, config);
                 this.render_ordinate(ctx, config);            
                 this.render_grid(ctx, config);
@@ -36,21 +39,19 @@ namespace LiveChart {
         }
 
         protected void render_abscissa(Context ctx, Config config) {
-            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
-            ctx.set_line_width(0.5);
-            
-            ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
-            ctx.line_to(config.width - config.padding.right + 0.5, config.height - config.padding.bottom + 0.5);
-            ctx.stroke();       
+            if (config.y_axis.visible && config.y_axis.axis.visible) {
+                ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
+                ctx.line_to(config.width - config.padding.right + 0.5, config.height - config.padding.bottom + 0.5);
+                ctx.stroke();       
+            }
         }
 
         protected void render_ordinate(Context ctx, Config config) {
-            ctx.set_source_rgba(0.5, 0.5, 0.5, 1.0);
-            ctx.set_line_width(0.5);
-
-            ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
-            ctx.line_to(config.padding.left + 0.5, config.padding.top + 0.5);
-            ctx.stroke();
+            if (config.x_axis.visible && config.x_axis.axis.visible) {            
+                ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
+                ctx.line_to(config.padding.left + 0.5, config.padding.top + 0.5);
+                ctx.stroke();
+            }
         }
 
         protected void render_grid(Context ctx, Config config) {
@@ -69,7 +70,7 @@ namespace LiveChart {
                 ctx.line_to(i + 0.5, 0.5 + config.padding.top);
                 
                 // Labels
-                if (config.x_axis.labels.visible) {
+                if (config.x_axis.visible && config.x_axis.labels.visible) {
                     var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
@@ -96,7 +97,7 @@ namespace LiveChart {
                 ctx.line_to(boundaries.x.min + 0.5, y + 0.5);
 
                 //Labels
-                if (config.y_axis.labels.visible) {
+                if (config.y_axis.visible && config.y_axis.labels.visible) {
                     var value = format_for_y_axis(config.y_axis.unit, position);
     
                     TextExtents extents;

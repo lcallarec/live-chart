@@ -3,7 +3,7 @@
 
 # Live Chart
 
-## v1.1.1
+## v1.2.0
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -193,6 +193,29 @@ axis = config.x_axis;
 axis = config.y_axis;
 axis.labels.visible = false;
 ```
+
+* Hidding axis
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.axis.visible = false;
+```
+
+* Hidding both axis & labels
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.visible = false;
+```
+
 
 ##### x-axis
 

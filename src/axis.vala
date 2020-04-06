@@ -1,10 +1,17 @@
 namespace LiveChart { 
 
+    public struct Axis {
+        bool visible;
+        public Axis() {
+            visible = true;
+        }
+    }
+
     public struct Labels {
         bool visible;
 
         public Labels() {
-            visible = false;
+            visible = true;
         }
     }
 
@@ -12,8 +19,15 @@ namespace LiveChart {
 
         public float tick_interval { get; set; default = 10;}
         public float tick_length { get; set; default = 60;}
+        public bool visible { get; set; default = true; }
         public Labels labels = Labels();
-        
+        public Axis axis = Axis();
+
+        public XAxis() {
+            this.labels = Labels();
+            this.axis = Axis();
+        }
+
         public double get_ratio() {
             return tick_length / tick_interval;
         }
@@ -30,9 +44,12 @@ namespace LiveChart {
         private Bounds bounds = new Bounds();
         private double ratio = 1;
 
-        public Labels labels = Labels();
         public float ratio_threshold { get; set; default = 1.118f;}
         public float tick_interval { get; set; default = 60;}
+        public bool visible { get; set; default = true; }
+
+        public Labels labels = Labels();
+        public Axis axis = Axis();
 
         [Version (deprecated = true, deprecated_since = "1.0.0b7")]        
         public float tick_length { get; set; default = 60;}

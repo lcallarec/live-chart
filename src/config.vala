@@ -82,7 +82,7 @@ namespace LiveChart {
 
         private TextExtents ordinate_value_extents(Context ctx) {
             TextExtents max_value_extents;
-            if (x_axis.labels.visible) {
+            if (y_axis.visible && y_axis.labels.visible) {
                 ctx.text_extents(y_axis.get_max_displayed_value(), out max_value_extents);
             } else {
                 max_value_extents = TextExtents();
@@ -99,7 +99,7 @@ namespace LiveChart {
 
         private TextExtents abscissa_time_extents(Context ctx) {
             TextExtents time_extents;
-            if (x_axis.labels.visible) {
+            if (x_axis.visible && x_axis.labels.visible) {
                 var time_format = "00:00:00";
                 ctx.text_extents(time_format, out time_extents);
             } else {
