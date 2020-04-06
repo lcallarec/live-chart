@@ -3,7 +3,7 @@
 
 # Live Chart
 
-## v1.1.0
+## v1.1.1
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -281,13 +281,18 @@ config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM
 
 When a side isn't configured as "smart", it fallbacks to global padding settings.
 
+To complety disable smart padding, set `config.padding.smart` to `AutoPadding.NONE` :
+```vala
+config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM;
+```
+
 ##### Global paddings
 
 Paddings can be set - in pixel - for each sides. If you need to force a padding, remember to disable the smart padding for this side.
 
 ```vala
 // Remove AutoPadding.TOP from smart padding before setting a custom padding.top value
-config.padding.smart = AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
+config.padding.smart = LiveChart.AutoPadding.RIGHT | LiveChart.AutoPadding.BOTTOM | LiveChart.AutoPadding.LEFT;
 config.padding.top = 10; // in pixels
 ```
 ### Background
@@ -323,7 +328,7 @@ If you want to get rid of chart padding, remember to disable `smart` paddings an
 
 ```vala
 var config = new LiveChart.Config();
-config.padding = LiveChart.Padding() { smart = null, top = 0, right = 0, bottom = 0, left = 0};
+config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
 ```
 
 ![](docs/hide_parts_no_paddings.png)

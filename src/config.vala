@@ -4,6 +4,7 @@ namespace LiveChart {
 
     [Flags]
     public enum AutoPadding {
+        NONE,
         TOP,
         RIGHT,
         BOTTOM,
@@ -11,7 +12,7 @@ namespace LiveChart {
     }
 
     public struct Padding {
-        public AutoPadding? smart;
+        public AutoPadding smart;
         public int top;
         public int right;
         public int bottom;
@@ -68,15 +69,13 @@ namespace LiveChart {
         public void configure(Context ctx, Legend? legend) {
             var max_value_extents = ordinate_time_extents(ctx);
             var time_format_extents = abscissa_time_extents(ctx);
-
-            if (this.padding.smart != null) {
-                if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
-                if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
-                if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
-                if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
-                
-                if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
-            }
+            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
+            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
+            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
+            if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
+            
+            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+            
             this.y_axis.update(this.boundaries().height);
         }
 

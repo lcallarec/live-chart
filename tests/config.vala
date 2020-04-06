@@ -6,7 +6,7 @@ private void register_config() {
         var config = new LiveChart.Config();
         config.width = 100;
         config.height = 200;
-        config.padding = { smart: null, 20, 25, 10, 30 };
+        config.padding = { smart: LiveChart.AutoPadding.NONE, 20, 25, 10, 30 };
 
         //when 
         var boundaries = config.boundaries();

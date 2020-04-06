@@ -8,7 +8,7 @@ private void register_grid() {
 
         var config = new LiveChart.Config();
         config.y_axis.update_bounds(95.0);
-        config.padding = { smart: null, 0, 0, 0, 0 };
+        config.padding = { LiveChart.AutoPadding.NONE, 0, 0, 0, 0 };
         config.height = 100;
         config.width = 100;
         config.configure(context, null);

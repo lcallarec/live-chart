@@ -9,7 +9,7 @@ public class Example : Gtk.Window {
         cpu.set_main_color({ 1, 0.8, 0.1, 1.0});
 
         var config = new LiveChart.Config();
-        config.padding = LiveChart.Padding() { smart = null, top = 0, right = 0, bottom = 0, left = 0};
+        config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
 
         var chart = new LiveChart.Chart(config);
         chart.legend.visible = false;
