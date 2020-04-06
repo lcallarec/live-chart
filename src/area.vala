@@ -10,6 +10,7 @@
             height=0
         };
         private double alpha = 0.3;
+        public bool visible { get; set; default = true; }
         public Gdk.RGBA main_color { 
             get; set; default = Gdk.RGBA() {
                 red = 1.0,

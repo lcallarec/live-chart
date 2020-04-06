@@ -11,6 +11,7 @@ namespace LiveChart {
             height=0
         };
         
+        public bool visible { get; set; default = true; }
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 0.5,
@@ -21,11 +22,13 @@ namespace LiveChart {
         }
 
         public void draw(Context ctx, Config config) {
-            this.render_abscissa(ctx, config);
-            this.render_ordinate(ctx, config);            
-            this.render_grid(ctx, config);
-            this.update_bounding_box(config);
-            this.debug(ctx);
+            if (visible) {
+                this.render_abscissa(ctx, config);
+                this.render_ordinate(ctx, config);            
+                this.render_grid(ctx, config);
+                this.update_bounding_box(config);
+                this.debug(ctx);
+            }
         }
 
         public BoundingBox get_bounding_box() {

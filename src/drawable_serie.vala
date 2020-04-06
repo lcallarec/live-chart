@@ -4,7 +4,8 @@ namespace LiveChart {
     public abstract class DrawableSerie : Drawable, Object {
 
         private const int VIRTUAL_LEFT_PADDING = -200;
-
+        
+        public bool visible { get; set; default = true; }
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 1.0,

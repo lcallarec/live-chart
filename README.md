@@ -3,7 +3,7 @@
 
 # Live Chart
 
-## v1.0.0
+## v1.1.0
 
 **Live Chart** is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
 
@@ -232,7 +232,7 @@ For that purpose, use `LiveChart.cap` method :
 ```vala
 var y_axis = config.y_axis;
 y_axis.unit = "GB";
-y_axis.fixed_max = LiveChart.ceil((int) max_mem));
+y_axis.fixed_max = LiveChart.cap((int) max_mem));
 ```
 
 ![](docs/y_axis_fixed_max.png)
@@ -299,6 +299,35 @@ var chart = new LiveChart.Chart();
 chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
 
+### Hidding chart parts
+
+You can prevent all chart parts from being displayed, by using the `visible` property of each part.
+
+```vala
+var config = new LiveChart.Config();
+
+var chart = new LiveChart.Chart(config);
+chart.legend.visible = false; //Hidding legend
+chart.grid.visible = false;   //Hidding grid
+```
+
+You can also programmatically hide series :
+
+```vala
+var paris_temperature = new LiveChart.Serie("CPU usage", new LiceChart.LineArea());
+
+paris_temperature.visible = false;
+```
+
+If you want to get rid of chart padding, remember to disable `smart` paddings and set all paddings to `0`.
+
+```vala
+var config = new LiveChart.Config();
+config.padding = LiveChart.Padding() { smart = null, top = 0, right = 0, bottom = 0, left = 0};
+```
+
+![](docs/hide_parts_no_paddings.png)
+
 ### Programmatic export
 
 You can export your chart in `PNG` format :
@@ -314,6 +343,7 @@ Example source code
 
 * [General example](examples/live-chart.vala)
 * [Fixed max y-axis value](examples/fixed-max.vala)
+* [Hide parts](examples/hide-parts.vala)
 
 Compile and run with :
 
@@ -322,6 +352,7 @@ meson build
 ninja -C build
 ./build/examples/example
 ./build/examples/example-fixed-max
+./build/examples/example-hide-parts
 ```
 
 ## Dependencies

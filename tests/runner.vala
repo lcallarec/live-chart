@@ -17,6 +17,8 @@ void main (string[] args) {
     register_bar();
     register_utils();
     register_grid();
+    register_background();
+    register_legend();
 
     Test.run();
 }

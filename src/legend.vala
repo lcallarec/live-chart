@@ -2,11 +2,9 @@ using Cairo;
 
 namespace LiveChart {
     
-    public interface LegendAware : Object {
-        public abstract void add_legend(Serie serie);
-    }
+     public abstract class Legend : Drawable, Object {
 
-    public abstract class Legend : Drawable, LegendAware, Object {
+        public bool visible { get; set; default = true; }
 
         protected Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
         protected BoundingBox bounding_box = BoundingBox() {
@@ -38,24 +36,27 @@ namespace LiveChart {
         private const int COLOR_BLOCK_WIDTH = 15;
 
         public override void draw(Context ctx, Config config) {
-            var boundaries = config.boundaries();
-            var pos = 0;
-            series.foreach((serie) => {
-                ctx.set_source_rgba(serie.get_main_color().red, serie.get_main_color().green, serie.get_main_color().blue, 1);
-                ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + 22, HorizontalLegend.COLOR_BLOCK_WIDTH, 10);
-                ctx.fill();
+            if (visible) {
+                var boundaries = config.boundaries();
+                var pos = 0;
+                series.foreach((serie) => {
+                    ctx.set_source_rgba(serie.get_main_color().red, serie.get_main_color().green, serie.get_main_color().blue, 1);
+                    ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + 22, HorizontalLegend.COLOR_BLOCK_WIDTH, 10);
+                    ctx.fill();
 
-                ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + 20 + Config.FONT_SIZE);
-                ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
-                ctx.show_text(serie.name);
-                pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) name_extents(serie.name, ctx).width + 20;
+                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + 20 + Config.FONT_SIZE);
+                    ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
+                    ctx.show_text(serie.name);
+                    pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) name_extents(serie.name, ctx).width + 20;
 
-                return true;
-            });
-            ctx.stroke();
-            this.update_bounding_box(boundaries, pos);
-            this.debug(ctx);
-        }
+                    return true;
+                });
+                ctx.stroke();
+                this.update_bounding_box(boundaries, pos);
+                this.debug(ctx);
+            }
+            }
+   
 
         private TextExtents name_extents(string name, Context ctx) {
             TextExtents name_extents;

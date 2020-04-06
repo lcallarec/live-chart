@@ -8,10 +8,12 @@ namespace LiveChart {
         }
 
         public override void draw(Context ctx, Config config) {
-            var points = Points.create(values, config);
-            if (points.size > 0) {
-                this.draw_line(points, ctx, config);
-                ctx.stroke();
+            if (visible) {
+                var points = Points.create(values, config);
+                if (points.size > 0) {
+                    this.draw_line(points, ctx, config);
+                    ctx.stroke();
+                }
             }
         }
 

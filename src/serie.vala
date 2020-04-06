@@ -18,7 +18,9 @@ namespace LiveChart {
         }
 
         public override void draw(Context ctx, Config config) {
-            this.renderer.draw(ctx, config);
+            if (visible) {
+                this.renderer.draw(ctx, config);
+            }
         }
 
         public void add(TimestampedValue value) {
