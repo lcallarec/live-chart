@@ -1,14 +1,24 @@
 namespace LiveChart { 
+
+    public struct Labels {
+        bool visible;
+
+        public Labels() {
+            visible = false;
+        }
+    }
+
     public class XAxis {
 
         public float tick_interval { get; set; default = 10;}
         public float tick_length { get; set; default = 60;}
-
+        public Labels labels = Labels();
+        
         public double get_ratio() {
             return tick_length / tick_interval;
         }
     }
-
+    
     public struct Ticks {
         Gee.List<float?> values;
         public Ticks() {
@@ -19,7 +29,8 @@ namespace LiveChart {
     public class YAxis {
         private Bounds bounds = new Bounds();
         private double ratio = 1;
-        
+
+        public Labels labels = Labels();
         public float ratio_threshold { get; set; default = 1.118f;}
         public float tick_interval { get; set; default = 60;}
 

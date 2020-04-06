@@ -68,13 +68,15 @@ namespace LiveChart {
                 ctx.move_to(i + 0.5, 0.5 + config.height - config.padding.bottom);
                 ctx.line_to(i + 0.5, 0.5 + config.padding.top);
                 
-                // Values
-                var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
-                TextExtents extents;
-                ctx.text_extents(text, out extents);
-                
-                ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
-                ctx.show_text(text);
+                // Labels
+                if (config.x_axis.labels.visible) {
+                    var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
+                    TextExtents extents;
+                    ctx.text_extents(text, out extents);
+                    
+                    ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
+                    ctx.show_text(text);
+                }
                 time -= (int) config.x_axis.tick_interval;
             }
             ctx.stroke();
@@ -93,12 +95,15 @@ namespace LiveChart {
                 ctx.move_to(0.5 + boundaries.x.max, y + 0.5);
                 ctx.line_to(boundaries.x.min + 0.5, y + 0.5);
 
-                var value = format_for_y_axis(config.y_axis.unit, position);
-
-                TextExtents extents;
-                ctx.text_extents(value, out extents);
-                ctx.move_to(boundaries.x.min - extents.width - 5, y + (extents.height / 2) + 0.5);
-                ctx.show_text(value);
+                //Labels
+                if (config.y_axis.labels.visible) {
+                    var value = format_for_y_axis(config.y_axis.unit, position);
+    
+                    TextExtents extents;
+                    ctx.text_extents(value, out extents);
+                    ctx.move_to(boundaries.x.min - extents.width - 5, y + (extents.height / 2) + 0.5);
+                    ctx.show_text(value);
+                }
             }
 
             ctx.stroke();

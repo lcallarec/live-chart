@@ -67,8 +67,9 @@ namespace LiveChart {
         }
 
         public void configure(Context ctx, Legend? legend) {
-            var max_value_extents = ordinate_time_extents(ctx);
+            var max_value_extents = ordinate_value_extents(ctx);
             var time_format_extents = abscissa_time_extents(ctx);
+
             if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
             if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
             if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
@@ -79,17 +80,37 @@ namespace LiveChart {
             this.y_axis.update(this.boundaries().height);
         }
 
-        private TextExtents ordinate_time_extents(Context ctx) {
+        private TextExtents ordinate_value_extents(Context ctx) {
             TextExtents max_value_extents;
-            ctx.text_extents(y_axis.get_max_displayed_value(), out max_value_extents);
+            if (x_axis.labels.visible) {
+                ctx.text_extents(y_axis.get_max_displayed_value(), out max_value_extents);
+            } else {
+                max_value_extents = TextExtents();
+                max_value_extents.height = 0.0;
+                max_value_extents.width = 0.0;
+                max_value_extents.x_advance = 0.0;
+                max_value_extents.x_bearing = 0.0;
+                max_value_extents.y_advance = 0.0;
+                max_value_extents.y_bearing  = 0.0;
+            }
 
             return max_value_extents;
         }
 
         private TextExtents abscissa_time_extents(Context ctx) {
-            var time_format = "00:00:00";
             TextExtents time_extents;
-            ctx.text_extents(time_format, out time_extents);
+            if (x_axis.labels.visible) {
+                var time_format = "00:00:00";
+                ctx.text_extents(time_format, out time_extents);
+            } else {
+                time_extents = TextExtents();
+                time_extents.height = 0.0;
+                time_extents.width = 0.0;
+                time_extents.x_advance = 0.0;
+                time_extents.x_bearing = 0.0;
+                time_extents.y_advance = 0.0;
+                time_extents.y_bearing  = 0.0;
+            }
 
             return time_extents;
         }

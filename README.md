@@ -179,6 +179,21 @@ var chart = new LiveChart.Chart(config);
 
 #### Axis configuration
 
+#### Common configuration
+
+##### Axis labels
+
+* Hidding axis labels
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.labels.visible = false;
+```
+
 ##### x-axis
 
 * Tick interval (*in seconds*, default 10)
