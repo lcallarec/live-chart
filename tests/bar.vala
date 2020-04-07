@@ -29,28 +29,23 @@ private void register_bar() {
  
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-            pixbuff.savev("/home/laurent/Documents/test.png", "png", {}, {});
+        
+        var top_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 0, 0, 3);
+        assert(top_colors.size == 1);
+        assert(top_colors.contains(color_to_int(red)));
 
-        var from_coords = color_at(pixbuff, WIDTH, HEIGHT);
-
-        //Then
-        assert(from_coords(0, 0) == red);
-        assert(from_coords(0, 1) == red);
-        assert(from_coords(0, 2) == red);
-        assert(from_coords(0, 3) == red);
-        assert(from_coords(0, 4) == white);
-        assert(from_coords(0, 5) == white);
-        assert(from_coords(0, 6) == white);
-        assert(from_coords(0, 7) == white);
-        assert(from_coords(0, 8) == white);
-        assert(from_coords(0, 9) == white);
+        var bootom_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 4, 0, 9);
+        assert(bootom_colors.size == 1);
+        assert(bootom_colors.contains(color_to_int(white)));
     });
 
     Test.add_func("/LiveChart/Bar#draw#ShouldntRenderIfNoValues", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context);
+
+        var black = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 0.0, alpha = 1.0};
+        cairo_background(context, black);
 
         var values = new LiveChart.Values();
        
@@ -63,20 +58,9 @@ private void register_bar() {
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT);
         if (pixbuff != null) {
-            unowned uint8[] data = pixbuff.get_pixels_with_length();
-            var stride = pixbuff.rowstride;
-            // Every pixels are black, nothing has been rendered
-            for(var i = 0; i < SURFACE_HEIGHT * stride; i=i+pixbuff.bits_per_sample ) {
-                var r = data[i];
-                var g = data[i + 1];
-                var b = data[i + 2];
-                var alpha = data[i + 3];
-
-                assert(r == 0);
-                assert(g == 0);
-                assert(b == 0);
-                assert(alpha == 255);
-            }
+            var colors = unique_colors_at(pixbuff, SURFACE_WIDTH, SURFACE_HEIGHT)(0, 0, SURFACE_WIDTH - 1, SURFACE_HEIGHT - 1);
+            assert(colors.size == 1);
+            assert(colors.contains(color_to_int(black)));
         } else {
             assert_not_reached();
         }
