@@ -22,6 +22,18 @@
  
 *N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to changes in a future release*
 
+- [Getting started](#getting-started)
+- [Dependencies](#dependencies)
+- [API](#api)
+- [Chart widget](#chart-widget)
+- [Series](#series)
+- [Serie renderer](#serie-renderer)
+- [Chart configuration](#chart-configuration)
+- [Background](#background)
+- [Hidding chart parts](#hidding-chart-parts)
+- [Programmatic export](#programmatic-export)
+- [How Livechart versions works ?](#how-livechart-versions-works)
+
 ## Getting started
 
 Take a look at code examples :
