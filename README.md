@@ -9,36 +9,64 @@
 
 ## Features
 
-* Render many series withing a single chart
-* Automatic y-axis adjustement
-* Support chart area / window live resizing
+* Render many series (lines, smooth lines, area, bar) within a single chart
+* Smart y-axis computation
+* Highly configurable
 * Extendable
 
 ## Screenshots
 
 ![](docs/chart1.gif)  ![](docs/chart2.gif)
   
-## API
+# Documentation
  
 *N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to changes in a future release*
 
-### Chart
+## Getting started
+
+Take a look at code examples :
+
+* [General example](examples/live-chart.vala)
+* [Fixed max y-axis value](examples/fixed-max.vala)
+* [Hide parts](examples/hide-parts.vala)
+
+Compile and run with :
+
+```bash
+meson build
+ninja -C build
+./build/examples/example
+./build/examples/example-fixed-max
+./build/examples/example-hide-parts
+```
+
+## Dependencies
+
+| dependency | 
+|---------|
+| libgee-0.8-dev   |
+| libgtk-3-dev  |
+
+## API
+
+### Chart widget
+
+`Chart` widget is the main entrypoint of lour live-chart.
 
 ```vala  
 var chart = LiveChart.Chart();
 ```
 
-As `Chart` object derives from `Gtk.DrawingArea`, don't forget to attach it to a `Gtk.Container` :
+As `Chart` object derives from `Gtk.DrawingArea`, you need to attach it to a `Gtk.Container` :
 
 ```vala
 var window = new Gtk.Window();
 window.add(chart);
 ```
+#### Controlling refresh rate
 
-#### Refresh rate
-
-By default, the chart is rendered every `100ms`.
-If it doesn't fit your needs, you can adjust the rate :
+By default, the chart is rendered every `100ms` or very time a new data point is added.
+If it doesn't fit your needs, you can adjust the rate. The lower, the smoother.
 
 ```vala  
 var chart = LiveChart.Chart();
@@ -51,7 +79,7 @@ A `Serie` is basically a structure that :
 
 * Contains its own data set
 * Has a name, like `Temperature in Paris`
-* Know how it renders on the chart, like in `Bar`, `Line`...
+* Know how it renders on the chart, i.e `Bar`, `Line`, `SmoothLineArea`...
 
 #### Create a serie
 
@@ -102,7 +130,7 @@ chart.add_value(paris_temperature, 19.5);
 
 When you add a data point to a serie, data are stored in a `LiveChart.Values` object, which is nothing more than a wrapper around a `Gee.LinkedList`.
 To avoid your program growing too much in memory, be default, `LiveChart.Values` keeps only the last 1000 values.
-You can change that behaviour by injecting manually a `LiveChart.Values` object in your serie. 
+You can change that behaviour by injecting manually a `LiveChart.Values` object in your serie and specify the buffer size in `Values` constructor. 
 
 ```vala
 var serie_name = "Temperature in Paris";
@@ -144,7 +172,7 @@ var smooth_line = LiveChart.SmoothLine();
 smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
 ```
 
-For area series, you can control the area color via the `area_alpha: double` property (default : 0.1):
+For area series only, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
@@ -155,33 +183,52 @@ smooth_line.area_alpha = 0.5;
 The area color is always the same as `main_color` value.
 
 
-#### Configure a renderer
+#### Conveniant methods on `Serie`
 
 * Main color [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html)
 
-Conveniant method. Give back the main color to the underlying renderer.
+Give back the main color to the underlying renderer.
 
 ```vala
 var serie_name = "Temperature in Paris";
-var paris_temperature = new LiveChart.Serie(serie_name);
+var paris_temperature = new LiveChart.Serie(serie_name, LiveChart.SmoothLineArea());
 
 paris_temperature.set_main_color({ 0.0, 0.1, 0.8, 1.0});
 ```
 
-### Global chart configuration
-
-Configuration object is injected in `Chart` class constructor :
+is the same thing than :
 
 ```vala
-var config = new LiveChart.Config();
+var renderer = LiveChart.SmoothLineArea();
+var serie_name = "Temperature in Paris";
+var paris_temperature = new LiveChart.Serie(serie_name, renderer);
+
+renderer.main_color = Gdk.RGBA() {red = 0, green = 0.1, blue = 0.8, alpha = 1};;
+```
+
+### Chart configuration
+
+The Configuration object can be retrieved from `Chart.config` property for further adjustments :
+
+```vala
+var chart = new LiveChart.Chart();
+var config = chart.config;
+// Adjust the configuration
+```
+
+You can also inject the `Config` object to the chart constructor if you prefer to adjust is before chart first renderer :
+
+```vala
+var config = LiveChart.Config();
+// Adjust the configuration
 var chart = new LiveChart.Chart(config);
 ```
 
 #### Axis configuration
 
-#### Common configuration
+##### Labels (x and y axis)
 
-##### Axis labels
+Labels are the time for the x-axis and values for the y-axis.
 
 * Hidding axis labels
 
@@ -194,31 +241,9 @@ axis = config.y_axis;
 axis.labels.visible = false;
 ```
 
-* Hidding axis
-
-```vala
-var axis;
-
-axis = config.x_axis;
-//or
-axis = config.y_axis;
-axis.axis.visible = false;
-```
-
-* Hidding both axis & labels
-
-```vala
-var axis;
-
-axis = config.x_axis;
-//or
-axis = config.y_axis;
-axis.visible = false;
-```
-
 ##### Axis lines
 
-Axis lines are horizontal or vertical lines - depending on which axis they're attached - aligned on labels to helps reading.
+Axis lines are horizontal or vertical guidelines - depending on which axis they're attached - aligned on labels.
 
 ![Line axis](docs/axis_lines_config.png)
 
@@ -268,7 +293,7 @@ axis = config.x_axis;
 axis = config.y_axis;
 axis.lines.visible = false;
 ```
-##### Main axis (a.k.a abscissa and ordinate line)
+##### Main axis (a.k.a x and y axis, or abscissa and ordinate)
 
 The main axis can be configured via the `axis` attribute :
 
@@ -307,6 +332,8 @@ var x_axis = config.x_axis;
 x_axis.tick_interval = 10; // 10 seconds between each ticks
 ```
 
+The lower is the value, the faster the data points are moving from right to left.
+
 * Tick length (*in pixels*, default 60)
 
 Define the distance, in pixels, between each ticks on x-axis.
@@ -341,7 +368,12 @@ y_axis.fixed_max = 100.0;
 y_axis.tick_interval = 25.0;
 ```
 
-Sometimes, you won't know the fixed max value. Think about the total memory available a system. In that case, you may want to cap it a bit higher in order to keep optimal chart ventilation.
+With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
+
+![](docs/y_axis_fixed_max.png)
+
+
+Sometimes, you won't know the fixed max value. Think about the total memory available on a system. In that case, you may want to cap it a bit higher in order to keep optimal chart ventilation.
 For instance, if the max value is `8.2`, you may want to ceil it to `9`, or if the max value is `859` you may want to ceil it to `900`.
 
 For that purpose, use `LiveChart.cap` method :
@@ -352,13 +384,9 @@ y_axis.unit = "GB";
 y_axis.fixed_max = LiveChart.cap((int) max_mem));
 ```
 
-![](docs/y_axis_fixed_max.png)
-
-With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
-
 * Ratio threshold (default 1.118)
 
-When not using ``fixed_max` options, the chart drawable area is 1.118 times higher than needed to display all points. You can reduce or increase that ratio :
+When not using `fixed_max` options, the chart drawable area is 1.118 times higher than needed to display all points. You can reduce or increase that ratio :
 
 ```vala
 var y_axis = config.y_axis;
@@ -450,6 +478,30 @@ config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top =
 
 ![](docs/hide_parts_no_paddings.png)
 
+For hidden labels only, refer to [axis labels](#labels-x-and-y-axis)
+
+* Hidding axis
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.axis.visible = false;
+```
+
+* Hidding both axis & labels
+
+```vala
+var axis;
+
+axis = config.x_axis;
+//or
+axis = config.y_axis;
+axis.visible = false;
+```
+
 ### Programmatic export
 
 You can export your chart in `PNG` format :
@@ -459,28 +511,12 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## Examples
+### How Livechart versions works ?
 
-Example source code
+* For each new feature, the `minor` version number will be bumped
+* For each bug fix, small improvement or documentation update, the `patch` version number will be bumped
 
-* [General example](examples/live-chart.vala)
-* [Fixed max y-axis value](examples/fixed-max.vala)
-* [Hide parts](examples/hide-parts.vala)
+We'll do our best to never break the API on `minor` and `path` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
 
-Compile and run with :
+Some classes, structs, methods, attributes or property will be marked as `Deprecated`, please check the compiler warnings about them. All the stuff marked as `Deprecated` will be removed from Livechart `2.0.0`, one day...
 
-```bash
-meson build
-ninja -C build
-./build/examples/example
-./build/examples/example-fixed-max
-./build/examples/example-hide-parts
-```
-
-## Dependencies
-
-| dependency | 
-|---------|
-| libcairo2-dev   |
-| libgee-0.8-dev   |
-| libgtk-3-dev  |
