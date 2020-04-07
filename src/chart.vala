@@ -6,14 +6,14 @@ namespace LiveChart {
     {
         EXPORT_ERROR
     }
-    
+
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
         public Drawable background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
-        
-        private Config config;
+        public Config config;
+
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
         private uint source_timeout = 0;
 
