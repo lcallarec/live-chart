@@ -1,12 +1,5 @@
 namespace LiveChart { 
 
-    public class Axis : Object {
-        public bool visible {get; set; }
-        public Axis() {
-            visible = true;
-        }
-    }
-
     public class Labels {
         public bool visible {get; set; }
 
@@ -21,7 +14,7 @@ namespace LiveChart {
         public float tick_length { get; set; default = 60;}
         public bool visible { get; set; default = true; }
         public Labels labels = new Labels();
-        public Axis axis = new Axis();
+        public Path axis = new Path();
         public LiveChart.Path lines = new LiveChart.Path();
 
         public double get_ratio() {
@@ -45,7 +38,7 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
 
         public Labels labels = new Labels();
-        public Axis axis = new Axis();
+        public Path axis = new Path();
         public LiveChart.Path lines = new LiveChart.Path();
 
         [Version (deprecated = true, deprecated_since = "1.0.0b7")]        
