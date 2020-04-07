@@ -1,8 +1,8 @@
 const int SURFACE_WIDTH = 10;
 const int SURFACE_HEIGHT = 10;
 
-void cairo_background(Cairo.Context context, int? width = null, int? height = null) {
-    context.set_source_rgba(0.0, 0.0, 0.0, 1.0);
+void cairo_background(Cairo.Context context, Gdk.RGBA color = {0.0, 0.0, 0.0, 1.0}, int? width = null, int? height = null) {
+    context.set_source_rgba(color.red, color.green, color.blue, color.alpha);
     context.rectangle(0, 0, width != null ? width : SURFACE_WIDTH, height != null ? height : SURFACE_HEIGHT);
     context.fill();
 }
@@ -40,12 +40,12 @@ private void register_cairo() {
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
 
-        var black = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0};
+        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0};
         var blue = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 1.0, alpha = 1.0};
 
-        cairo_background(context, WIDTH, HEIGHT);
+        cairo_background(context, red, WIDTH, HEIGHT);
 
-        context.set_antialias (Cairo.Antialias.NONE);
+        context.set_antialias(Cairo.Antialias.NONE);
 
         context.set_line_width(0.5);
         context.set_source_rgba(blue.red, blue.green, blue.blue, blue.alpha);
@@ -64,9 +64,9 @@ private void register_cairo() {
         var from_coords = color_at(pixbuff, WIDTH, HEIGHT);
 
         //Then
-        assert(from_coords(0, 0) == black);
+        assert(from_coords(0, 0) == red);
         assert(from_coords(0, 1) == blue);
         assert(from_coords(1, 0) == blue);
-        assert(from_coords(1, 1) == black);
+        assert(from_coords(1, 1) == red);
     });
 }
