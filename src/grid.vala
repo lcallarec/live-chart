@@ -42,18 +42,22 @@ namespace LiveChart {
         }
 
         protected void render_abscissa(Context ctx, Config config) {
-            if (config.y_axis.visible && config.y_axis.axis.visible) {
+            if (config.x_axis.visible && config.x_axis.axis.visible) {
+                config.x_axis.axis.configure(ctx);
                 ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
                 ctx.line_to(config.width - config.padding.right + 0.5, config.height - config.padding.bottom + 0.5);
-                ctx.stroke();       
+                ctx.stroke();
+                restore(ctx);
             }
         }
-
+        
         protected void render_ordinate(Context ctx, Config config) {
-            if (config.x_axis.visible && config.x_axis.axis.visible) {            
+            if (config.y_axis.visible && config.y_axis.axis.visible) {       
+                config.y_axis.axis.configure(ctx);     
                 ctx.move_to(config.padding.left + 0.5, config.height - config.padding.bottom + 0.5);
                 ctx.line_to(config.padding.left + 0.5, config.padding.top + 0.5);
                 ctx.stroke();
+                restore(ctx);
             }
         }
 

@@ -257,6 +257,7 @@ axis.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
 
 For more information about cairo dashes, please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
 
+
 * Hidding lines
 
 ```vala
@@ -266,6 +267,33 @@ axis = config.x_axis;
 //or
 axis = config.y_axis;
 axis.lines.visible = false;
+```
+##### Main axis (a.k.a abscissa and ordinate line)
+
+The main axis can be configured via the `axis` attribute :
+
+```vala
+var axis_config;
+
+axis_config = config.x_axis.axis;
+//or
+axis_config = config.y_axis.axis;
+```
+
+The configuration is the same than [Axis lines](#axis-lines) :
+
+
+```vala
+var axis_config;
+
+axis_config = config.x_axis.axis;
+//or
+axis_config = config.y_axis.axis;
+
+axis_config.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 0.2}; //Light grey
+axis_config.lines.width = 1.0;
+axis_config.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
+axis_config.visible = false;
 ```
 
 ##### x-axis
