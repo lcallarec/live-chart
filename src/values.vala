@@ -2,6 +2,11 @@ using Gee;
 
 namespace LiveChart {
     
+    public struct TimestampedValue {
+        public double timestamp;
+        public double value;
+    }
+
     public class Values : LinkedList<TimestampedValue?> {
 
         public Bounds bounds {

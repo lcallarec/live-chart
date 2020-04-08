@@ -20,7 +20,6 @@ sources = files(
     'smooth_line_area.vala',
     'smooth_line.vala',
     'utils.vala',
-    'value.vala',
     'values.vala'
 )
 
