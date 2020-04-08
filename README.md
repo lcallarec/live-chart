@@ -237,13 +237,13 @@ var config = LiveChart.Config();
 var chart = new LiveChart.Chart(config);
 ```
 
-### Axis configuration
+### Axes configuration
 
 #### Labels (x and y axis)
 
 Labels are the time for the x-axis and values for the y-axis.
 
-* Hidding axis labels
+* Hidding axes labels
 
 ```vala
 var axis;
@@ -306,9 +306,9 @@ axis = config.x_axis;
 axis = config.y_axis;
 axis.lines.visible = false;
 ```
-#### Main axis (a.k.a x and y axis, or abscissa and ordinate)
+#### Main axes (a.k.a x and y axis, or abscissa and ordinate)
 
-The main axis can be configured via the `axis` attribute :
+Main axes can be configured via the `axis` attribute of each axis :
 
 ```vala
 var axis_config;
@@ -493,7 +493,7 @@ config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top =
 
 For hidden labels only, refer to [axis labels](#labels-x-and-y-axis)
 
-* Hidding axis
+* Hidding axes
 
 ```vala
 var axis;
@@ -504,7 +504,7 @@ axis = config.y_axis;
 axis.axis.visible = false;
 ```
 
-* Hidding both axis & labels
+* Hidding both axes & labels
 
 ```vala
 var axis;
