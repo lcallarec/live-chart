@@ -2,6 +2,12 @@ using Gee;
 
 namespace LiveChart {
     
+     public struct Point {
+        public double x;
+        public double y;
+        public double height;
+    }
+    
     public class Points : Object {
 
         private Gee.ArrayList<Point?> points = new Gee.ArrayList<Point?>();
