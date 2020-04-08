@@ -61,7 +61,9 @@ ninja -C build
 
 ## API
 
-### Chart widget
+[Full API documentation here](https://lcallarec.github.io/live-chart/Livechart/LiveChart.html)
+
+## Chart widget
 
 `Chart` widget is the main entrypoint of lour live-chart.
 
@@ -75,7 +77,7 @@ As `Chart` object derives from `Gtk.DrawingArea`, you need to attach it to a `Gt
 var window = new Gtk.Window();
 window.add(chart);
 ```
-#### Controlling refresh rate
+### Controlling refresh rate
 
 By default, the chart is rendered every `100ms` or very time a new data point is added.
 If it doesn't fit your needs, you can adjust the rate. The lower, the smoother.
@@ -85,7 +87,7 @@ var chart = LiveChart.Chart();
 vhart.refresh_every(1000); // refresh every 1000ms
 ```
 
-### Series
+## Series
 
 A `Serie` is basically a structure that :
 
@@ -93,7 +95,7 @@ A `Serie` is basically a structure that :
 * Has a name, like `Temperature in Paris`
 * Know how it renders on the chart, i.e `Bar`, `Line`, `SmoothLineArea`...
 
-#### Create a serie
+### Create a serie
 
 ```vala
 // Serie with a default Line renderer
@@ -125,7 +127,7 @@ paris_temperature.name = "Temperature in Paris (°F)";
 paris_temperature.name = "Temperature in Paris (%s)".printf(last_value);
 ```
 
-#### Adding data points
+### Adding data points
 
 Your `Serie` must have been registererd to the `Chart` before being able to add data points to this serie. 
 
@@ -138,7 +140,7 @@ chart.add_serie(paris);
 chart.add_value(paris_temperature, 19.5);
 ```
 
-#### Datapoint buffer
+### Datapoint buffer
 
 When you add a data point to a serie, data are stored in a `LiveChart.Values` object, which is nothing more than a wrapper around a `Gee.LinkedList`.
 To avoid your program growing too much in memory, be default, `LiveChart.Values` keeps only the last 1000 values.
@@ -152,30 +154,30 @@ var paris_temperature = new LiveChart.Serie(serie_name, new LiceChart.Line(value
 chart.add_serie(paris);
 ```
 
-### Serie renderer
+## Serie renderer
 
 There's currently 5 built-in series available:
 
-#### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
 ![](resources/serie_line.png)
 
 Line serie connect each data point with a straight segment.
 
-#### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
+### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
 ![](resources/serie_smooth_line.png)
 
 Smooth line serie connect each data point with a bezier spline for a smoother rendering.
 
-#### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
 ![](resources/serie_bar.png)
 
-#### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
+### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
 ![](resources/serie_line_area.png)
 
-#### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
+### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
 ![](resources/serie_smooth_line_area.png)
 
-#### Serie renderer API
+### Serie renderer API
 
 For all series, you can control the line or the bar color via the `main_color: Gdk.RGBA` property:
 
@@ -194,8 +196,7 @@ smooth_line.area_alpha = 0.5;
 
 The area color is always the same as `main_color` value.
 
-
-#### Conveniant methods on `Serie`
+### Conveniant methods on `Serie`
 
 * Main color [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html)
 
@@ -218,7 +219,7 @@ var paris_temperature = new LiveChart.Serie(serie_name, renderer);
 renderer.main_color = Gdk.RGBA() {red = 0, green = 0.1, blue = 0.8, alpha = 1};;
 ```
 
-### Chart configuration
+## Chart configuration
 
 The Configuration object can be retrieved from `Chart.config` property for further adjustments :
 
@@ -236,9 +237,9 @@ var config = LiveChart.Config();
 var chart = new LiveChart.Chart(config);
 ```
 
-#### Axis configuration
+### Axis configuration
 
-##### Labels (x and y axis)
+#### Labels (x and y axis)
 
 Labels are the time for the x-axis and values for the y-axis.
 
@@ -253,7 +254,7 @@ axis = config.y_axis;
 axis.labels.visible = false;
 ```
 
-##### Axis lines
+#### Axis lines
 
 Axis lines are horizontal or vertical guidelines - depending on which axis they're attached - aligned on labels.
 
@@ -305,7 +306,7 @@ axis = config.x_axis;
 axis = config.y_axis;
 axis.lines.visible = false;
 ```
-##### Main axis (a.k.a x and y axis, or abscissa and ordinate)
+#### Main axis (a.k.a x and y axis, or abscissa and ordinate)
 
 The main axis can be configured via the `axis` attribute :
 
@@ -333,7 +334,7 @@ axis_config.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
 axis_config.visible = false;
 ```
 
-##### x-axis
+#### x-axis
 
 * Tick interval (*in seconds*, default 10)
 
@@ -358,7 +359,7 @@ x_axis.tick_length = 60; // 60 pixels between each ticks
 
 For example, with `tick_interval=10`  and `tick_length=60`, each second is displayed as 6 pixels on the chart.
 
-##### y-axis
+#### y-axis
 
 * Unit
 
@@ -406,7 +407,7 @@ y_axis.ratio_threshold = 1.0f; // The higher point will always be on the higher 
 y_axis.ratio_threshold = 2.0f; // The higher point will always be on the middle of the drawing area
 ```
 
-##### Paddings
+#### Paddings
 
 Paddings are distance between the chart window and the real drawing area where your data will be displayed.
 
@@ -425,7 +426,7 @@ public Padding() {
 */
 ```
 
-##### Smart paddings
+#### Smart paddings
 
 By default, because side paddings may depends on text length and font size, smart auto-padding feature is set to `AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT`. It means all paddings are smart computed.
 
@@ -443,7 +444,7 @@ To complety disable smart padding, set `config.padding.smart` to `AutoPadding.NO
 config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM;
 ```
 
-##### Global paddings
+#### Global paddings
 
 Paddings can be set - in pixel - for each sides. If you need to force a padding, remember to disable the smart padding for this side.
 
@@ -452,7 +453,7 @@ Paddings can be set - in pixel - for each sides. If you need to force a padding,
 config.padding.smart = LiveChart.AutoPadding.RIGHT | LiveChart.AutoPadding.BOTTOM | LiveChart.AutoPadding.LEFT;
 config.padding.top = 10; // in pixels
 ```
-### Background
+## Background
 
 Chart has a default colored background that can be changed via the `Background.main_color` attribute :
 
@@ -461,7 +462,7 @@ var chart = new LiveChart.Chart();
 chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
 
-### Hidding chart parts
+## Hidding chart parts
 
 You can prevent all chart parts from being displayed, by using the `visible` property of each part.
 
@@ -514,7 +515,7 @@ axis = config.y_axis;
 axis.visible = false;
 ```
 
-### Programmatic export
+## Programmatic export
 
 You can export your chart in `PNG` format :
 
@@ -523,7 +524,7 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-### How Livechart versions works ?
+## How Livechart versions works ?
 
 * For each new feature, the `minor` version number will be bumped
 * For each bug fix, small improvement or documentation update, the `patch` version number will be bumped
