@@ -17,6 +17,11 @@ namespace LiveChart {
         public Path axis = new Path();
         public LiveChart.Path lines = new LiveChart.Path();
 
+        public XAxis() {
+            axis.color = {0.5, 0.5, 0.5, 0.5};
+            lines.color = {0.5, 0.5, 0.5, 0.2};
+        }
+
         public double get_ratio() {
             return tick_length / tick_interval;
         }
@@ -53,6 +58,8 @@ namespace LiveChart {
 
         public YAxis(string unit = "") {
             this.unit = unit;
+            axis.color = {0.5, 0.5, 0.5, 0.5};            
+            lines.color = {0.5, 0.5, 0.5, 0.2};            
             bounds.notify["upper"].connect(() => {
                 this.ticks = get_ticks();
             });
