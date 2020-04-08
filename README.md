@@ -149,7 +149,7 @@ You can change that behaviour by injecting manually a `LiveChart.Values` object 
 ```vala
 var serie_name = "Temperature in Paris";
 Values values = new Values(50000); // buffer of 50 000 data points
-var paris_temperature = new LiveChart.Serie(serie_name, new LiceChart.Line(values));
+var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(values));
 
 chart.add_serie(paris);
 ```
@@ -477,7 +477,7 @@ chart.grid.visible = false;   //Hidding grid
 You can also programmatically hide series :
 
 ```vala
-var paris_temperature = new LiveChart.Serie("CPU usage", new LiceChart.LineArea());
+var paris_temperature = new LiveChart.Serie("CPU usage", new LiveChart.LineArea());
 
 paris_temperature.visible = false;
 ```
