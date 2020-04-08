@@ -16,7 +16,7 @@
 
 ## Screenshots
 
-![](docs/chart1.gif)  ![](docs/chart2.gif)
+![](resources/chart1.gif)  ![](resources/chart2.gif)
   
 # Documentation
  
@@ -157,23 +157,23 @@ chart.add_serie(paris);
 There's currently 5 built-in series available:
 
 #### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](docs/serie_line.png)
+![](resources/serie_line.png)
 
 Line serie connect each data point with a straight segment.
 
 #### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
-![](docs/serie_smooth_line.png)
+![](resources/serie_smooth_line.png)
 
 Smooth line serie connect each data point with a bezier spline for a smoother rendering.
 
 #### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](docs/serie_bar.png)
+![](resources/serie_bar.png)
 
 #### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
-![](docs/serie_line_area.png)
+![](resources/serie_line_area.png)
 
 #### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
-![](docs/serie_smooth_line_area.png)
+![](resources/serie_smooth_line_area.png)
 
 #### Serie renderer API
 
@@ -257,7 +257,7 @@ axis.labels.visible = false;
 
 Axis lines are horizontal or vertical guidelines - depending on which axis they're attached - aligned on labels.
 
-![Line axis](docs/axis_lines_config.png)
+![Line axis](resources/axis_lines_config.png)
 
 * Line color
 
@@ -382,7 +382,7 @@ y_axis.tick_interval = 25.0;
 
 With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
 
-![](docs/y_axis_fixed_max.png)
+![](resources/y_axis_fixed_max.png)
 
 
 Sometimes, you won't know the fixed max value. Think about the total memory available on a system. In that case, you may want to cap it a bit higher in order to keep optimal chart ventilation.
@@ -488,7 +488,7 @@ var config = new LiveChart.Config();
 config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
 ```
 
-![](docs/hide_parts_no_paddings.png)
+![](resources/hide_parts_no_paddings.png)
 
 For hidden labels only, refer to [axis labels](#labels-x-and-y-axis)
 
