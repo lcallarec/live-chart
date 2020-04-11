@@ -527,7 +527,7 @@ chart.to_png(filename);
 
 ## Deal with your own data
 
-LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.TimestampedValue.html) enum to store recorded values.
+LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.TimestampedValue.html) struct to store recorded values.
 Basically, it stores the value, as a double, and a timestamp.
 If you use to store in a `Gee.Collection<double?>`, without any timestamp information - most of the time because you know the interval between each points - and need to import them in a LiveChart, don't panic, there's a solution. 
 
