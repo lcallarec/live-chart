@@ -34,4 +34,33 @@ private void register_chart() {
             assert(e is LiveChart.ChartError.EXPORT_ERROR);
         }
     });
+
+    Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+
+        var unaware_timestamp_collection = new Gee.ArrayList<double?>();
+        unaware_timestamp_collection.add(5);
+        unaware_timestamp_collection.add(10);
+        unaware_timestamp_collection.add(15);
+
+        var timespan_between_value = 5000;
+
+        //when
+        var now = GLib.get_real_time() / 1000;
+        chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
+
+        //then
+        assert(serie.get_values().size == 3);
+        assert(serie.get_values().get(0).value == 5);
+        assert(serie.get_values().get(1).value == 10);
+        assert(serie.get_values().get(2).value == 15);
+        assert(serie.get_values().get(2).timestamp == now);
+        assert(serie.get_values().get(1).timestamp == now - 5000);
+        assert(serie.get_values().get(0).timestamp == now - 10000);
+
+        assert(chart.config.y_axis.get_bounds().lower == 5);
+        assert(chart.config.y_axis.get_bounds().upper == 15);
+    });    
 }

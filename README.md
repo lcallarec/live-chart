@@ -32,6 +32,7 @@
 - [Background](#background)
 - [Hidding chart parts](#hidding-chart-parts)
 - [Programmatic export](#programmatic-export)
+- [Deal with your own data](#deal-with-your-own-data)
 - [How Livechart versions works ?](#how-livechart-versions-works)
 
 ## Getting started
@@ -524,7 +525,35 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## How Livechart versions works ?
+## Deal with your own data
+
+LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.TimestampedValue.html) enum to store recorded values.
+Basically, it stores the value, as a double, and a timestamp.
+If you use to store in a `Gee.Collection<double?>`, without any timestamp information - most of the time because you know the interval between each points - and need to import them in a LiveChart, don't panic, there's a solution. 
+
+Use `Chart.add_unaware_timestamp_collection()` :
+
+```vala
+// Your own dataset
+var unaware_timestamp_collection = new Gee.ArrayList<double?>();
+unaware_timestamp_collection.add(5);
+unaware_timestamp_collection.add(10);
+unaware_timestamp_collection.add(15);
+
+var chart = new LiveChart.Chart();
+var serie = new LiveChart.Serie("CPU usage");
+
+//Potentially, you may want to clean up the existing data
+serie.clear();
+
+//You know that, in your own model, there's 2000ms between each of your points
+var timespan_between_value = 2000;
+chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
+```
+
+Et voilà !
+
+## How LiveChart versions works ?
 
 * For each new feature, the `minor` version number will be bumped
 * For each bug fix, small improvement or documentation update, the `patch` version number will be bumped

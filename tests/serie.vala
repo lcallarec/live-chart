@@ -31,5 +31,5 @@ private void register_serie() {
         
         //then
         assert(serie.get_values().size == 0);
-    });    
+    });   
 }

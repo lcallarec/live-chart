@@ -39,6 +39,17 @@ namespace LiveChart {
             config.y_axis.update_bounds(value);
         }
 
+        public void add_unaware_timestamp_collection(Serie serie, Gee.Collection<double?> collection, int timespan_between_value) {
+            var ts = GLib.get_real_time() / 1000 - (collection.size * timespan_between_value);
+            var values = serie.get_values();
+            collection.foreach((value) => {
+                ts += timespan_between_value;
+                values.add({ts, value});
+                config.y_axis.update_bounds(value);
+                return true;
+            });
+        }
+
         public void to_png(string filename) throws Error {
             var window = this.get_window();
             if (window == null) {
