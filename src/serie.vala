@@ -28,7 +28,7 @@ namespace LiveChart {
             });
         }
 
-        public override void draw(Context ctx, Config config) {
+        public void draw(Context ctx, Config config) {
             if (visible) {
                 renderer.draw(ctx, config);
             }
