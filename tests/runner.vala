@@ -20,6 +20,7 @@ void main (string[] args) {
     register_background();
     register_legend();
     register_cairo();
+    register_serie();
 
     Test.run();
 }

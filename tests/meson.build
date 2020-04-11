@@ -14,6 +14,7 @@ test_sources = files(
     'line.vala',
     'points.vala',
     'runner.vala',
+    'serie.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
     'utils.vala',    

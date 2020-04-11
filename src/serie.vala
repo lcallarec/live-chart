@@ -34,5 +34,10 @@ namespace LiveChart {
         public Gdk.RGBA get_main_color() {
             return this.renderer.main_color;
         }
+
+        public Values get_values() {
+            return this.renderer.values;
+        }
+
     }
 }
