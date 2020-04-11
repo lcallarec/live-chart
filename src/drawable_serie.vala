@@ -21,7 +21,8 @@ namespace LiveChart {
             width=0,
             height=0
         };
-
+        
+        protected Values values;
         public Values get_values() {
             return this.values;
         }
@@ -30,7 +31,6 @@ namespace LiveChart {
         public BoundingBox get_bounding_box() {
             return bounding_box;
         }
-        protected Values values;
         
         protected void debug(Context ctx) {
             var debug = Environment.get_variable("LIVE_CHART_DEBUG");
