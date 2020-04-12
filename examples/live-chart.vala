@@ -5,17 +5,20 @@ public class Example : Gtk.Window {
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
-        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
+        var heat = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
         heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
         rss.set_main_color({ 0.8, 0.1, 0.1, 1.0});
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.set_main_color({ 0.0, 0.1, 0.8, 1.0});
+        heap.set_main_color({ 0.1, 0.8, 0.7, 1.0});
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
+        config.x_axis.tick_length = 60;
+        config.x_axis.tick_interval = 10;
+        config.x_axis.lines.visible = false;
 
         var chart = new LiveChart.Chart(config);
 
@@ -26,7 +29,7 @@ public class Example : Gtk.Window {
         double rss_value = 200.0;
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.13) {
-                var new_value = Random.double_range(-50, 60.0);
+                var new_value = Random.double_range(-50, 50.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
             chart.add_value(rss, rss_value);
@@ -40,7 +43,6 @@ public class Example : Gtk.Window {
                 var new_value = Random.double_range(-10, 10.0);
                 if (heap_value + new_value > 0) heap_value += new_value;
             }
-            heap.name = heap_value.to_string();
             chart.add_value(heap, heap_value);
             return true;
         });
