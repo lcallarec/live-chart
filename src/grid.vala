@@ -3,7 +3,7 @@ using Cairo;
 namespace LiveChart {
 
     public class Grid : Drawable, Object {
-        private const int ABSCISSA_TIME_PADDING = 14;
+        public const int ABSCISSA_TIME_PADDING = 5;
         protected BoundingBox bounding_box = BoundingBox() {
             x=0, 
             y=0, 
@@ -83,7 +83,7 @@ namespace LiveChart {
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
                     
-                    ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + Grid.ABSCISSA_TIME_PADDING);
+                    ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + config.x_axis.labels.extents.height + Grid.ABSCISSA_TIME_PADDING);
                     ctx.show_text(text);
                 }
                 time -= (int) config.x_axis.tick_interval;

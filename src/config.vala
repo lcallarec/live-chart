@@ -67,12 +67,12 @@ namespace LiveChart {
         }
 
         public void configure(Context ctx, Legend? legend) {
-            var max_value_extents = ordinate_value_extents(ctx);
-            var time_format_extents = abscissa_time_extents(ctx);
+            configure_y_max_labels_extents(ctx);
+            configure_x_max_labels_extents(ctx);
 
-            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) time_format_extents.width / 2;
-            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = 10 + (int) max_value_extents.width;
-            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) time_format_extents.height;
+            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) x_axis.labels.extents.width / 2;
+            if (AutoPadding.LEFT in this.padding.smart) this.padding.left = (int) y_axis.labels.extents.width;
+            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) x_axis.labels.extents.height;
             if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
             
             if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
@@ -80,39 +80,39 @@ namespace LiveChart {
             this.y_axis.update(this.boundaries().height);
         }
 
-        private TextExtents ordinate_value_extents(Context ctx) {
-            TextExtents max_value_extents;
+        private void configure_y_max_labels_extents(Context ctx) {
+            TextExtents extents;
             if (y_axis.visible && y_axis.labels.visible) {
-                ctx.text_extents(y_axis.get_max_displayed_value(), out max_value_extents);
+                ctx.text_extents(y_axis.get_max_displayed_value() + y_axis.unit, out extents);
             } else {
-                max_value_extents = TextExtents();
-                max_value_extents.height = 0.0;
-                max_value_extents.width = 0.0;
-                max_value_extents.x_advance = 0.0;
-                max_value_extents.x_bearing = 0.0;
-                max_value_extents.y_advance = 0.0;
-                max_value_extents.y_bearing  = 0.0;
+                extents = TextExtents();
+                extents.height = 0.0;
+                extents.width = 0.0;
+                extents.x_advance = 0.0;
+                extents.x_bearing = 0.0;
+                extents.y_advance = 0.0;
+                extents.y_bearing  = 0.0;
             }
-
-            return max_value_extents;
+            
+            y_axis.labels.extents = extents;
         }
 
-        private TextExtents abscissa_time_extents(Context ctx) {
-            TextExtents time_extents;
+        private void configure_x_max_labels_extents(Context ctx) {
+            TextExtents extents;
             if (x_axis.visible && x_axis.labels.visible) {
                 var time_format = "00:00:00";
-                ctx.text_extents(time_format, out time_extents);
+                ctx.text_extents(time_format, out extents);
             } else {
-                time_extents = TextExtents();
-                time_extents.height = 0.0;
-                time_extents.width = 0.0;
-                time_extents.x_advance = 0.0;
-                time_extents.x_bearing = 0.0;
-                time_extents.y_advance = 0.0;
-                time_extents.y_bearing  = 0.0;
+                extents = TextExtents();
+                extents.height = 0.0;
+                extents.width = 0.0;
+                extents.x_advance = 0.0;
+                extents.x_bearing = 0.0;
+                extents.y_advance = 0.0;
+                extents.y_bearing  = 0.0;
             }
 
-            return time_extents;
+            x_axis.labels.extents = extents;
         }
     }
 }

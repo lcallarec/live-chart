@@ -34,29 +34,36 @@ namespace LiveChart {
      public class HorizontalLegend : Legend {
         
         private const int COLOR_BLOCK_WIDTH = 15;
+        private const int COLOR_BLOCK_HEIGHT = 10;
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
+                var y_padding = get_y_padding(config);
                 var boundaries = config.boundaries();
                 var pos = 0;
                 series.foreach((serie) => {
                     ctx.set_source_rgba(serie.get_main_color().red, serie.get_main_color().green, serie.get_main_color().blue, 1);
-                    ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + 22, HorizontalLegend.COLOR_BLOCK_WIDTH, 10);
+                    ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
                     ctx.fill();
 
-                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + 20 + Config.FONT_SIZE);
+                    TextExtents extents = name_extents(serie.name, ctx);
+
+                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
                     ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
                     ctx.show_text(serie.name);
-                    pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) name_extents(serie.name, ctx).width + 20;
+                    pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
 
                     return true;
                 });
                 ctx.stroke();
-                this.update_bounding_box(boundaries, pos);
+                this.update_bounding_box(config, pos);
                 this.debug(ctx);
             }
-            }
+        }
    
+        private int get_y_padding(Config config) {
+            return (int) (Grid.ABSCISSA_TIME_PADDING * 2 + config.x_axis.labels.extents.height);
+        }
 
         private TextExtents name_extents(string name, Context ctx) {
             TextExtents name_extents;
@@ -65,10 +72,11 @@ namespace LiveChart {
             return name_extents;
         }
 
-        private void update_bounding_box(Boundaries boundaries, int width) {
+        private void update_bounding_box(Config config, int width) {
+            var boundaries = config.boundaries();
             this.bounding_box = BoundingBox() {
                 x=boundaries.x.min,
-                y=boundaries.y.max + 22,
+                y=boundaries.y.max + get_y_padding(config),
                 width=width,
                 height=10
             };
