@@ -1,25 +1,4 @@
-using Cairo;
-
 namespace LiveChart { 
-
-    public class Labels {
-        public bool visible {get; set; }
-        public TextExtents extents { get; set; }
-        public Font font { get; set; }
-
-        public Labels() {
-            visible = true;
-            extents = TextExtents();
-            font = new Font();
-            
-            extents.height = 0.0;
-            extents.width = 0.0;
-            extents.x_advance = 0.0;
-            extents.x_bearing = 0.0;
-            extents.y_advance = 0.0;
-            extents.y_bearing  = 0.0;
-        }
-    }
 
     public class XAxis {
 
@@ -28,7 +7,7 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
         public Labels labels = new Labels();
         public Path axis = new Path();
-        public LiveChart.Path lines = new LiveChart.Path();
+        public Path lines = new Path();
 
         public XAxis() {
             axis.color = {0.5, 0.5, 0.5, 0.5};

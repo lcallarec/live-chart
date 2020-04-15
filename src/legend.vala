@@ -5,6 +5,7 @@ namespace LiveChart {
      public abstract class Legend : Drawable, Object {
 
         public bool visible { get; set; default = true; }
+        public Labels labels = new Labels();
 
         protected Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
         protected BoundingBox bounding_box = BoundingBox() {
@@ -39,9 +40,6 @@ namespace LiveChart {
         public override void draw(Context ctx, Config config) {
             if (visible) {
                 
-                ctx.select_font_face("Sans serif", FontSlant.NORMAL, FontWeight.NORMAL);
-                ctx.set_font_size(10);
-
                 var y_padding = get_y_padding(config);
                 var boundaries = config.boundaries();
                 var pos = 0;
@@ -49,13 +47,12 @@ namespace LiveChart {
                     ctx.set_source_rgba(serie.get_main_color().red, serie.get_main_color().green, serie.get_main_color().blue, 1);
                     ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
                     ctx.fill();
-
-                    TextExtents extents = name_extents(serie.name, ctx);
-
-                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
-                    ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
-                    ctx.show_text(serie.name);
                     
+                    labels.font.configure(ctx);
+                    TextExtents extents = name_extents(serie.name, ctx);
+                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
+                    ctx.show_text(serie.name);
+
                     pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
 
                     return true;

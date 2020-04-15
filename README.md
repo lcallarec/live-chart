@@ -30,6 +30,7 @@
 - [Serie renderer](#serie-renderer)
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
+- [Legend](#legend)
 - [Hidding chart parts](#hidding-chart-parts)
 - [Programmatic export](#programmatic-export)
 - [Deal with your own data](#deal-with-your-own-data)
@@ -42,6 +43,7 @@ Take a look at code examples :
 * [General example](examples/live-chart.vala)
 * [Fixed max y-axis value](examples/fixed-max.vala)
 * [Hide parts](examples/hide-parts.vala)
+* [Label configuration](examples/configure-labels.vala)
 
 Compile and run with :
 
@@ -51,6 +53,7 @@ ninja -C build
 ./build/examples/example
 ./build/examples/example-fixed-max
 ./build/examples/example-hide-parts
+./build/examples/example-configure-labels
 ```
 
 ## Dependencies
@@ -479,6 +482,28 @@ Chart has a default colored background that can be changed via the `Background.m
 ```vala
 var chart = new LiveChart.Chart();
 chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
+```
+
+## Legend
+
+* Visibility
+
+```vala
+var chart = new LiveChart.Chart(config);
+
+chart.legend.visible = false; // Hide legend
+```
+
+* Legend font
+
+```vala
+var chart = new LiveChart.Chart(config);
+var legend = vhart.legend;
+
+legend.labels.font.size = 12;                      // uint8     In pixels
+legend.labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+legend.labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
+legend.labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 ```
 
 ## Hidding chart parts

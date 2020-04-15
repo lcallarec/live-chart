@@ -28,6 +28,11 @@ public class Example : Gtk.Window {
 
         var chart = new LiveChart.Chart(config);
 
+        chart.legend.labels.font.size = 14;
+        chart.legend.labels.font.color = {1, 1, 0, 1};
+        chart.legend.labels.font.weight = Cairo.FontWeight.BOLD;
+
+
         chart.add_serie(heap);
         chart.add_serie(rss);
          
