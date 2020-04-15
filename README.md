@@ -31,7 +31,7 @@
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
 - [Legend](#legend)
-- [Hidding chart parts](#hidding-chart-parts)
+- [Chart element visibility](#chart-element-visibility)
 - [Programmatic export](#programmatic-export)
 - [Deal with your own data](#deal-with-your-own-data)
 - [How Livechart versions works ?](#how-livechart-versions-works)
@@ -42,7 +42,7 @@ Take a look at code examples :
 
 * [General example](examples/live-chart.vala)
 * [Fixed max y-axis value](examples/fixed-max.vala)
-* [Hide parts](examples/hide-parts.vala)
+* [Hide chart elements](examples/hide-parts.vala)
 * [Label configuration](examples/configure-labels.vala)
 
 Compile and run with :
@@ -247,7 +247,7 @@ var chart = new LiveChart.Chart(config);
 
 Labels are the time for the x-axis and values for the y-axis.
 
-* Hidding axes labels
+* Axes labels visibility
 
 ```vala
 var axis;
@@ -318,7 +318,7 @@ axis.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
 For more information about cairo dashes, please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
 
 
-* Hidding lines
+* Lines visibility
 
 ```vala
 var axis;
@@ -506,7 +506,7 @@ legend.labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
 legend.labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 ```
 
-## Hidding chart parts
+## Chart element visibility
 
 You can prevent all chart parts from being displayed, by using the `visible` property of each part.
 
@@ -514,8 +514,8 @@ You can prevent all chart parts from being displayed, by using the `visible` pro
 var config = new LiveChart.Config();
 
 var chart = new LiveChart.Chart(config);
-chart.legend.visible = false; //Hidding legend
-chart.grid.visible = false;   //Hidding grid
+chart.legend.visible = false; //Hide legend
+chart.grid.visible = false;   //Hide grid
 ```
 
 You can also programmatically hide series :
@@ -535,9 +535,9 @@ config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top =
 
 ![](resources/hide_parts_no_paddings.png)
 
-For hidden labels only, refer to [axis labels](#labels-x-and-y-axis)
+In order to hide labels only, refer to [axis labels](#labels-x-and-y-axis)
 
-* Hidding axes
+* Axes visibility
 
 ```vala
 var axis;
@@ -548,7 +548,7 @@ axis = config.y_axis;
 axis.axis.visible = false;
 ```
 
-* Hidding both axes & labels
+* Both axes & labels visibility
 
 ```vala
 var axis;
