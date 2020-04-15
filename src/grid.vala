@@ -79,16 +79,17 @@ namespace LiveChart {
                 
                 // Labels
                 if (config.x_axis.visible && config.x_axis.labels.visible) {
+                    config.x_axis.labels.font.configure(ctx);
                     var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
                     
                     ctx.move_to(i + 0.5 - extents.width / 2, 0.5 + config.height - config.padding.bottom + config.x_axis.labels.extents.height + Grid.ABSCISSA_TIME_PADDING);
                     ctx.show_text(text);
+                    ctx.stroke();
                 }
                 time -= (int) config.x_axis.tick_interval;
             }
-            ctx.stroke();
         }
 
         protected void render_hgrid(Context ctx, Config config) {
@@ -110,17 +111,17 @@ namespace LiveChart {
 
                 //Labels
                 if (config.y_axis.visible && config.y_axis.labels.visible) {
+                    config.y_axis.labels.font.configure(ctx);
                     var value = format_for_y_axis(config.y_axis.unit, position);
     
                     TextExtents extents;
                     ctx.text_extents(value, out extents);
                     ctx.move_to(boundaries.x.min - extents.width - 5, y + (extents.height / 2) + 0.5);
                     ctx.show_text(value);
+                    ctx.stroke();
                 }
             }
-
-            ctx.stroke();
-          }
+        }
 
         protected void update_bounding_box(Config config) {
             var boundaries = config.boundaries();

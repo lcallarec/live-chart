@@ -249,10 +249,28 @@ Labels are the time for the x-axis and values for the y-axis.
 ```vala
 var axis;
 
-axis = config.x_axis;
+var labels;
+
+labels = config.x_axis.labels;
 //or
-axis = config.y_axis;
-axis.labels.visible = false;
+labels = config.y_axis.labels;
+
+labels.visible = false;
+```
+
+* Axes label fonts
+
+```vala
+var labels;
+
+labels = config.x_axis.labels;
+//or
+labels = config.y_axis.labels;
+
+labels.font.size = 12;                      // uint8     In pixels
+labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
+labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 ```
 
 #### Axis lines

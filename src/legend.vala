@@ -38,6 +38,10 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
+                
+                ctx.select_font_face("Sans serif", FontSlant.NORMAL, FontWeight.NORMAL);
+                ctx.set_font_size(10);
+
                 var y_padding = get_y_padding(config);
                 var boundaries = config.boundaries();
                 var pos = 0;
@@ -51,6 +55,7 @@ namespace LiveChart {
                     ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
                     ctx.set_source_rgba(0.4, 0.4, 0.4, 1.0);
                     ctx.show_text(serie.name);
+                    
                     pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
 
                     return true;

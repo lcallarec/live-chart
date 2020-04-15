@@ -9,6 +9,7 @@ sources = files(
     'config.vala',
     'drawable_serie.vala',
     'drawable.vala',
+    'font.vala',
     'grid.vala',
     'legend.vala',
     'line_area.vala',

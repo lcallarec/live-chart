@@ -41,9 +41,6 @@ namespace LiveChart {
 
     public class Config {
 
-        public const int FONT_SIZE = 10;
-        public const string FONT_FACE = "Sans serif";
-
         public int width {
             get; set; default = 0;
         }
@@ -83,6 +80,7 @@ namespace LiveChart {
         private void configure_y_max_labels_extents(Context ctx) {
             TextExtents extents;
             if (y_axis.visible && y_axis.labels.visible) {
+                y_axis.labels.font.configure(ctx);
                 ctx.text_extents(y_axis.get_max_displayed_value() + y_axis.unit, out extents);
             } else {
                 extents = TextExtents();
@@ -100,6 +98,7 @@ namespace LiveChart {
         private void configure_x_max_labels_extents(Context ctx) {
             TextExtents extents;
             if (x_axis.visible && x_axis.labels.visible) {
+                x_axis.labels.font.configure(ctx);
                 var time_format = "00:00:00";
                 ctx.text_extents(time_format, out extents);
             } else {
