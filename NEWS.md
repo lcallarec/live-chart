@@ -1,3 +1,36 @@
+# 1.5.0
+
+## New feature
+
+* Configure legend font
+
+```vala
+var chart = new LiveChart.Chart(config);
+var legend = vhart.legend;
+
+legend.labels.font.size = 12;                      // uint8     In pixels
+legend.labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+legend.labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
+legend.labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
+```
+
+* Configure axis labels font
+  
+```vala
+var labels;
+
+labels = config.x_axis.labels;
+//or
+labels = config.y_axis.labels;
+
+labels.font.size = 12;                      // uint8     In pixels
+labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
+labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
+```
+
+* Improved legend labels vertical alignement
+
 # 1.4.0
 
 ## New feature
