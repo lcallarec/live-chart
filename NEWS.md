@@ -1,3 +1,9 @@
+# 1.5.1
+
+## API
+
+* add `chart.add_value_by_index(int serie_index, double value)` method, to add a value to a serie given its `serie_index` (unlike `chart.add_value()` which takes the serie as argument)
+
 # 1.5.0
 
 ## New feature

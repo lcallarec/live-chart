@@ -62,5 +62,20 @@ private void register_chart() {
 
         assert(chart.config.y_axis.get_bounds().lower == 5);
         assert(chart.config.y_axis.get_bounds().upper == 15);
+    });
+
+    Test.add_func("/LiveChart/Chart/add_value_by_index", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when
+        chart.add_value_by_index(0, 100);
+
+        //then
+        assert(serie.get_values().size == 1);
+        assert(serie.get_values().get(0).value == 100);
     });    
 }

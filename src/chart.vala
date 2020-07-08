@@ -39,6 +39,11 @@ namespace LiveChart {
             config.y_axis.update_bounds(value);
         }
 
+        public void add_value_by_index(int serie_index, double value) {
+            var serie = series.get(serie_index);
+            add_value(serie, value);
+        }
+
         public void add_unaware_timestamp_collection(Serie serie, Gee.Collection<double?> collection, int timespan_between_value) {
             var ts = GLib.get_real_time() / 1000 - (collection.size * timespan_between_value);
             var values = serie.get_values();

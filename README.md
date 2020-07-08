@@ -135,6 +135,8 @@ paris_temperature.name = "Temperature in Paris (%s)".printf(last_value);
 
 Your `Serie` must have been registererd to the `Chart` before being able to add data points to this serie. 
 
+#### By serie
+
 ```vala
 var serie_name = "Temperature in Paris";
 var paris_temperature = new LiveChart.Serie(serie_name);
@@ -142,6 +144,17 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 chart.add_serie(paris);
 
 chart.add_value(paris_temperature, 19.5);
+```
+
+#### By serie index
+
+```vala
+var serie_name = "Temperature in Paris";
+var paris_temperature = new LiveChart.Serie(serie_name);
+
+chart.add_serie(paris); // First serie, index 0
+
+chart.add_value_by_index(0, 19.5);
 ```
 
 ### Datapoint buffer
