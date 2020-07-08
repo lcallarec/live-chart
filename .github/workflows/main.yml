@@ -14,6 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install deps
         run: |
+          sudo apt-get update
           sudo apt-get install valac libgee-0.8-dev libgtk-3-dev libcairo-dev xvfb
           pip install meson
           pip install ninja
