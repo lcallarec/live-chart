@@ -50,6 +50,7 @@ namespace LiveChart {
 
         public YAxis(string unit = "") {
             this.unit = unit;
+            ticks = get_ticks();
             axis.color = {0.5, 0.5, 0.5, 0.5};            
             lines.color = {0.5, 0.5, 0.5, 0.2};            
             bounds.notify["upper"].connect(() => {

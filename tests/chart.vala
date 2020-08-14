@@ -77,5 +77,19 @@ private void register_chart() {
         //then
         assert(serie.get_values().size == 1);
         assert(serie.get_values().get(0).value == 100);
-    });    
+    });   
+
+    Test.add_func("/LiveChart/Chart/#ShouldNotCrashWhenRevealingAChartWithoutAnyValueAdded", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        chart.add_serie(new LiveChart.Serie("Test"));
+       
+        //when
+        //then
+        Timeout.add(1000, () => {
+            Gtk.main_quit();
+            return false;
+        });
+        Gtk.main();
+    });
 }
