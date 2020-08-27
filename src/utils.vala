@@ -31,6 +31,11 @@ namespace LiveChart {
     }
 
     public Gee.List<float?> golden_divisors(float value) {
+        //No golden divisors for 0
+        if (value == 0) {
+            return new Gee.ArrayList<float?>();
+        }
+
         //Handle values below 1
         float factor = value < 10 ? cap(100 / value) : 1f;
         float working_value = value * factor;

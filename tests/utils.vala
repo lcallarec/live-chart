@@ -108,5 +108,13 @@ private void register_utils() {
         assert(divisors.get(3) == 5f);
         assert(divisors.get(4) == 2f);
         assert(divisors.get(5) == 1f);
+    });
+
+    Test.add_func("/LiveChart/Utils/golden_divisors#ShouldNotCrashWhenComputingGoldenDivisorForZero", () => {
+        //given
+        var value = 0f;
+
+        //when //then
+        LiveChart.golden_divisors(value);
     });    
 }

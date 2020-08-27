@@ -109,16 +109,18 @@ namespace LiveChart {
                 float upper = LiveChart.cap((float) bounds.upper);
                 var divs = LiveChart.golden_divisors(upper);
 
-                float interval = upper / divs.get(0);
-                foreach(float div in divs) {
-                    interval = upper / div;
-                    if (div > 3f && div < 7f) {
-                        break;
+                if (divs.size > 0) {
+                    float interval = upper / divs.get(0);
+                    foreach(float div in divs) {
+                        interval = upper / div;
+                        if (div > 3f && div < 7f) {
+                            break;
+                        }
                     }
-                }
-                var limit = bounds.upper == upper ? upper : bounds.upper + interval;
-                for (var value = 0f; value <= limit; value += interval) {
-                    ticks.values.add(value);
+                    var limit = bounds.upper == upper ? upper : bounds.upper + interval;
+                    for (var value = 0f; value <= limit; value += interval) {
+                        ticks.values.add(value);
+                    }
                 }
             }
 

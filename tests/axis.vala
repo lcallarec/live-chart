@@ -238,4 +238,13 @@ private void register_axis() {
         assert(ticks.values.get(2) == 0.8f);
         assert(ticks.values.get(3) == 1.2f);
     });
+
+    Test.add_func("/LiveChart/YAxis#get_ticks_should_not_crash_when_max_value_is_zero", () => {
+     
+        var y_axis = new LiveChart.YAxis();
+        y_axis.update_bounds(0);
+
+        //when //then
+        y_axis.get_ticks();
+    });
 }

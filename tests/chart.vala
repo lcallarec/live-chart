@@ -124,4 +124,14 @@ private void register_chart() {
         });
         Gtk.main();
     });
+
+    Test.add_func("/LiveChart/Chart/#should_not_crash_if_value_added_is_zero", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("Test");
+        chart.add_serie(serie);
+
+        //when //then
+        chart.add_value(serie, 0);
+    });    
 }
