@@ -587,7 +587,7 @@ LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/L
 Basically, it stores the value, as a double, and a timestamp.
 If you use to store in a `Gee.Collection<double?>`, without any timestamp information - most of the time because you know the interval between each points - and need to import them in a LiveChart, don't panic, there's a solution. 
 
-Use `Chart.add_unaware_timestamp_collection()` :
+Use `Chart.add_unaware_timestamp_collection()` or `Chart.add_unaware_timestamp_collection_by_index()`:
 
 ```vala
 // Your own dataset
@@ -604,7 +604,10 @@ serie.clear();
 
 //You know that, in your own model, there's 2000ms between each of your points
 var timespan_between_value = 2000;
+
 chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
+//or
+chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
 ```
 
 Et voilà !

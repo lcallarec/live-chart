@@ -55,6 +55,11 @@ namespace LiveChart {
             });
         }
 
+        public void add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value) {
+            var serie = series.get(serie_index);
+            add_unaware_timestamp_collection(serie, collection, timespan_between_value);
+        }
+
         public void to_png(string filename) throws Error {
             var window = this.get_window();
             if (window == null) {
