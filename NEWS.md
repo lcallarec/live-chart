@@ -1,3 +1,14 @@
+# 1.6.0
+
+## API
+
+* add `chart.add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value)` method, to add your own data collection to a serie given its `serie_index` (unlike `chart.add_unaware_timestamp_collection()` which takes the serie as argument)
+
+## Fixes
+
+* Crash when the max value of a serie is 0
+* Crash when the chart widget is realized before any data is added
+
 # 1.5.1
 
 ## API
