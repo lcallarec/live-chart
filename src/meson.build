@@ -38,9 +38,9 @@ livechart_lib = library(
 
 pkg = import('pkgconfig')
 pkg.generate(
-    version: '0.1',
+    version: meson.project_version(),
     libraries: livechart_lib,
-    description: 'Kangaroo headers',
+    description: 'Live-chart headers',
     name: 'livechart',
     filebase: 'livechart'
 )
