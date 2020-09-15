@@ -4,7 +4,8 @@ namespace LiveChart {
 
     public float cap(float value) {
         var num_digits = num_of_digits((int) value);
-        var size = Math.exp10((double) num_digits - 1);
+        // GLib.Math.exp10 yet not exist in MINGW library
+        var size = Math.pow(10, (double) num_digits - 1);
 
         if (value % size == 0) {
             return value;
