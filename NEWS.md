@@ -1,3 +1,15 @@
+# 1.6.1
+
+[Contributions](https://github.com/lcallarec/live-chart/pull/19) from [https://github.com/taozuhong](taozuhong):
+
+## Fixes
+
+* Compile error [https://github.com/taozuhong](taozuhong) on MSYS2
+
+## Misc
+
+* Build shared library if needed
+
 # 1.6.0
 
 ## API
