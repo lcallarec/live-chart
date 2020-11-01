@@ -4,9 +4,18 @@ namespace LiveChart {
     public class Series : Object {
 
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
+        private Chart chart;
+
+        public Series(Chart chart) {
+            this.chart = chart;
+        }
 
         public void register(Serie serie) {
             this.series.add(serie);
+            if(chart.legend != null) chart.legend.add_legend(serie);
+            serie.value_added.connect((value) => {
+                chart.config.y_axis.update_bounds(value);
+            });
         }
 
         public new Serie get(int index) throws ChartError {
@@ -26,6 +35,5 @@ namespace LiveChart {
         public Iterator<Serie> iterator() {
             return series.list_iterator();
         }
-
     }
 }

@@ -14,7 +14,7 @@ namespace LiveChart {
         public Drawable background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         public Config config;
-        public Series series = new Series();
+        public Series series;
 
         private uint source_timeout = 0;
 
@@ -28,16 +28,16 @@ namespace LiveChart {
             this.draw.connect(render);
             
             this.refresh_every(100);
+
+            series = new Series(this);
         }
 
         public void add_serie(Serie serie) {
             this.series.register(serie);
-            if(this.legend != null) this.legend.add_legend(serie);
         }
 
         public void add_value(Serie serie, double value) {
-            serie.add({GLib.get_real_time() / 1000, value});
-            config.y_axis.update_bounds(value);
+            serie.add(value);
         }
 
         public void add_value_by_index(int serie_index, double value) throws ChartError.SERIE_NOT_FOUND {

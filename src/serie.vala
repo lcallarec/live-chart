@@ -18,6 +18,8 @@ namespace LiveChart {
         
         public bool visible { get; set; default = true; }
 
+        public signal void value_added(double value);
+
         private DrawableSerie renderer;
 
         public Serie(string name, DrawableSerie renderer = new Line()) {
@@ -34,8 +36,9 @@ namespace LiveChart {
             }
         }
 
-        public void add(TimestampedValue value) {
-            renderer.get_values().add(value);
+        public void add(double value) {
+            renderer.get_values().add({GLib.get_real_time() / 1000, value});
+            value_added(value);
         }
 
         public void set_main_color(Gdk.RGBA color) {

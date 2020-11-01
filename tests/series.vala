@@ -3,7 +3,7 @@ private void register_series() {
 
     Test.add_func("/LiveChart/Series/get", () => {
         //given
-        var series = new LiveChart.Series();
+        var series = new LiveChart.Series(new LiveChart.Chart());
         
         //when
         series.register(new LiveChart.Serie("Test 1"));
@@ -25,7 +25,7 @@ private void register_series() {
 
     Test.add_func("/LiveChart/Series/get_by_name", () => {
         //given
-        var series = new LiveChart.Series();
+        var series = new LiveChart.Series(new LiveChart.Chart());
         
         //when
         series.register(new LiveChart.Serie("Test 1"));
@@ -43,5 +43,23 @@ private void register_series() {
         } catch (LiveChart.ChartError e) {
             
         }
+    });
+
+    Test.add_func("/LiveChart/Series/register#update_bounds_when_value_is_added_to_serie", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var series = new LiveChart.Series(chart);
+        series.register(new LiveChart.Serie("Test 1"));
+
+        //when
+        try {
+            series[0].add(100.0);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 100.0);
+
     });
 }

@@ -1,6 +1,23 @@
 
 private void register_chart() {
 
+    Test.add_func("/LiveChart/Chart/add_value#update_bounds", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when //then
+        assert_false(chart.config.y_axis.get_bounds().has_upper());
+
+        //when
+        chart.add_value(serie, 100.0);
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 100.0);
+    });
+
     Test.add_func("/LiveChart/Chart#Export", () => {
         //given
         var window = new Gtk.Window();
@@ -77,8 +94,7 @@ private void register_chart() {
         //then
         assert(serie.get_values().size == 1);
         assert(serie.get_values().get(0).value == 100);
-    });   
-
+    });
 
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection_by_index", () => {
         //given
