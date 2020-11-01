@@ -21,6 +21,7 @@ void main (string[] args) {
     register_legend();
     register_cairo();
     register_serie();
+    register_series();
 
     Test.run();
 }

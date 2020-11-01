@@ -4,7 +4,8 @@ namespace LiveChart {
 
     public errordomain ChartError
     {
-        EXPORT_ERROR
+        EXPORT_ERROR,
+        SERIE_NOT_FOUND
     }
 
     public class Chart : Gtk.DrawingArea {
@@ -13,8 +14,8 @@ namespace LiveChart {
         public Drawable background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         public Config config;
+        public Series series = new Series();
 
-        private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
         private uint source_timeout = 0;
 
         public Chart(Config config = new Config()) {
@@ -30,7 +31,7 @@ namespace LiveChart {
         }
 
         public void add_serie(Serie serie) {
-            this.series.add(serie);
+            this.series.register(serie);
             if(this.legend != null) this.legend.add_legend(serie);
         }
 
@@ -39,7 +40,7 @@ namespace LiveChart {
             config.y_axis.update_bounds(value);
         }
 
-        public void add_value_by_index(int serie_index, double value) {
+        public void add_value_by_index(int serie_index, double value) throws ChartError.SERIE_NOT_FOUND {
             var serie = series.get(serie_index);
             add_value(serie, value);
         }
@@ -55,7 +56,7 @@ namespace LiveChart {
             });
         }
 
-        public void add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value) {
+        public void add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value) throws ChartError.SERIE_NOT_FOUND {
             var serie = series.get(serie_index);
             add_unaware_timestamp_collection(serie, collection, timespan_between_value);
         }

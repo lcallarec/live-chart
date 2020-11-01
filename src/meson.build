@@ -18,6 +18,7 @@ sources = files(
     'path.vala',
     'points.vala',
     'serie.vala',
+    'series.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
     'utils.vala',
