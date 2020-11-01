@@ -36,13 +36,19 @@ namespace LiveChart {
             this.series.register(serie);
         }
 
+        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series (or from the serie you created) and add the value using serie.add")]
         public void add_value(Serie serie, double value) {
             serie.add(value);
         }
 
-        public void add_value_by_index(int serie_index, double value) throws ChartError.SERIE_NOT_FOUND {
-            var serie = series.get(serie_index);
-            add_value(serie, value);
+        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series and add the value using serie.add")]        
+        public void add_value_by_index(int serie_index, double value) throws ChartError {
+            try {
+                var serie = series.get(serie_index);
+                add_value(serie, value);
+            } catch (ChartError e) {
+                throw e;
+            }
         }
 
         public void add_unaware_timestamp_collection(Serie serie, Gee.Collection<double?> collection, int timespan_between_value) {
@@ -56,9 +62,13 @@ namespace LiveChart {
             });
         }
 
-        public void add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value) throws ChartError.SERIE_NOT_FOUND {
-            var serie = series.get(serie_index);
-            add_unaware_timestamp_collection(serie, collection, timespan_between_value);
+        public void add_unaware_timestamp_collection_by_index(int serie_index, Gee.Collection<double?> collection, int timespan_between_value) throws ChartError {
+            try {
+                var serie = series.get(serie_index);
+                add_unaware_timestamp_collection(serie, collection, timespan_between_value);
+            } catch (ChartError e) {
+                throw e;
+            }
         }
 
         public void to_png(string filename) throws Error {

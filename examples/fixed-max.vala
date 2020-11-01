@@ -34,7 +34,7 @@ public class Example : Gtk.Window {
         chart.add_serie(cpu);
          
         var cpu_value = 50.0;
-        chart.add_value(cpu, cpu_value);
+        cpu.add(cpu_value);
 
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
@@ -48,7 +48,7 @@ public class Example : Gtk.Window {
                 }
             }
            
-            chart.add_value(cpu, cpu_value);
+            cpu.add(cpu_value);
             return true;
         });
      }

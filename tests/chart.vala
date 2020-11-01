@@ -12,7 +12,7 @@ private void register_chart() {
         assert_false(chart.config.y_axis.get_bounds().has_upper());
 
         //when
-        chart.add_value(serie, 100.0);
+        serie.add(100.0);
 
         //then
         assert(chart.config.y_axis.get_bounds().upper == 100.0);
@@ -89,7 +89,11 @@ private void register_chart() {
         chart.add_serie(serie);
         
         //when
-        chart.add_value_by_index(0, 100);
+        try {
+            chart.series[0].add(100);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
 
         //then
         assert(serie.get_values().size == 1);
@@ -112,7 +116,11 @@ private void register_chart() {
 
         //when
         var now = GLib.get_real_time() / 1000;
-        chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
+        try {
+            chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
 
         //then
         assert(serie.get_values().size == 3);
@@ -148,6 +156,6 @@ private void register_chart() {
         chart.add_serie(serie);
 
         //when //then
-        chart.add_value(serie, 0);
+        serie.add(0);
     });    
 }

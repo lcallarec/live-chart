@@ -42,18 +42,18 @@ public class Example : Gtk.Window {
                 var new_value = Random.double_range(-50, 50.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
-            chart.add_value(rss, rss_value);
+            rss.add(rss_value);
             return true;
         });
 
         var heap_value = 200.0;
-        chart.add_value(heap, heap_value);
+        heap.add(heap_value);
         Timeout.add(2000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
                 var new_value = Random.double_range(-100, 100.0);
                 if (heap_value + new_value > 0) heap_value += new_value;
             }
-            chart.add_value(heap, heap_value);
+            heap.add(heap_value);
             return true;
         });
 
