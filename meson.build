@@ -8,7 +8,7 @@ gee = dependency('gee-0.8')
 
 vala_args = ['--target-glib=2.50']
 
-if meson.version() >= '0.47'
+if meson.version().version_compare('>= 0.47')
   if get_option('debug') == true 
     vala_args += ['--ccode', '--debug']
   endif
