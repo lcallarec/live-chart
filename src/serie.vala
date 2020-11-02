@@ -25,9 +25,6 @@ namespace LiveChart {
         public Serie(string name, DrawableSerie renderer = new Line()) {
             this.name = name;
             this.renderer = renderer;
-            this.notify["main-color"].connect(() => {
-                 set_main_color(main_color);
-            });
         }
 
         public void draw(Context ctx, Config config) {
@@ -46,10 +43,12 @@ namespace LiveChart {
             value_added(value);
         }
 
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.main_color property instead")]        
         public void set_main_color(Gdk.RGBA color) {
             renderer.main_color = color;
         }
 
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.main_color property instead")]        
         public Gdk.RGBA get_main_color() {
             return renderer.main_color;
         }

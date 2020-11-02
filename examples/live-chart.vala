@@ -6,13 +6,13 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var heat = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-        heat.set_main_color({ 0.3, 0.8, 0.1, 1.0});
+        heat.main_color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.set_main_color({ 0.8, 0.1, 0.1, 1.0});
+        rss.main_color = { 0.8, 0.1, 0.1, 1.0};
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.set_main_color({ 0.1, 0.8, 0.7, 1.0});
+        heap.main_color = { 0.1, 0.8, 0.7, 1.0};
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
