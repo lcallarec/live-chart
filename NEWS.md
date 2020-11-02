@@ -1,3 +1,11 @@
+# 1.7.0
+
+## API
+
+* `Series` can be retrieved using [Chart.series](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Series.html) property, by index using array access notation, or by name. Adding a new value to a serie is simpler : get the serie (either from where you created it or from chart's property) and add a value with [Serie.add(double value)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html)
+
+* Hence [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value_by_index.html) methods are now deprecated and will be removed in `LiveChart 2`.
+
 # 1.6.1
 
 [Contributions](https://github.com/lcallarec/live-chart/pull/19) from [https://github.com/taozuhong](taozuhong):
