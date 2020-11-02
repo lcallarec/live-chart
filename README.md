@@ -133,7 +133,10 @@ paris_temperature.name = "Temperature in Paris (%s)".printf(last_value);
 
 ### Adding data points
 
-Your `Serie` must have been registered to the `Chart` before being able to add data points to this serie. 
+Please note that your `Serie` must have been registered to the `Chart` before being able to add data points to this serie.
+
+Adding a point / value to a serie using [serie.add]((https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html) method automatically compute a timestamp stored in underlying value container.
+If you need to manually compute a timestamp, in milliseconds, use [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html)
 
 #### By serie
 

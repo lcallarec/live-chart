@@ -41,6 +41,11 @@ namespace LiveChart {
             value_added(value);
         }
 
+        public void add_with_timestamp(double value, int64 timestamp) {
+            renderer.get_values().add({timestamp, value});
+            value_added(value);
+        }
+
         public void set_main_color(Gdk.RGBA color) {
             renderer.main_color = color;
         }
