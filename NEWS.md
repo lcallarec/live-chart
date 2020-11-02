@@ -1,10 +1,18 @@
+# 1.7.1
+
+## API
+
+* Add a [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) method when you need to manually compute a timestamp, in milliseconds
+
+* [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.set_main_color.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.get_main_color.html) methods are now deprecated and will be removed in `LiveChart 2`. Use [serie.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) property instead.
+
 # 1.7.0
 
 ## API
 
 * `Series` can be retrieved using [Chart.series](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Series.html) property, by index using array access notation or getter (`Chart.series[index] or Chart.series.get(int index)`), or by name (`Chart.series.get_by_name(string name)`). Adding a new value to a serie is simpler : get the serie (either from where you created it or from chart's property) and add a value with [Serie.add(double value)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html)
 
-* Hence [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value_by_index.html) methods are now deprecated and will be removed in `LiveChart 2`.
+* Hence [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value_by_index.html) methods are now deprecated and will be removed in `LiveChart 2`. Use above new methods instead.
 
 # 1.6.1
 

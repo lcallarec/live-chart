@@ -168,6 +168,8 @@ Please note that this is a conveniant method to underlying `Renderer.main_color`
 
 #### Clear underlying data
 
+Remove all data from underlying data store :
+
 ```vala
 serie.clear();
 ```
