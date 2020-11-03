@@ -141,30 +141,35 @@ serie.add(19.5);
 serie.add_with_timestamp(19.5, 15978984664);
 ```
 
-#### Name mutator / accessor property
+#### Name
 
 ```vala
 serie.name = "Temperature in Paris (%s)".printf(last_value);
 ```
 
-#### Visibility mutator / accessor property
+#### Visibility
 
-You can programmatically hide / display series :
+You can programmatically hide / display the whole series :
 
 ```vala
 serie.visible = true;//or false
 ```
 
-#### Main color mutator / accessor property
+#### Lines and outlines
+
+Lines ansd outlines (for bar series) can be configured with `Serie.line` property. Full configuration details available in [Path]((https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
 
 ```vala
-serie.main_color = { 0.0, 0.1, 0.8, 1.0};
-serie.main_color;
+serie.line.color = { 0.0, 0.1, 0.8, 1.0};
+serie.line.width = 2;
+serie.line.dash = Dash() {dashes = [0, 1], offset = 2};
+serie.lien.visibility = false;//or true
 ```
 
-Where color is a [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html) struct.
+About color : [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html) struct.
+Dashes : please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
 
-Please note that this is a conveniant method to underlying `Renderer.main_color` property. Accessing `Renderer` directly offers more specific display options, according to `Renderer` implementation.
+For series with area, this impact only the outline, not the area itself.
 
 #### Clear underlying data
 

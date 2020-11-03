@@ -6,6 +6,8 @@ namespace LiveChart {
         public string name {
             get; set;
         }
+        
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.line.color property instead")]        
         public Gdk.RGBA main_color {
             get {
                 return renderer.main_color;
@@ -16,6 +18,16 @@ namespace LiveChart {
             }
         }
         
+        public Path line {
+            get {
+                return renderer.line;
+            }
+
+            set {
+                renderer.line = value;
+            }
+        }
+
         public bool visible { get; set; default = true; }
 
         public signal void value_added(double value);

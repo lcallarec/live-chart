@@ -3,6 +3,7 @@ using Cairo;
 namespace LiveChart { 
     public class Bar : DrawableSerie {
         public Bar(Values values = new Values()) {
+            base();
             this.values = values;
         }
 
@@ -10,8 +11,7 @@ namespace LiveChart {
             if (visible) {
                 var points = Points.create(values, config);
                 if (points.size > 0) {
-                    ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
-                    ctx.set_line_width(this.outline_width);
+                    line.configure(ctx);
                     
                     this.update_bounding_box(points, config);
                     this.debug(ctx);

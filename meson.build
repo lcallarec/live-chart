@@ -1,4 +1,4 @@
-project('live-chart', ['vala', 'c'], version: '1.7.1')
+project('live-chart', ['vala', 'c'], version: '1.8.0-b')
 
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required: true)

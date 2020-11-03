@@ -16,10 +16,11 @@ namespace LiveChart {
         public Gdk.RGBA color { get; set; }
         public bool visible {get; set; }
 
-        construct {
-            width = 0.5;
-            color = {1.0, 1.0, 1.0, 1.0};
-            visible = true;
+        public Path(double width = 0.5, Gdk.RGBA color = {1.0, 1.0, 1.0, 1.0}, bool visible = true, Dash? dash = null) {
+            this.width = width;
+            this.color = color;
+            this.visible = true;
+            this.dash = dash;
         }
 
         public void configure(Context ctx) {

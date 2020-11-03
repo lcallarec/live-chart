@@ -1,6 +1,10 @@
-# 1.7.1
+# 1.8.0-b
 
 ## API
+
+* Add a [serie.line](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.line.html) property to configure line / outline looks : width, color, dashes and visibility. For series with area, this impact only the outline, not the area itself.
+
+# 1.7.1
 
 * Add a [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) method when you need to add a value with a manually defined timstamp, in milliseconds
 

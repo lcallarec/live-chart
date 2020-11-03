@@ -4,6 +4,7 @@ namespace LiveChart {
     public class Line : DrawableSerie {
 
         public Line(Values values = new Values()) {
+            base();
             this.values = values;
         }
 
@@ -18,8 +19,7 @@ namespace LiveChart {
         }
 
         protected Points draw_line(Points points, Context ctx, Config config) {
-            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
-            ctx.set_line_width(this.outline_width);
+            line.configure(ctx);
             
             var first_point = points.first();
 

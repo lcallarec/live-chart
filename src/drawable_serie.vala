@@ -6,15 +6,21 @@ namespace LiveChart {
         private const int VIRTUAL_LEFT_PADDING = -200;
         
         public bool visible { get; set; default = true; }
-        public Gdk.RGBA main_color { 
-            get; set; default= Gdk.RGBA() {
-                red = 1.0,
-                green = 1.0,
-                blue = 1.0,
-                alpha = 1.0
-            };
+        public Gdk.RGBA main_color {
+            get {
+                return line.color;
+            }
+
+            set {
+                line.color = value;
+            }
         }
-        public double outline_width { get; set; default = 1;}
+        public Path line { get; set; }
+
+        protected DrawableSerie() {
+            line = new Path(1);
+        }
+
         protected BoundingBox bounding_box = BoundingBox() {
             x=0, 
             y=0, 
