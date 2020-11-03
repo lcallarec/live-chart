@@ -18,7 +18,7 @@ private void register_bar() {
         values.add({timestamp: (GLib.get_real_time() / 1000) - 10050, value: (HEIGHT/2) + 0.5});
 
         var bar = new LiveChart.Bar(values);
-        bar.main_color = white;
+        bar.line.color = white;
 
         //When
         var config = create_config(WIDTH, HEIGHT);
@@ -50,7 +50,7 @@ private void register_bar() {
         var values = new LiveChart.Values();
        
         var bar = new LiveChart.Bar(values);
-        bar.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        bar.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 
         //When
         bar.draw(context, create_config());

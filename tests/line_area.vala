@@ -11,7 +11,7 @@ private void register_line_area() {
         values.add({timestamp: (GLib.get_real_time() / 1000), value: 5.5});
 
         var line = new LiveChart.LineArea(values);
-        line.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
         line.area_alpha = 0.5;
 
         //When
@@ -75,7 +75,7 @@ private void register_line_area() {
         var values = new LiveChart.Values();
        
         var line = new LiveChart.LineArea(values);
-        line.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 
         //When
         line.draw(context, create_config());

@@ -8,7 +8,7 @@ private void register_smooth_line() {
         var values = new LiveChart.Values();
        
         var line = new LiveChart.SmoothLine(values);
-        line.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 
         //When
         line.draw(context, create_config());
