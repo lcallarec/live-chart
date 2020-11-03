@@ -10,6 +10,8 @@ public class Example : Gtk.Window {
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
         rss.main_color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.dash = LiveChart.Dash() { dashes = {5} };
+        rss.line.width = 4;
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
