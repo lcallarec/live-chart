@@ -10,6 +10,17 @@ namespace LiveChart {
         };
         
         public bool visible { get; set; default = true; }
+
+        public Gdk.RGBA color { 
+            get {
+                return main_color;
+            }
+            set {
+                main_color = value;
+            }
+        }
+
+        [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Background.color")]
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 0.1,
@@ -23,7 +34,7 @@ namespace LiveChart {
             if (visible) {
                 this.update_bounding_box(config);
                 ctx.rectangle(0, 0, config.width, config.height);
-                ctx.set_source_rgba(main_color.red, main_color.green, main_color.blue, main_color.alpha);
+                ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
                 ctx.fill();
             }
         }

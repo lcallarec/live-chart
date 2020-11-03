@@ -6,7 +6,7 @@ private void register_background() {
         cairo_background(context);
 
         var back = new LiveChart.Background();
-        back.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        back.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 
         //When
         back.draw(context, create_config());
@@ -40,7 +40,7 @@ private void register_background() {
         cairo_background(context);
 
         var back = new LiveChart.Background();
-        back.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        back.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
         back.visible = false;
 
         //When

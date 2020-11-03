@@ -224,22 +224,22 @@ Smooth line serie connect each data point with a bezier spline for a smoother re
 
 ### Serie renderer API
 
-For all series, you can control the line or the bar color via the `main_color: Gdk.RGBA` property:
+For all series, you can control the line or the bar color via the `color: Gdk.RGBA` property:
 
 ```vala
 var smooth_line = LiveChart.SmoothLine();
-smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
+smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
 ```
 
 For area series only, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
-smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
+smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
 smooth_line.area_alpha = 0.5;
 ```
 
-The area color is not yet configurable : it's always equal to `main_color`.
+The area color is not yet configurable : it's always equal to `color`.
 
 ## Chart configuration
 
@@ -495,11 +495,11 @@ config.padding.top = 10; // in pixels
 ```
 ## Background
 
-Chart has a default colored background that can be changed via the `Background.main_color` attribute :
+Chart has a default colored background that can be changed via the `Background.color` property :
 
 ```vala
 var chart = new LiveChart.Chart();
-chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
+chart.background.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
 
 ## Legend

@@ -5,6 +5,7 @@
 * Add a [serie.line](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.line.html) property to configure line / outline looks : width, color, dashes and visibility. For series with area, this impact only the outline, not the area itself.
 
 * `Renderers main_color` properties are now deprecated and will be removed in `LiveChart 2`. Use [SerieRenderer.color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.SerieRenderer.color.html) property instead.
+* [Background.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Background.main_color.html) property is now deprecated and will be removed in `LiveChart 2`. Use [Background.color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Background.color.html) property instead.
 
 # 1.7.1
 
