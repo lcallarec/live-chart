@@ -162,7 +162,7 @@ Lines ansd outlines (for bar series) can be configured with `Serie.line` propert
 ```vala
 serie.line.color = { 0.0, 0.1, 0.8, 1.0};
 serie.line.width = 2;
-serie.line.dash = Dash() {dashes = [0, 1], offset = 2};
+serie.line.dash = Dash() {dashes = {1}, offset = 2};
 serie.lien.visibility = false;//or true
 ```
 
