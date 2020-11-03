@@ -2,9 +2,9 @@
 
 ## API
 
-* Add a [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) method when you need to manually compute a timestamp, in milliseconds
+* Add a [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) method when you need to add a value with a manually defined timstamp, in milliseconds
 
-* [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.set_main_color.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.get_main_color.html) methods are now deprecated and will be removed in `LiveChart 2`. Use [serie.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) property instead.
+* [Serie.set_main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.set_main_color.html) and [Serie.get_main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.get_main_color.html) methods are now deprecated and will be removed in `LiveChart 2`. Use [serie.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.main_color.html) property instead.
 
 # 1.7.0
 
