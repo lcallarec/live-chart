@@ -16,6 +16,7 @@ namespace LiveChart {
     //Hack needed for Serie compilation (get_main_color method and main_color property transpiled with same name
     //since main_color has been removed from Drawable interface
     public interface Colorable : Object {
+        [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Serie.line.color")]
         public abstract Gdk.RGBA main_color { get; set; }
     }    
 }

@@ -6,10 +6,10 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-        heap.main_color = { 0.3, 0.8, 0.1, 1.0};
+        heap.line.color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.main_color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
         rss.line.dash = LiveChart.Dash() { dashes = {5} };
         rss.line.width = 4;
 

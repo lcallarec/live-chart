@@ -6,7 +6,7 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var cpu = new LiveChart.Serie("CPU 1 usage", new LiveChart.SmoothLineArea());
-        cpu.main_color = { 0.8, 0.8, 0.1, 1.0};
+        cpu.line.color = { 0.8, 0.8, 0.1, 1.0};
         
         var config = new LiveChart.Config();
         config.y_axis.unit = "%";

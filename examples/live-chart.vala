@@ -5,14 +5,14 @@ public class Example : Gtk.Window {
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
-        var heat = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-        heat.main_color = { 0.3, 0.8, 0.1, 1.0};
+        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
+        heat.line.color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.main_color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.main_color = { 0.1, 0.8, 0.7, 1.0};
+        heap.line.color = { 0.1, 0.8, 0.7, 1.0};
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
@@ -25,7 +25,7 @@ public class Example : Gtk.Window {
         chart.add_serie(heat);
         chart.add_serie(heap);
         chart.add_serie(rss);
-         
+ 
         double rss_value = 200.0;
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.13) {
