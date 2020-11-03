@@ -1,13 +1,12 @@
 using Cairo;
 namespace LiveChart { 
 
-    public class Serie : Drawable, Object {
+    public class Serie : Colorable, Drawable, Object {
 
         public string name {
             get; set;
         }
         
-        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.line.color property instead")]        
         public Gdk.RGBA main_color {
             get {
                 return renderer.main_color;
@@ -32,9 +31,9 @@ namespace LiveChart {
 
         public signal void value_added(double value);
 
-        private DrawableSerie renderer;
+        private SerieRenderer renderer;
 
-        public Serie(string name, DrawableSerie renderer = new Line()) {
+        public Serie(string name, SerieRenderer renderer = new Line()) {
             this.name = name;
             this.renderer = renderer;
         }
@@ -55,14 +54,14 @@ namespace LiveChart {
             value_added(value);
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.main_color property instead")]        
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.main_color property instead")]        
         public void set_main_color(Gdk.RGBA color) {
-            renderer.main_color = color;
+            main_color = color;
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Use Serie.main_color property instead")]        
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.main_color property instead")]        
         public Gdk.RGBA get_main_color() {
-            return renderer.main_color;
+            return main_color;
         }
 
         public Values get_values() {

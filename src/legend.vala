@@ -44,7 +44,7 @@ namespace LiveChart {
                 var boundaries = config.boundaries();
                 var pos = 0;
                 series.foreach((serie) => {
-                    ctx.set_source_rgba(serie.get_main_color().red, serie.get_main_color().green, serie.get_main_color().blue, 1);
+                    ctx.set_source_rgba(serie.main_color.red, serie.main_color.green, serie.main_color.blue, 1);
                     ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
                     ctx.fill();
                     

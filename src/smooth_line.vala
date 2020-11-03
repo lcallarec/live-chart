@@ -1,7 +1,7 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class SmoothLine : DrawableSerie {
+    public class SmoothLine : SerieRenderer {
 
         public SmoothLine(Values values = new Values()) {
             base();

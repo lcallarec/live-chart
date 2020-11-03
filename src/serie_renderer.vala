@@ -1,7 +1,8 @@
 using Cairo;
 
 namespace LiveChart { 
-    public abstract class DrawableSerie : Drawable, Object {
+
+    public abstract class SerieRenderer : Drawable, Object {
 
         private const int VIRTUAL_LEFT_PADDING = -200;
         
@@ -17,7 +18,7 @@ namespace LiveChart {
         }
         public Path line { get; set; }
 
-        protected DrawableSerie() {
+        protected SerieRenderer() {
             line = new Path(1);
         }
 
@@ -47,7 +48,7 @@ namespace LiveChart {
         }
 
         protected bool is_out_of_area(Point point) {
-            return point.x < DrawableSerie.VIRTUAL_LEFT_PADDING;
+            return point.x < SerieRenderer.VIRTUAL_LEFT_PADDING;
         }
     }
 }

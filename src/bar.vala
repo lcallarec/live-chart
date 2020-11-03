@@ -1,7 +1,7 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Bar : DrawableSerie {
+    public class Bar : SerieRenderer {
         public Bar(Values values = new Values()) {
             base();
             this.values = values;
