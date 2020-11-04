@@ -149,7 +149,7 @@ serie.name = "Temperature in Paris (%s)".printf(last_value);
 
 #### Visibility
 
-You can programmatically hide / display the whole series :
+You can programmatically hide / display the serie :
 
 ```vala
 serie.visible = true;//or false
@@ -201,37 +201,30 @@ chart.add_serie(paris);
 
 ## Serie renderers
 
-There's currently 5 built-in series available:
-
-### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](resources/serie_line.png)
-
-Line serie connect each data point with a straight segment.
-
-### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
-![](resources/serie_smooth_line.png)
-
-Smooth line serie connect each data point with a bezier spline for a smoother rendering.
-
-### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](resources/serie_bar.png)
-
-### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
-![](resources/serie_line_area.png)
-
-### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
-![](resources/serie_smooth_line_area.png)
-
-### Serie renderer API
-
-For all series, you can control the line or the bar color via the `color: Gdk.RGBA` property:
+For all renderers, you can control the line or the bar color via the `color: Gdk.RGBA` property:
 
 ```vala
 var smooth_line = LiveChart.SmoothLine();
 smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
 ```
 
-For area series only, you can control the area color via the `area_alpha: double` property (default : 0.1):
+There's currently 5 built-in series available.
+
+### Lines
+
+* [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+![](resources/renderer_line.png)
+
+Line renderer connect each data point with a straight segment.
+
+* [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
+![](resources/renderer_smooth_line.png)
+
+Smooth line renderer connect each data point with a bezier spline for a smoother rendering.
+
+### Lines with area
+
+For area renderers, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
@@ -240,6 +233,18 @@ smooth_line.area_alpha = 0.5;
 ```
 
 The area color is not yet configurable : it's always equal to `color`.
+
+* [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
+![](resources/renderer_line_area.png)
+
+* [`LiveChart.SmoothLineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
+![](resources/renderer_smooth_line_area.png)
+
+### Histogram
+
+* [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/bar.vala)
+![](resources/renderer_bar.png)
+
 
 ## Chart configuration
 
