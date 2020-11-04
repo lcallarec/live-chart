@@ -1,23 +1,50 @@
 # 1.8.0
 
-## API
+## New features
 
-* Add a [serie.line](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.line.html) property to configure line / outline looks : width, color, dashes and visibility. For series with area, this impact only the outline, not the area itself.
+* Add a new [`LiveChart.ThresholdLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.ThresholdLine.html) renderer which draw a straight line at a given value.
+Below, the red threshold line is defined at 200MB :
+
+![](resources/renderer_threshold_line.png)
+
+```vala
+var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
+threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
+threshold.value = 250.0; // update threshold at runtime
+```
+
+* Add serie line / outline configuration options via [`LiveChart.Serie.line`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.line.html).
+Full configuration details available in [Path](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
+
+```vala
+serie.line.color = { 0.0, 0.1, 0.8, 1.0};
+serie.line.width = 2;
+serie.line.dash = Dash() {dashes = {1}, offset = 2};
+serie.line.visibility = false;//or true
+```
+
+## Deprecations
 
 * `Renderers main_color` properties are now deprecated and will be removed in `LiveChart 2`. Use [SerieRenderer.color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.SerieRenderer.color.html) property instead.
 * [Background.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Background.main_color.html) property is now deprecated and will be removed in `LiveChart 2`. Use [Background.color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Background.color.html) property instead.
 
 # 1.7.1
 
+## New feature
+
 * Add a [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html) method when you need to add a value with a manually defined timstamp, in milliseconds
+
+## Deprecations
 
 * [Serie.set_main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.set_main_color.html) and [Serie.get_main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.get_main_color.html) methods are now deprecated and will be removed in `LiveChart 2`. Use [serie.main_color](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.main_color.html) property instead.
 
 # 1.7.0
 
-## API
+## New features
 
 * `Series` can be retrieved using [Chart.series](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Series.html) property, by index using array access notation or getter (`Chart.series[index] or Chart.series.get(int index)`), or by name (`Chart.series.get_by_name(string name)`). Adding a new value to a serie is simpler : get the serie (either from where you created it or from chart's property) and add a value with [Serie.add(double value)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html)
+
+## Deprecations
 
 * Hence [Chart.add_value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value.html) and [Chart.add_value_by_index](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Chart.add_value_by_index.html) methods are now deprecated and will be removed in `LiveChart 2`. Use above new methods instead.
 

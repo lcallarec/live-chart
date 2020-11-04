@@ -44,6 +44,7 @@ Take a look at code examples :
 * [Fixed max y-axis value](examples/fixed-max.vala)
 * [Hide chart elements](examples/hide-parts.vala)
 * [Label configuration](examples/configure-labels.vala)
+* [Static renderers](examples/static-renderer.vala)
 
 Compile and run with :
 
@@ -54,6 +55,7 @@ ninja -C build
 ./build/examples/example-fixed-max
 ./build/examples/example-hide-parts
 ./build/examples/example-configure-labels
+./build/examples/example-static-renderer
 ```
 
 ## Dependencies
@@ -157,13 +159,13 @@ serie.visible = true;//or false
 
 #### Lines and outlines
 
-Lines ansd outlines (for bar series) can be configured with `Serie.line` property. Full configuration details available in [Path]((https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
+Lines and outlines (for bar series) can be configured with `Serie.line` property. Full configuration details available in [Path](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
 
 ```vala
 serie.line.color = { 0.0, 0.1, 0.8, 1.0};
 serie.line.width = 2;
 serie.line.dash = Dash() {dashes = {1}, offset = 2};
-serie.lien.visibility = false;//or true
+serie.line.visibility = false;//or true
 ```
 
 About color : [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html) struct.
@@ -208,19 +210,21 @@ var smooth_line = LiveChart.SmoothLine();
 smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
 ```
 
-There's currently 5 built-in series available.
+There's currently 6 built-in series available.
 
 ### Lines
 
 * [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+
+Line renderer connects each data point with a straight segment.
+
 ![](resources/renderer_line.png)
 
-Line renderer connect each data point with a straight segment.
-
 * [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
-![](resources/renderer_smooth_line.png)
 
-Smooth line renderer connect each data point with a bezier spline for a smoother rendering.
+Smooth line renderer connects each data point with a bezier spline for a smoother rendering.
+
+![](resources/renderer_smooth_line.png)
 
 ### Lines with area
 
@@ -245,6 +249,19 @@ The area color is not yet configurable : it's always equal to `color`.
 * [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/bar.vala)
 ![](resources/renderer_bar.png)
 
+### Static lines
+
+* [`LiveChart.ThresholdLine`](https://github.com/lcallarec/live-chart/blob/master/src/threshold_line.vala)
+
+Threshold renderer draws a straight line at a given value. Below, the red threshold line is defined at 200MB :
+
+![](resources/renderer_threshold_line.png)
+
+```vala
+var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
+threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
+threshold.value = 250.0; // update threshold at runtime
+```
 
 ## Chart configuration
 

@@ -22,6 +22,7 @@ void main (string[] args) {
     register_cairo();
     register_serie();
     register_series();
+    register_threshold_line();
 
     Test.run();
 }

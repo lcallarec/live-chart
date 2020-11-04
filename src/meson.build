@@ -21,6 +21,7 @@ sources = files(
     'series.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
+    'threshold_line.vala',
     'utils.vala',
     'values.vala'
 )
