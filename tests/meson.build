@@ -23,5 +23,6 @@ test_sources = files(
     'values.vala',
 )
 
-test('livechart-test', executable('livechart-test',test_sources, dependencies: deps + [livechart_dep]))
+vala_args += ['--enable-deprecated']
+test('livechart-test', executable('livechart-test', test_sources, dependencies: deps + [livechart_dep]))
 
