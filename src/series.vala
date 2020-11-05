@@ -10,12 +10,13 @@ namespace LiveChart {
             this.chart = chart;
         }
 
-        public void register(Serie serie) {
+        public Serie register(Serie serie) {
             this.series.add(serie);
             if(chart.legend != null) chart.legend.add_legend(serie);
             serie.value_added.connect((value) => {
                 chart.config.y_axis.update_bounds(value);
             });
+            return serie;
         }
 
         public new Serie get(int index) throws ChartError {
