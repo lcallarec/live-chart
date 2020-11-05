@@ -15,8 +15,9 @@ namespace LiveChart {
             if (visible) {
                 var boundaries = config.boundaries();
                 line.configure(ctx);
-                ctx.move_to((double) boundaries.x.min, boundaries.y.max - (value * config.y_axis.get_ratio()));
-                ctx.line_to((double) boundaries.x.max, boundaries.y.max - (value * config.y_axis.get_ratio()));
+                var y = boundaries.y.max - (value * config.y_axis.get_ratio());
+                ctx.move_to((double) boundaries.x.min, y);
+                ctx.line_to((double) boundaries.x.max, y);
                 ctx.stroke();
             }
         }
