@@ -35,7 +35,6 @@ private void register_axis() {
         axis.update(100);
         
         //then ratio shouldn't not be updated
-        stdout.printf("axis.get_ratio() %f", axis.get_ratio() );
         assert(axis.get_ratio() == 10);
     });
 

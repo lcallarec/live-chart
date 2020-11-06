@@ -24,8 +24,6 @@ private void register_threshold_line() {
                 var b = data[i + 2];
                 var alpha = data[i + 3];
 
-                stdout.printf("i %d, r = %d, g = %d, b = %d, a = %d\n", i, r, g, b, alpha);
-
                 assert(r == 0);
                 assert(g == 0);
                 assert(b == 0);
