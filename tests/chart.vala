@@ -1,7 +1,7 @@
 
 private void register_chart() {
 
-    Test.add_func("/LiveChart/Chart/add_value#update_bounds", () => {
+    Test.add_func("/LiveChart/Chart/serie/add_value#update_bounds", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -13,6 +13,24 @@ private void register_chart() {
 
         //when
         serie.add(100.0);
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 100.0);
+    });
+
+    //Deprecated
+    Test.add_func("/LiveChart/Chart/add_value#update_bounds", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when //then
+        assert_false(chart.config.y_axis.get_bounds().has_upper());
+
+        //when
+        chart.add_value(serie, 100.0);
 
         //then
         assert(chart.config.y_axis.get_bounds().upper == 100.0);
@@ -81,7 +99,7 @@ private void register_chart() {
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });
 
-    Test.add_func("/LiveChart/Chart/add_value_by_index", () => {
+    Test.add_func("/LiveChart/Chart/serie/add_value_by_index", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -91,6 +109,26 @@ private void register_chart() {
         //when
         try {
             chart.series[0].add(100);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
+
+        //then
+        assert(serie.get_values().size == 1);
+        assert(serie.get_values().get(0).value == 100);
+    });
+
+    //Deprecated
+    Test.add_func("/LiveChart/Chart/add_value_by_index", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when
+        try {
+            chart.add_value_by_index(0, 100);
         } catch (LiveChart.ChartError e) {
             assert_not_reached();
         }

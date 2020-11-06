@@ -23,6 +23,8 @@ void main (string[] args) {
     register_serie();
     register_series();
     register_threshold_line();
+    register_min_bound_line();
+    register_max_bound_line();
 
     Test.run();
 }

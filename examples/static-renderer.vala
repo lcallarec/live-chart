@@ -11,9 +11,14 @@ public class Example : Gtk.Window {
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
         rss.line.color = { 0.8, 0.1, 0.8, 1.0};
 
-        var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
+        var threshold = new LiveChart.Serie("threshold", new LiveChart.ThresholdLine(185.0));
         threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
 
+        var max = new LiveChart.Serie("MAX OF ALL SERIES", new LiveChart.MaxBoundLine());
+        var mrss = new LiveChart.Serie("MAX HEAP", new LiveChart.MaxBoundLine.from_serie(rss));
+        max.line.color = { 0.8, 0.5, 0.2, 1.0};
+        mrss.line.color = { 0.5, 0, 1.0, 1.0};
+        
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
@@ -25,6 +30,8 @@ public class Example : Gtk.Window {
         chart.add_serie(heap);
         chart.add_serie(rss);
         chart.add_serie(threshold);
+        chart.add_serie(max);
+        chart.add_serie(mrss);        
 
         double rss_value = 200.0;
         Timeout.add(1000, () => {
