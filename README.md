@@ -19,8 +19,6 @@
 ![](resources/chart1.gif)  ![](resources/chart2.gif)
   
 # Documentation
- 
-*N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to changes in a future release*
 
 - [Getting started](#getting-started)
 - [Dependencies](#dependencies)
@@ -32,16 +30,17 @@
 - [Background](#background)
 - [Legend](#legend)
 - [Chart element visibility](#chart-element-visibility)
-- [Programmatic export](#programmatic-export)
-- [Deal with your own data](#deal-with-your-own-data)
+- [Advanced usages](#advanced-usages)
 - [How Livechart versions works ?](#how-livechart-versions-works)
+
+    *N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to change without warning in any future release*
 
 ## Getting started
 
 Take a look at code examples :
 
 * [General example](examples/live-chart.vala)
-* [Fixed max y-axis value](examples/fixed-max.vala)
+* [Fixed max y-axis value](examples/fixed-max.**vala**)
 * [Hide chart elements](examples/hide-parts.vala)
 * [Label configuration](examples/configure-labels.vala)
 * [Static renderers](examples/static-renderer.vala)
@@ -67,7 +66,7 @@ ninja -C build
 
 ## API
 
-[Full API documentation here](https://lcallarec.github.io/live-chart/Livechart/LiveChart.html)
+[Full valadoc API documentation here](https://lcallarec.github.io/live-chart/Livechart/LiveChart.html)
 
 ## Chart widget
 
@@ -77,20 +76,11 @@ ninja -C build
 var chart = LiveChart.Chart();
 ```
 
-As `Chart` object derives from `Gtk.DrawingArea`, so you can directly attach it to any `Gtk.Container` :
+As `Chart` object derives from `Gtk.DrawingArea`, you can directly attach it to any `Gtk.Container` :
 
 ```vala
 var window = new Gtk.Window();
 window.add(chart);
-```
-### Controlling refresh rate
-
-By default, the chart is refreshed every `100ms` or very time a new data point is added.
-If it doesn't fit your needs, you can adjust the refresh rate. The lower, the smoother.
-
-```vala  
-var chart = LiveChart.Chart();
-vhart.refresh_every(1000); // refresh every 1000ms
 ```
 
 ## Series
@@ -101,7 +91,7 @@ A `Serie` is basically a structure that :
 * Has a name, like `Temperature in Paris`
 * Know how it renders on the chart, i.e as `Bar`, a `Line`, a `SmoothLineArea`...
 
-### Create and attach a Serie
+### Create and attach a **Serie**
 
 ```vala
 // Serie with a default Line renderer
@@ -203,11 +193,14 @@ chart.add_serie(paris);
 
 ## Serie renderers
 
-For all renderers, you can control the line or the bar color via the `color: Gdk.RGBA` property:
+A Serie renderer is responsible of drawing data points to the chart's surface. It is passed as second argument of `Serie` constructor :
 
 ```vala
-var smooth_line = LiveChart.SmoothLine();
-smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
+var serie_name = "Temperature in Paris";
+Values values = new Values(50000); // buffer of 50 000 data points
+var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(values));
+
+chart.add_serie(paris);
 ```
 
 There's currently 6 built-in series available.
@@ -225,6 +218,7 @@ Line renderer connects each data point with a straight segment.
 Smooth line renderer connects each data point with a bezier spline for a smoother rendering.
 
 ![](resources/renderer_smooth_line.png)
+
 
 ### Lines with area
 
@@ -266,7 +260,6 @@ threshold.value = 250.0; // update threshold at runtime
 * [`LiveChart.MaxBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html) and [`LiveChart.MinBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html)
 
 Max and Min bound line renderer draws a straight line which represents either a `MIN` or a `MAX` of a given serie, or of all series. In the example below, the yellow line represents the `MAX` value of **all** series, the purple one represents the `MAX` of **HEAP**
-
 
 ![](resources/renderer_min_max_bound_line.png)
 
@@ -617,7 +610,9 @@ axis = config.y_axis;
 axis.visible = false;
 ```
 
-## Programmatic export
+## Advanced usages
+
+### Programmatic export
 
 You can export your chart in `PNG` format :
 
@@ -626,7 +621,17 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## Deal with your own data
+### Controlling refresh rate
+
+By default, the chart is refreshed every `100ms` and very time a new data point is added.
+If it doesn't fit your needs, you can adjust the refresh rate. The lower, the smoother.
+
+```vala  
+var chart = LiveChart.Chart();
+vhart.refresh_every(1000); // refresh every 1000ms
+```
+
+### Deal with your own data
 
 LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.TimestampedValue.html) struct to store recorded values.
 Basically, it stores the value, as a double, and a timestamp.
@@ -662,7 +667,7 @@ Et voilà !
 * For each new feature, the `minor` version number will be bumped
 * For each bug fix, small improvement or documentation update, the `patch` version number will be bumped
 
-We'll do our best to never break the API on `minor` and `path` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
+We'll do our best to never break the API on `minor` and `patch` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
 
 Some classes, structs, methods, attributes or property will be marked as `Deprecated`, please check the compiler warnings about them. All the stuff marked as `Deprecated` will be removed from Livechart `2.0.0`, one day...
 
