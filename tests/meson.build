@@ -12,6 +12,8 @@ test_sources = files(
     'legend.vala',
     'line_area.vala',
     'line.vala',
+    'max_bound_line.vala',
+    'min_bound_line.vala',    
     'points.vala',
     'runner.vala',
     'serie.vala',
