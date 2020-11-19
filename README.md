@@ -40,7 +40,7 @@
 Take a look at code examples :
 
 * [General example](examples/live-chart.vala)
-* [Fixed max y-axis value](examples/fixed-max.**vala**)
+* [Fixed max y-axis value](examples/fixed-max.vala)
 * [Hide chart elements](examples/hide-parts.vala)
 * [Label configuration](examples/configure-labels.vala)
 * [Static renderers](examples/static-renderer.vala)

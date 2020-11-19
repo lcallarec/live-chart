@@ -1,3 +1,29 @@
+# 1.9.0
+
+## New features
+
+* [`LiveChart.MaxBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html) and [`LiveChart.MinBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html)
+
+Max and Min bound line renderer draws a straight line which represents either a `MIN` or a `MAX` of a given serie, or of all series.
+
+```vala
+var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
+heap.line.color = { 0.3, 0.8, 0.1, 1.0};
+
+var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
+rss.line.color = { 0.8, 0.1, 0.8, 1.0};
+
+var max = new LiveChart.Serie("MAX OF RSS OR HEAP", new LiveChart.MaxBoundLine());
+var mrss = new LiveChart.Serie("MAX HEAP", new LiveChart.MaxBoundLine.from_serie(rss));
+max.line.color = { 0.8, 0.5, 0.2, 1.0};
+mrss.line.color = { 0.5, 0, 1.0, 1.0};
+
+chart.add_serie(heap);
+chart.add_serie(rss);
+chart.add_serie(max);
+chart.add_serie(mrss);
+```
+
 # 1.8.0
 
 ## New features
