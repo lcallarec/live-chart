@@ -12,6 +12,9 @@ namespace LiveChart {
 
         public Serie register(Serie serie) {
             this.series.add(serie);
+            //if values were added to serie before registration
+            serie.get_values().foreach((value) => {chart.config.y_axis.update_bounds(value.value); return true;});
+            
             if(chart.legend != null) chart.legend.add_legend(serie);
             serie.value_added.connect((value) => {
                 chart.config.y_axis.update_bounds(value);
