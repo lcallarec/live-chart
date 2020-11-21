@@ -9,11 +9,11 @@ namespace LiveChart {
         
         public Gdk.RGBA main_color {
             get {
-                return renderer.main_color;
+                return renderer.line.color;
             }
 
             set {
-                renderer.main_color = value;
+                renderer.line.color = value;
             }
         }
         
