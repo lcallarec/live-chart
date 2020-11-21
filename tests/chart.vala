@@ -1,7 +1,7 @@
 
 private void register_chart() {
 
-    Test.add_func("/LiveChart/Chart/serie/add_value#update_bounds", () => {
+    Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -19,7 +19,7 @@ private void register_chart() {
     });
 
     //Deprecated
-    Test.add_func("/LiveChart/Chart/add_value#update_bounds", () => {
+    Test.add_func("/LiveChart/Chart/add_value#should_update_bounds_when_adding_a_value", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -186,14 +186,4 @@ private void register_chart() {
         });
         Gtk.main();
     });
-
-    Test.add_func("/LiveChart/Chart/#should_not_crash_if_value_added_is_zero", () => {
-        //given
-        var chart = new LiveChart.Chart();
-        var serie = new LiveChart.Serie("Test");
-        chart.add_serie(serie);
-
-        //when //then
-        serie.add(0);
-    });    
 }
