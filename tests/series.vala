@@ -55,11 +55,26 @@ private void register_series() {
         try {
             series[0].add(100.0);
         } catch (LiveChart.ChartError e) {
+            message(e.message);
             assert_not_reached();
         }
 
         //then
         assert(chart.config.y_axis.get_bounds().upper == 100.0);
-
     });
+
+    Test.add_func("/LiveChart/Series/register#should_update_bounds_on_registration_when_value_is_added_to_serie_before_registration", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var series = new LiveChart.Series(chart);
+        var serie = new LiveChart.Serie("Test 1");
+
+        serie.add(150.0);
+        
+        //when
+        series.register(serie);
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 150.0);
+    });    
 }
