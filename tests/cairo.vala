@@ -27,7 +27,7 @@ FromCoodinates color_at(Gdk.Pixbuf pixbuff, int width, int height) {
         var g = data[pos + 1];
         var b = data[pos + 2];
         var alpha = data[pos + 3];
-        return {r/255, g/255, b/255, alpha/255};
+        return {(double) r/255, (double) g/255, (double) b/255, (double) alpha/255};
     };
 }
 

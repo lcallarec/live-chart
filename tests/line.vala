@@ -1,5 +1,5 @@
 private void register_line() {
-    Test.add_func("/LiveChart/Line#Draw#ShouldntRenderIfNoValues", () => {
+    Test.add_func("/LiveChart/Line#Draw#shouldnt_render_if_no_values", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);

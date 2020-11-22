@@ -1,5 +1,5 @@
 private void register_line_area() {
-    Test.add_func("/LiveChart/LineArea#Draw", () => {
+    Test.add_func("/LiveChart/LineArea/Draw", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
@@ -66,7 +66,7 @@ private void register_line_area() {
         }
     });
 
-    Test.add_func("/LiveChart/LineArea#Draw#ShouldntRenderIfNoValues", () => {
+    Test.add_func("/LiveChart/LineArea/Draw#shouldnt_render_if_no_values", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
@@ -100,5 +100,36 @@ private void register_line_area() {
         } else {
             assert_not_reached();
         }
-    });    
+    });
+    
+    Test.add_func("/LiveChart/LineArea/Draw#should_render_all_points", () => {
+        //Given
+        var WIDTH = 100;
+        var HEIGHT = 100;
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        cairo_background(context, {0, 0, 0, 1}, WIDTH, HEIGHT);
+
+        var values = new LiveChart.Values();
+        values.add({timestamp: (GLib.get_real_time() / 1000), value: 0});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 3600, value: 100});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 7200, value: 0});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 10800, value: 100});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 14400, value: 0});
+
+        var area = new LiveChart.LineArea(values);
+          
+        area.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 0.5 };
+        area.area_alpha = 0.5;
+
+        //When
+        area.draw(context, create_config(WIDTH, HEIGHT));
+ 
+        //Then
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT) ;
+
+        assert(color_at(pixbuff, WIDTH, HEIGHT)(35, 50).to_string() == "rgb(128,0,0)");
+        assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");
+        assert(color_at(pixbuff, WIDTH, HEIGHT)(80, 50).to_string() == "rgb(128,0,0)");
+    });      
 }
