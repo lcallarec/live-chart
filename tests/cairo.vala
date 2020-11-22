@@ -31,9 +31,9 @@ FromCoodinates color_at(Gdk.Pixbuf pixbuff, int width, int height) {
     };
 }
 
-delegate Gee.HashSet<int> FromToCoodinates(int from_x, int from_y, int to_x, int to_y);
+delegate Gee.HashSet<int> IntFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
 
-FromToCoodinates unique_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
+IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
     unowned uint8[] data = pixbuff.get_pixels_with_length();
     var stride = pixbuff.rowstride;
     
@@ -48,6 +48,28 @@ FromToCoodinates unique_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
                 var b = data[pos + 2];
                 var alpha = data[pos + 3];
                 colors.add(colors_to_int(r, g, b, alpha));
+            }
+        }
+        return colors;
+    };
+}
+
+delegate Gee.ArrayList<Gdk.RGBA?> ColorFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
+ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
+    unowned uint8[] data = pixbuff.get_pixels_with_length();
+    var stride = pixbuff.rowstride;
+    
+    return (from_x, from_y, to_x, to_y) => {
+        var colors = new Gee.ArrayList<Gdk.RGBA?>();
+        for (var x = from_x; x <= to_x; x++) {
+            for (var y = from_y; y <= to_y; y++) {
+                var pos = (stride * y) + (4 * x);
+            
+                var r = data[pos];
+                var g = data[pos + 1];
+                var b = data[pos + 2];
+                var alpha = data[pos + 3];
+                colors.add({red: (double) r/255, green: (double) g/255, blue: (double) b/255, alpha: (double) alpha/255});
             }
         }
         return colors;
@@ -141,7 +163,7 @@ private void register_cairo() {
         
         //When
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        var from_to_coords = unique_colors_at(pixbuff, WIDTH, HEIGHT);
+        var from_to_coords = colors_at(pixbuff, WIDTH, HEIGHT);
         //Then
         assert(from_to_coords(0, 0, 1, 1).size == 4);
     });

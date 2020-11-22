@@ -30,11 +30,11 @@ private void register_bar() {
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
         
-        var top_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 0, 0, 3);
+        var top_colors = unique_int_colors_at(pixbuff, WIDTH, HEIGHT)(0, 0, 0, 3);
         assert(top_colors.size == 1);
         assert(top_colors.contains(color_to_int(red)));
 
-        var bootom_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 4, 0, 9);
+        var bootom_colors = unique_int_colors_at(pixbuff, WIDTH, HEIGHT)(0, 4, 0, 9);
         assert(bootom_colors.size == 1);
         assert(bootom_colors.contains(color_to_int(white)));
     });
@@ -58,7 +58,7 @@ private void register_bar() {
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT);
         if (pixbuff != null) {
-            var colors = unique_colors_at(pixbuff, SURFACE_WIDTH, SURFACE_HEIGHT)(0, 0, SURFACE_WIDTH - 1, SURFACE_HEIGHT - 1);
+            var colors = unique_int_colors_at(pixbuff, SURFACE_WIDTH, SURFACE_HEIGHT)(0, 0, SURFACE_WIDTH - 1, SURFACE_HEIGHT - 1);
             assert(colors.size == 1);
             assert(colors.contains(color_to_int(black)));
         } else {

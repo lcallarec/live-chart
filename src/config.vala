@@ -54,6 +54,8 @@ namespace LiveChart {
         public YAxis y_axis = new YAxis();
         public XAxis x_axis = new XAxis();
 
+        public Gee.ArrayList<string> categories;
+
         public Boundaries boundaries() {
             return Boundaries() {
                x = {padding.left, width - padding.right},
@@ -81,7 +83,9 @@ namespace LiveChart {
             TextExtents extents;
             if (y_axis.visible && y_axis.labels.visible) {
                 y_axis.labels.font.configure(ctx);
-                ctx.text_extents(y_axis.get_max_displayed_value() + y_axis.unit, out extents);
+                //add two _ extra chars to get an aesthetic padding when y axis has no unit
+                var spaces = y_axis.unit.length == 0 ? "__" : y_axis.unit;
+                ctx.text_extents(y_axis.get_max_displayed_value() + spaces, out extents);
             } else {
                 extents = TextExtents();
                 extents.height = 0.0;
