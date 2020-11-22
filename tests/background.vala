@@ -33,7 +33,7 @@ private void register_background() {
         }
     });
 
- Test.add_func("/LiveChart/Background#draw_hidden", () => {
+    Test.add_func("/LiveChart/Background#draw_hidden", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
