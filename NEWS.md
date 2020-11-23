@@ -1,3 +1,13 @@
+# 1.9.1
+
+## Fixes
+
+* Missing second point in line / line-area serie
+* Last point in line / line-area rendered twice
+* Left padding when auto padding is enabled and y axis has no unit
+
+* Tests can now de run deprecated stuff without warnings
+
 # 1.9.0
 
 ## New features
