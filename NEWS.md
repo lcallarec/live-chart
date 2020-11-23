@@ -6,7 +6,7 @@
 * Last point in line / line-area rendered twice
 * Left padding when auto padding is enabled and y axis has no unit
 
-* Tests can now de run deprecated stuff without warnings
+* Tests can now be run deprecated stuff without warnings
 
 # 1.9.0
 
