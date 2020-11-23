@@ -25,7 +25,15 @@ sources = files(
     'smooth_line.vala',
     'threshold_line.vala',
     'utils.vala',
-    'values.vala'
+    'values.vala',
+    'static/static_chart.vala',
+    'static/static_series.vala',
+    'static/static_serie.vala',
+    'static/static_values.vala',
+    'static/static_serie_renderer.vala',
+    'static/static_line.vala',
+    'static/static_grid.vala',
+    'static/static_points.vala'
 )
 
 livechart_static_lib = static_library('livechart_static', [sources], dependencies: deps, vala_args: vala_args)
