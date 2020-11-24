@@ -186,4 +186,16 @@ private void register_chart() {
         });
         Gtk.main();
     });
+
+        Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprected", () => {
+        //given
+        var chart = new LiveChart.Chart();
+
+        //when
+        chart.background.main_color = {1, 1, 1, 1};
+       
+        //then
+        //ok
+        
+    });
 }

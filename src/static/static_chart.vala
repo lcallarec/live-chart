@@ -6,7 +6,7 @@ namespace LiveChart.Static {
      public class StaticChart : Gtk.DrawingArea {
 
         public StaticGrid grid { get; set; default = new StaticGrid(); }
-        public Drawable background { get; set; default = new Background(); } 
+        public Background background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         public Config config;
         public StaticSeries series;
