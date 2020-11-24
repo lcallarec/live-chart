@@ -5,8 +5,9 @@
 * Missing second point in line / line-area serie
 * Last point in line / line-area rendered twice
 * Left padding when auto padding is enabled and y axis has no unit
+* Crash when accessing deprecated `Chart.background.main_color` property
 
-* Tests can now be run deprecated stuff without warnings
+* Tests can be ran deprecated stuff without warnings
 
 # 1.9.0
 

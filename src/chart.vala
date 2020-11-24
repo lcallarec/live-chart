@@ -11,7 +11,7 @@ namespace LiveChart {
     public class Chart : Gtk.DrawingArea {
 
         public Grid grid { get; set; default = new Grid(); }
-        public Drawable background { get; set; default = new Background(); } 
+        public Background background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         public Config config;
         public Series series;
