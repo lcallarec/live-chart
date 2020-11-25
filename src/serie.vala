@@ -31,9 +31,9 @@ namespace LiveChart {
 
         public signal void value_added(double value);
 
-        private SerieRenderer renderer;
+        private LiveSerieRenderer renderer;
 
-        public Serie(string name, SerieRenderer renderer = new Line()) {
+        public Serie(string name, LiveSerieRenderer renderer = new Line()) {
             this.name = name;
             this.renderer = renderer;
         }

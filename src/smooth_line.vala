@@ -1,16 +1,14 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class SmoothLine : SerieRenderer {
-
+    public class SmoothLine : LiveSerieRenderer {
         public SmoothLine(Values values = new Values()) {
-            base();
-            this.values = values;
+            base(values);
         }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                var points = Points.create(values, config);
+                var points = points_factory.create(config);
                 if(points.size > 0) {
                     this.draw_smooth_line(points, ctx, config);
                     ctx.stroke();

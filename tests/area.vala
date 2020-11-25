@@ -5,7 +5,7 @@ private void register_area() {
         Cairo.Context context = new Cairo.Context(surface);
         cairo_background(context);
 
-        var points = LiveChart.Points.create(new LiveChart.Values(), create_config());
+        var points = (new LiveChart.TimeStampedPointsFactory(new LiveChart.Values())).create(create_config());
        
         var area = new LiveChart.Area(points, Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 }, 1.0);
 

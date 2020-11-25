@@ -1,15 +1,14 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Bar : SerieRenderer {
+    public class Bar : LiveSerieRenderer {
         public Bar(Values values = new Values()) {
-            base();
-            this.values = values;
+            base(values);
         }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                var points = Points.create(values, config);
+                var points = points_factory.create(config);
                 if (points.size > 0) {
                     line.configure(ctx);
                     

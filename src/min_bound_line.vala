@@ -2,15 +2,15 @@ using Cairo;
 
 namespace LiveChart { 
     
-    public class MinBoundLine : SerieRenderer {
+    public class MinBoundLine : LiveSerieRenderer {
         
         public MinBoundLine(Values values = new Values()) {
-            base();
-            this.values = values;
+            base(values);
         }
 
         public MinBoundLine.from_serie(Serie serie) {
-            this.values = serie.get_values();
+            values = serie.get_values();
+            base(values);
         }
 
         public override void draw(Context ctx, Config config) {

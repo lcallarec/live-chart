@@ -30,11 +30,6 @@ namespace LiveChart {
             width=0,
             height=0
         };
-        
-        protected Values values;
-        public Values get_values() {
-            return this.values;
-        }
 
         public abstract void draw(Context ctx, Config config);
         public BoundingBox get_bounding_box() {
@@ -51,6 +46,34 @@ namespace LiveChart {
 
         protected bool is_out_of_area(Point point) {
             return point.x < SerieRenderer.VIRTUAL_LEFT_PADDING;
+        }
+    }
+
+    public abstract class LiveSerieRenderer : SerieRenderer {
+                
+        protected PointsFactory<TimestampedValue?> points_factory;
+        protected Values values;
+        public Values get_values() {
+            return this.values;
+        }
+
+        public new abstract void draw(Context ctx, Config config);
+        protected LiveSerieRenderer(Values values) {
+            this.values = values;
+            this.points_factory = new TimeStampedPointsFactory(values);
+        }
+    }
+
+    public abstract class StaticSerieRenderer : SerieRenderer {
+        protected PointsFactory<NamedValue?> points_factory;
+        protected StaticValues values;
+        public StaticValues get_values() {
+            return this.values;
+        }
+        public new abstract void draw(Context ctx, Config config);
+        protected StaticSerieRenderer(StaticValues values) {
+            this.values = values;
+            this.points_factory = new NamedPointsFactory(values);
         }
     }
 }

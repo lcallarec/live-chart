@@ -11,7 +11,7 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                var points = Points.create(values, config);
+                var points = points_factory.create(config);
                 if (points.size > 0) {
                     this.draw_line(points, ctx, config);
                     ctx.stroke_preserve();   

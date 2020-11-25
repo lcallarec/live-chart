@@ -16,7 +16,7 @@ private void register_points() {
         values.add({now, 100});
 
         //when 
-        var points = LiveChart.Points.create(values, config);
+        var points =(new LiveChart.TimeStampedPointsFactory(values)).create(config);
 
         //then
         assert(points.size == values.size);
@@ -39,6 +39,6 @@ private void register_points() {
         var values = new LiveChart.Values();
 
         //when //then
-        LiveChart.Points.create(values, config);
+        (new LiveChart.TimeStampedPointsFactory(values)).create(config);
     });  
 }

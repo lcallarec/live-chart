@@ -4,6 +4,7 @@
      public class Area : Drawable, Object {
         private Points points;
         private Gdk.RGBA color;
+
         private BoundingBox bounding_box = BoundingBox() {
             x=0, 
             y=0, 

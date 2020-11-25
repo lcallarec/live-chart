@@ -2,15 +2,15 @@ using Cairo;
 
 namespace LiveChart { 
     
-    public class MaxBoundLine : SerieRenderer {
+    public class MaxBoundLine : LiveSerieRenderer {
         
         public MaxBoundLine() {
-            base();
-            this.values = new Values();
+            base(new Values());
         }
 
         public MaxBoundLine.from_serie(Serie serie) {
-            this.values = serie.get_values();
+            values = serie.get_values();
+            base(values);
         }
 
         public override void draw(Context ctx, Config config) {

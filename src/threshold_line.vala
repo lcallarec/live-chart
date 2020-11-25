@@ -2,12 +2,12 @@ using Cairo;
 
 namespace LiveChart { 
     
-    public class ThresholdLine : SerieRenderer {
+    public class ThresholdLine : LiveSerieRenderer {
         
         public double value { get; set; default = 0;}
         
         public ThresholdLine(double value) {
-            base();
+            base(new Values());
             this.value = value;
         }
 
