@@ -1,16 +1,9 @@
 using Cairo;
 
 namespace LiveChart { 
-    public struct BoundingBox {
-        double x;
-        double y;
-        double width;
-        double height;
-    }
     public interface Drawable : Object {
         public abstract bool visible { get; set; default = true; }
         public abstract void draw(Context ctx, Config config);
-        public abstract BoundingBox get_bounding_box();
     }
 
     //Hack needed for Serie compilation (get_main_color method and main_color property transpiled with same name

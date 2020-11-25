@@ -13,7 +13,7 @@ namespace LiveChart {
             if (visible) {
                 var points = Points.create(values, config);
                 if(points.size > 0) {
-                    this.draw_smooth_line(points, ctx, config);
+                    draw_smooth_line(points, ctx, config, line);
                     ctx.stroke_preserve();
                    
                     var area = new Area(points, this.main_color, this.area_alpha);

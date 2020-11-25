@@ -7,6 +7,7 @@ sources = files(
     'bounds.vala',
     'chart.vala',
     'config.vala',
+    'debug.vala',
     'drawable.vala',
     'font.vala',
     'grid.vala',
