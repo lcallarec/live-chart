@@ -7,7 +7,6 @@ private void register_smooth_line_area() {
         cairo_background(context);
 
         var values = new LiveChart.Values();
-       
         var line = new LiveChart.SmoothLineArea(values);
         line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
 

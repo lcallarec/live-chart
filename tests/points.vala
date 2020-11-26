@@ -1,7 +1,7 @@
 
 private void register_points() {
 
-    Test.add_func("/LiveChart/Points#Create", () => {
+    Test.add_func("/LiveChart/TimeStampedPointsFactory/create#happy_path", () => {
         //given
         var config = new LiveChart.Config();
         config.width = 100;
@@ -16,7 +16,7 @@ private void register_points() {
         values.add({now, 100});
 
         //when 
-        var points = LiveChart.Points.create(values, config);
+        var points = new LiveChart.TimeStampedPointsFactory(values).create(config);
 
         //then
         assert(points.size == values.size);
@@ -33,12 +33,12 @@ private void register_points() {
         assert((int) last_point.height == 100);
     });
 
-    Test.add_func("/LiveChart/Points#Create#ShouldntCrashOnEmptyValues", () => {
+    Test.add_func("/LiveChart/TimeStampedPointsFactory#create#shouldnt_crash_on_empty_values", () => {
         //given
         var config = new LiveChart.Config();
         var values = new LiveChart.Values();
 
         //when //then
-        LiveChart.Points.create(values, config);
+        new LiveChart.TimeStampedPointsFactory(values).create(config);
     });  
 }

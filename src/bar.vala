@@ -2,14 +2,16 @@ using Cairo;
 
 namespace LiveChart { 
     public class Bar : SerieRenderer {
+        private PointsFactory<TimestampedValue?> points_factory;
         private BarDrawer drawer = new BarDrawer();
         public Bar(Values values = new Values()) {
+            points_factory = new TimeStampedPointsFactory(values);
             this.values = values;
         }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                drawer.draw(ctx, config, Points.create(values, config), line);
+                drawer.draw(ctx, config, points_factory.create(config), line);
             }
         }
     }

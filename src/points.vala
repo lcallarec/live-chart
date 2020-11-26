@@ -30,10 +30,6 @@ namespace LiveChart {
             }
         }
 
-        public double realtime_delta {
-            get; set;
-        }
-
         public new Point get(int at) {
             return points.get(at);
         }
@@ -50,17 +46,32 @@ namespace LiveChart {
         public Point last() {
             return this.get(this.size - 1);
         }
+       
+    }
+}
 
-        public static Points create(Values values, Config config) {
+namespace LiveChart {
+    public interface PointsFactory<T> : Object {
+        public abstract Points create(Config config);
+    }
+
+    public class TimeStampedPointsFactory : PointsFactory<TimestampedValue?>, Object {
+        private Values values;
+
+        public TimeStampedPointsFactory(owned Values values) {
+            this.values = values;
+        }
+
+        public Points create(Config config) {
             var boundaries = config.boundaries();
 
-            Points points = new Points();
+            var points = new Points();
             if (values.size > 0) {
                 var last_value = values.last();
-                points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
+                var realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
 
                 foreach (TimestampedValue value in values) {
-                    var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);
+                    var point = value_to_point(last_value, value, config, boundaries, realtime_delta);
                     points.add(point);
                 }
             }
@@ -68,7 +79,7 @@ namespace LiveChart {
             return points;
         }
 
-        private static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Config config, Boundaries boundaries, double realtime_delta) {
+        public static Point value_to_point(TimestampedValue last_value, TimestampedValue current_value, Config config, Boundaries boundaries, double realtime_delta) {
             return Point() {
                 x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * config.x_axis.get_ratio()) - realtime_delta,
                 y = boundaries.y.max - (current_value.value * config.y_axis.get_ratio()),

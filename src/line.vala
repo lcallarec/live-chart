@@ -3,13 +3,15 @@ using Cairo;
 namespace LiveChart { 
     public class Line : SerieRenderer {
         private LineDrawer drawer = new LineDrawer();
+        private PointsFactory<TimestampedValue?> points_factory;
         public Line(Values values = new Values()) {
+            points_factory = new TimeStampedPointsFactory(values);
             this.values = values;
         }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                drawer.draw(ctx, config, Points.create(values, config), line);
+                drawer.draw(ctx, config, points_factory.create(config), line);
             }
         }
 
@@ -55,6 +57,24 @@ namespace LiveChart {
                 width=points.last().x - points.first().x,
                 height=points.bounds.upper - points.bounds.lower
             };
+        }
+    }
+
+    public abstract class LineSerie : Drawable, Object {
+        public Path line { get; set; default = new Path(1);}
+        public bool visible { get; set; default = true; }
+        private  Values values;
+        private LineDrawer drawer = new LineDrawer();
+        private PointsFactory<TimestampedValue?> points_factory;
+
+        protected LineSerie(string name, int buffer_size = 1000) {
+            values = new Values(buffer_size);       
+            points_factory = new TimeStampedPointsFactory(values);
+        }
+        public void draw(Context ctx, Config config) {
+            if (visible) {
+                drawer.draw(ctx, config, points_factory.create(config), line);
+            }
         }
     }
 }

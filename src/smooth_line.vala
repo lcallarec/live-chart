@@ -3,13 +3,16 @@ using Cairo;
 namespace LiveChart { 
     public class SmoothLine : SerieRenderer {
         private SmoothLineDrawer drawer = new SmoothLineDrawer();
+        private PointsFactory<TimestampedValue?> points_factory;
+
         public SmoothLine(Values values = new Values()) {
-             this.values = values;
+            points_factory = new TimeStampedPointsFactory(values);
+            this.values = values;
         }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                var points = Points.create(values, config);
+                var points = points_factory.create(config);
                 if(points.size > 0) {
                     draw_smooth_line(points, ctx, config, line);
                     ctx.stroke();

@@ -72,4 +72,5 @@ namespace LiveChart {
             renderer.get_values().clear();
         }
     }
+
 }
