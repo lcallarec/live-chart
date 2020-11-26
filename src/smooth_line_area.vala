@@ -1,10 +1,11 @@
 using Cairo;
 
 namespace LiveChart {
-     public class SmoothLineArea : SmoothLine {
+    public class SmoothLineArea : SmoothLine {
 
         public double area_alpha {get; set; default = 0.1;}
         private PointsFactory<TimestampedValue?> points_factory;
+        private SmoothLineAreaDrawer area_drawer = new SmoothLineAreaDrawer();
 
         public SmoothLineArea(Values values = new Values()) {
             base(values);
@@ -14,15 +15,21 @@ namespace LiveChart {
         public override void draw(Context ctx, Config config) {
             if (visible) {
                 var points = points_factory.create(config);
-                message("Point size = %d", points.size);
                 if(points.size > 0) {
-                    draw_smooth_line(points, ctx, config, line);
-                    ctx.stroke_preserve();
-                   
-                    var area = new Area(points, this.main_color, this.area_alpha);
-                    area.draw(ctx, config);
+                    area_drawer.draw(points, ctx, config, line, area_alpha);
                 }
             }
+        }
+    }
+
+    public class SmoothLineAreaDrawer : Object {
+        private SmoothLineDrawer line_drawer = new SmoothLineDrawer();
+        public void draw(Points points, Context ctx, Config config, Path line, double alpha) {
+            line_drawer.draw(points, ctx, config, line);
+            ctx.stroke_preserve();   
+    
+            var area = new Area(points, line.color, alpha);
+            area.draw(ctx, config);
         }
     }
 }

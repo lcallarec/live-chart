@@ -20,6 +20,7 @@
         }
 
         public void draw(Context ctx, Config config) {
+
             if (this.points.size > 0) {
                 var boundaries = config.boundaries();
                 var first_point = points.first();
