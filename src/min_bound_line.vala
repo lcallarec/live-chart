@@ -5,7 +5,6 @@ namespace LiveChart {
     public class MinBoundLine : SerieRenderer {
         
         public MinBoundLine(Values values = new Values()) {
-            base();
             this.values = values;
         }
 

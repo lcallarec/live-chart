@@ -4,8 +4,7 @@ namespace LiveChart {
     public class SmoothLine : SerieRenderer {
         private SmoothLineDrawer drawer = new SmoothLineDrawer();
         public SmoothLine(Values values = new Values()) {
-            base();
-            this.values = values;
+             this.values = values;
         }
 
         public override void draw(Context ctx, Config config) {

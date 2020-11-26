@@ -4,7 +4,6 @@ namespace LiveChart {
     public class Line : SerieRenderer {
         private LineDrawer drawer = new LineDrawer();
         public Line(Values values = new Values()) {
-            base();
             this.values = values;
         }
 

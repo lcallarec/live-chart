@@ -5,7 +5,6 @@ namespace LiveChart {
     public class MaxBoundLine : SerieRenderer {
         
         public MaxBoundLine() {
-            base();
             this.values = new Values();
         }
 

@@ -7,7 +7,6 @@ namespace LiveChart {
         public double value { get; set; default = 0;}
         
         public ThresholdLine(double value) {
-            base();
             this.value = value;
         }
 

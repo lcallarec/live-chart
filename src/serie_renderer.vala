@@ -16,12 +16,7 @@ namespace LiveChart {
                 line.color = value;
             }
         }
-        public Path line { get; set; }
-
-        protected SerieRenderer() {
-            line = new Path(1);
-        }
-
+        public Path line { get; set; default = new Path(1);}
 
         protected Values values;
         public Values get_values() {
