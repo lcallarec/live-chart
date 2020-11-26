@@ -34,7 +34,7 @@ namespace LiveChart {
                 var target_point = points.after(pos);
                 var pressure = (target_point.x - previous_point.x) / 2.0;
 
-                if (SerieRenderer.is_out_of_area(previous_point)) {
+                if (is_out_of_area(previous_point)) {
                     continue;
                 }
 
