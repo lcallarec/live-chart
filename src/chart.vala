@@ -36,12 +36,12 @@ namespace LiveChart {
             this.series.register(serie);
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series (or from the serie you created) and add the value using serie.add")]
+        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "chart.series accessor (or from the serie you created) and add the value using serie.add")]
         public void add_value(Serie serie, double value) {
             serie.add(value);
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series and add the value using serie.add")]        
+        [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "chart.series accessor and add the value using serie.add")]        
         public void add_value_by_index(int serie_index, double value) throws ChartError {
             try {
                 var serie = series.get(serie_index);

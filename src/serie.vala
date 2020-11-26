@@ -54,12 +54,12 @@ namespace LiveChart {
             value_added(value);
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.main_color property instead")]        
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.line.color property instead")]        
         public void set_main_color(Gdk.RGBA color) {
             main_color = color;
         }
 
-        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.main_color property instead")]        
+        [Version (deprecated = true, deprecated_since = "1.7.1", replacement = "Serie.line.color property instead")]        
         public Gdk.RGBA get_main_color() {
             return main_color;
         }

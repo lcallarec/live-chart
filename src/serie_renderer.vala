@@ -6,7 +6,7 @@ namespace LiveChart {
 
         public bool visible { get; set; default = true; }
         
-        [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Serie.renderer.line.color")]
+        [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Serie.line.color")]
         public Gdk.RGBA main_color {
             get {
                 return line.color;
@@ -24,6 +24,5 @@ namespace LiveChart {
         }
 
         public abstract void draw(Context ctx, Config config);
-
     }
 }
