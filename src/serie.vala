@@ -1,7 +1,12 @@
 using Cairo;
 namespace LiveChart { 
 
-    public class Serie : Colorable, Drawable, Object {
+    public interface Seriable : Object {
+        public abstract string name { get; set; }
+        public abstract Path line { get; set; }
+        public abstract bool visible { get; set; default = true; }
+    }
+    public class Serie : Seriable, Colorable, Drawable, Object {
 
         public string name {
             get; set;
@@ -73,4 +78,37 @@ namespace LiveChart {
         }
     }
 
+    public abstract class TimeSerie : Seriable, Drawable, Object {
+
+        public string name { get; set; }
+         public Path line { get; set; default = new Path(1);}
+        public bool visible { get; set; default = true; }
+        public signal void value_added(double value);
+        
+        protected Values values;
+
+        public abstract void draw(Context ctx, Config config);
+        protected TimeSerie(string name, int buffer_size) {
+            this.name = name;
+            this.values = new Values();
+        }
+
+        public void add(double value) {
+            values.add({GLib.get_real_time() / 1000, value});
+            value_added(value);
+        }
+
+        public void add_with_timestamp(double value, int64 timestamp) {
+            values.add({timestamp, value});
+            value_added(value);
+        }
+
+        public Values get_values() {
+            return values;
+        }
+
+        public void clear() {
+            values.clear();
+        }
+    }
 }
