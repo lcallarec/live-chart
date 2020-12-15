@@ -99,8 +99,10 @@ private void register_max_bound_line() {
             assert_not_reached();
         }
     });
+}
 
-    //Experimental
+[Version (experimental=true)]
+private void register_experimental_max_bound_line() {
     Test.add_func("/LiveChart/MaxBoundLineSerie#all_series", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
@@ -200,5 +202,5 @@ private void register_max_bound_line() {
         } else {
             assert_not_reached();
         }
-    });    
+    });  
 }

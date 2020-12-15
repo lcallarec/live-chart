@@ -2,7 +2,8 @@ using Cairo;
 using LiveChart;
 
 namespace LiveChart.Static { 
-
+    
+    [Version (experimental=true)]
     public class StaticSerie : Colorable, Drawable, Object {
 
         public string name {

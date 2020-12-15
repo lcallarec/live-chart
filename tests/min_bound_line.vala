@@ -100,8 +100,10 @@ private void register_min_bound_line() {
             assert_not_reached();
         }
     });
+}
 
-    //EXPERIMENTAL
+[Version (experimental=true)]
+private void register_experimental_min_bound_line() {
     Test.add_func("/LiveChart/MinBoundLineSerie#all_series", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);

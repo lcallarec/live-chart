@@ -1,5 +1,6 @@
 namespace LiveChart { 
     
+    [Version (experimental=true)]
     public enum Density {
         AUTO,
         LOW,

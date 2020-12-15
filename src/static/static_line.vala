@@ -1,7 +1,9 @@
 using Cairo;
 using LiveChart;
 
-namespace LiveChart.Static { 
+namespace LiveChart.Static {
+        
+    [Version (experimental=true)]
     public class StaticLine : StaticSerieRenderer {
 
         public StaticLine(StaticValues values = new StaticValues()) {

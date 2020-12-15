@@ -102,6 +102,8 @@ namespace LiveChart {
         }
     }
 
+        
+    [Version (experimental=true)]
     public class ThresholdLineSerie : TimeSerie {
         public double at_value { get; set; default = 0;}
 

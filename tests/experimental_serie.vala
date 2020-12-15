@@ -1,5 +1,5 @@
-//EXPERIMENTAL
-private void register_time_serie() {
+[Version (experimental=true)]
+private void register_experimental_serie() {
 
     Test.add_func("/LiveChart/TimeSerie/get_values", () => {
         //given

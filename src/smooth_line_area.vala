@@ -33,6 +33,7 @@ namespace LiveChart {
         }
     }
 
+    [Version (experimental=true)]
     public class SmoothLineAreaSerie : TimeSerie {
         private SmoothLineAreaDrawer drawer = new SmoothLineAreaDrawer();
         public double area_alpha {get; set; default = 0.1;}

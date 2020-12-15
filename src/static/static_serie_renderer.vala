@@ -2,7 +2,8 @@ using Cairo;
 using LiveChart;
 
 namespace LiveChart.Static { 
-
+    
+    [Version (experimental=true)]
     public abstract class StaticSerieRenderer : Drawable, Object {
 
         private const int VIRTUAL_LEFT_PADDING = -200;

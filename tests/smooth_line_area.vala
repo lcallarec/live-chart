@@ -34,8 +34,10 @@ private void register_smooth_line_area() {
             assert_not_reached();
         }
     });
-    
-    //EXPERIMENTAL
+}
+
+[Version (experimental=true)]
+private void register_experimental_smooth_line_area() {
     Test.add_func("/LiveChart/SmoothLineAreaSerie/draw#shouldnt_render_if_no_values", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);

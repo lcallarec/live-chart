@@ -6,7 +6,7 @@ libm = cc.find_library('m', required: true)
 gtk = dependency('gtk+-3.0', version: '>= 3.22')
 gee = dependency('gee-0.8')
 
-vala_args = ['--target-glib=2.50']
+vala_args = ['--target-glib=2.50', '--enable-experimental']
 
 if meson.version().version_compare('>= 0.47')
   if get_option('debug') == true 

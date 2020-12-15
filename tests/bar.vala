@@ -65,8 +65,10 @@ private void register_bar() {
             assert_not_reached();
         }
     });
+}
 
-    //EXPERIMENTAL
+[Version (experimental=true)]
+private void register_experimental_bar() {
     Test.add_func("/LiveChart/BarSerie#draw", () => {
         //Given
         var WIDTH = 10;

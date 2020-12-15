@@ -20,13 +20,13 @@ test_sources = files(
     'series.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
-    'time-chart.vala',
-    'time-serie.vala',
     'threshold_line.vala',
     'utils.vala',    
     'values.vala',
+    'experimental_chart.vala',
+    'experimental_serie.vala',
 )
 
-vala_args += ['--enable-deprecated']
+vala_args += ['--enable-deprecated', '--enable-experimental']
 test('livechart-test', executable('livechart-test', test_sources, vala_args: vala_args, dependencies: deps + [livechart_dep]))
 

@@ -2,7 +2,8 @@ using Cairo;
 using LiveChart;
 
 namespace LiveChart.Static {
-
+    
+    [Version (experimental=true)]
     public class StaticGrid : Drawable, Object {
         public const int ABSCISSA_TIME_PADDING = 5;
         protected BoundingBox bounding_box = BoundingBox() {

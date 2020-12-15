@@ -34,8 +34,10 @@ private void register_line() {
             assert_not_reached();
         }
     });
+}
 
-    //EXPERIMENTAL
+[Version (experimental=true)]
+private void register_experimental_line() {
     Test.add_func("/LiveChart/LineSerie/draw#shouldnt_render_if_no_values", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);

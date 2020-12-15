@@ -35,6 +35,7 @@ namespace LiveChart {
         }
     }
 
+    [Version (experimental=true)]
     public class LineAreaSerie : TimeSerie {
         private LineAreaDrawer drawer = new LineAreaDrawer();
         public double area_alpha {get; set; default = 0.1;}

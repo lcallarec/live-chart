@@ -127,6 +127,8 @@ namespace LiveChart {
             series = new Series(this);
         }
     }
+    
+    [Version (experimental=true)]
     public class TimeChart : BaseChart {
         public new TimeSeries series;
         public TimeChart(Config config = new Config()) {

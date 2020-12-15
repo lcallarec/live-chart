@@ -61,7 +61,8 @@ namespace LiveChart {
             };
         }
     }
-
+    
+    [Version (experimental=true)]
     public class LineSerie : TimeSerie {
         private LineDrawer drawer = new LineDrawer();
 

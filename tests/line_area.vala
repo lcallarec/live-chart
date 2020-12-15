@@ -132,8 +132,12 @@ private void register_line_area() {
         assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");
         assert(color_at(pixbuff, WIDTH, HEIGHT)(80, 50).to_string() == "rgb(128,0,0)");
     });
+  
+}
 
-    //EXPERIMENTAL
+[Version (experimental=true)]
+private void register_experimental_line_area() {
+
     Test.add_func("/LiveChart/LineAreaSerie/draw", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
@@ -261,5 +265,5 @@ private void register_line_area() {
         assert(color_at(pixbuff, WIDTH, HEIGHT)(35, 50).to_string() == "rgb(128,0,0)");
         assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");
         assert(color_at(pixbuff, WIDTH, HEIGHT)(80, 50).to_string() == "rgb(128,0,0)");
-    });      
+    });   
 }

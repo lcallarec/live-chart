@@ -2,7 +2,8 @@ using Gee;
 using LiveChart;
 
 namespace LiveChart.Static {
-
+    
+    [Version (experimental=true)]
     public class StaticPoints : Object {
 
         private Gee.ArrayList<Point?> points = new Gee.ArrayList<Point?>();

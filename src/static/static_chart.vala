@@ -2,8 +2,9 @@ using Cairo;
 using LiveChart;
 
 namespace LiveChart.Static {
-
-     public class StaticChart : Gtk.DrawingArea {
+    
+    [Version (experimental=true)]
+    public class StaticChart : Gtk.DrawingArea {
 
         public StaticGrid grid { get; set; default = new StaticGrid(); }
         public Background background { get; set; default = new Background(); } 

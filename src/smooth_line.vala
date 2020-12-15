@@ -62,6 +62,7 @@ namespace LiveChart {
         }
     }
 
+    [Version (experimental=true)]
     public class SmoothLineSerie : TimeSerie {
         private SmoothLineDrawer drawer = new SmoothLineDrawer();
 

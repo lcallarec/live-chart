@@ -87,7 +87,8 @@ namespace LiveChart {
             renderer.get_values().clear();
         }
     }
-
+    
+    [Version (experimental=true)]
     public abstract class TimeSerie : BaseSerie<Values> {
 
         protected PointsFactory<TimestampedValue?> points_factory;

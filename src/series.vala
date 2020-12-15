@@ -40,7 +40,8 @@ namespace LiveChart {
             return series.list_iterator();
         }
     }
-
+    
+    [Version (experimental=true)]
     public class TimeSeries {
 
         private Gee.ArrayList<TimeSerie> series = new Gee.ArrayList<TimeSerie>();

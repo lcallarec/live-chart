@@ -3,6 +3,8 @@ using LiveChart;
 
 namespace LiveChart.Static { 
 
+        
+    [Version (experimental=true)]
     public class StaticSeries : Object {
 
         private Gee.ArrayList<StaticSerie> series = new Gee.ArrayList<StaticSerie>();

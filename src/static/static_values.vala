@@ -2,12 +2,14 @@ using Gee;
 using LiveChart;
 
 namespace LiveChart.Static {
-    
+        
+    [Version (experimental=true)]
     public struct NamedValue {
         public string name;
         public double value;
     }
-
+    
+    [Version (experimental=true)]
     public class StaticValues : LinkedList<NamedValue?> {
 
         public Bounds bounds {

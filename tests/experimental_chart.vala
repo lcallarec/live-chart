@@ -1,5 +1,5 @@
 //EXPERIMENTAL
-private void register_time_chart() {
+private void register_experimental_chart() {
 
     Test.add_func("/LiveChart/TimeChart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
         //given

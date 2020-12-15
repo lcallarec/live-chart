@@ -44,7 +44,8 @@ namespace LiveChart {
             };
         }
     }
-
+    
+    [Version (experimental=true)]
     public class BarSerie : TimeSerie {
         private BarDrawer drawer = new BarDrawer();
 

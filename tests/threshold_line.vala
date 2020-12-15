@@ -60,8 +60,10 @@ private void register_threshold_line() {
             assert_not_reached();
         }
     });
+}
 
-    //EXPERIMENTAL
+[Version (experimental=true)]
+public void register_experimental_threshold_line() {
     Test.add_func("/LiveChart/ThresholdLineSerie", () => {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
