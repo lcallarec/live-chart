@@ -7,7 +7,7 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
         public Labels labels = new Labels();
 
-        protected Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
+        protected Gee.ArrayList<Seriable> series = new Gee.ArrayList<Seriable>();
         protected BoundingBox bounding_box = BoundingBox() {
             x=0, 
             y=0, 
@@ -22,7 +22,7 @@ namespace LiveChart {
                 alpha = 1.0
             };
         }
-        public void add_legend(Serie serie) {
+        public void add_legend(Seriable serie) {
             series.add(serie);
         }
 
@@ -44,7 +44,7 @@ namespace LiveChart {
                 var boundaries = config.boundaries();
                 var pos = 0;
                 series.foreach((serie) => {
-                    ctx.set_source_rgba(serie.main_color.red, serie.main_color.green, serie.main_color.blue, 1);
+                    ctx.set_source_rgba(serie.line.color.red, serie.line.color.green, serie.line.color.blue, 1);
                     ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
                     ctx.fill();
                     
