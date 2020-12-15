@@ -6,6 +6,16 @@ namespace LiveChart {
         public abstract Path line { get; set; }
         public abstract bool visible { get; set; default = true; }
     }
+
+    public abstract class BaseSerie<T> : Seriable, Drawable, Object  {
+        public string name { get; set; }
+        public Path line { get; set; default = new Path(1);}
+        public bool visible { get; set; default = true; }
+        public signal void value_added(double value);
+        protected T values;
+        public abstract void draw(Context ctx, Config config);        
+    }
+
     public class Serie : Seriable, Colorable, Drawable, Object {
 
         public string name {
@@ -78,19 +88,14 @@ namespace LiveChart {
         }
     }
 
-    public abstract class TimeSerie : Seriable, Drawable, Object {
+    public abstract class TimeSerie : BaseSerie<Values> {
 
-        public string name { get; set; }
-         public Path line { get; set; default = new Path(1);}
-        public bool visible { get; set; default = true; }
-        public signal void value_added(double value);
-        
-        protected Values values;
+        protected PointsFactory<TimestampedValue?> points_factory;
 
-        public abstract void draw(Context ctx, Config config);
         protected TimeSerie(string name, int buffer_size) {
             this.name = name;
-            this.values = new Values();
+            values = new Values();
+            points_factory = new TimeStampedPointsFactory(values);
         }
 
         public void add(double value) {

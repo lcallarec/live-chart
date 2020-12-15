@@ -8,6 +8,7 @@ void main (string[] args) {
     register_values();
     register_points();
     register_chart();
+    register_time_chart();
     register_axis();
     register_area();
     register_line_area();
@@ -21,6 +22,7 @@ void main (string[] args) {
     register_legend();
     register_cairo();
     register_serie();
+    register_time_serie();
     register_series();
     register_threshold_line();
     register_min_bound_line();

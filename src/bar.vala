@@ -44,4 +44,18 @@ namespace LiveChart {
             };
         }
     }
+
+    public class BarSerie : TimeSerie {
+        private BarDrawer drawer = new BarDrawer();
+
+        public BarSerie(string name, int buffer_size = 1000) {
+            base(name, buffer_size);
+        }
+
+        public override void draw(Context ctx, Config config) {
+            if (visible) {
+                drawer.draw(ctx, config, points_factory.create(config), line);
+            }
+        }
+    }
 }

@@ -20,6 +20,8 @@ test_sources = files(
     'series.vala',
     'smooth_line_area.vala',
     'smooth_line.vala',
+    'time-chart.vala',
+    'time-serie.vala',
     'threshold_line.vala',
     'utils.vala',    
     'values.vala',
