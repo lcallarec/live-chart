@@ -1,26 +1,28 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
-        this.title = "Live Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
-        this.set_default_size(800, 350);
+using LiveChart;
 
-        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
+public class Basic {
+    public Gtk.Box widget;
+    public Basic() {
+
+        var heat = new Serie("HEAT", new SmoothLineArea());
+        //var heat = new LineSerie("HEAT");
         heat.line.color = { 0.3, 0.8, 0.1, 1.0};
-        
-        var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
+
+        var rss = new Serie("RSS",  new Line());
+        //var rss = new LineSerie("RSS");
         rss.line.color = { 0.8, 0.1, 0.1, 1.0};
 
-        var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
+        var heap = new Serie("HEAP", new Bar());
+        //var heap = new LineSerie("HEAP");
         heap.line.color = { 0.1, 0.8, 0.7, 1.0};
 
-        var config = new LiveChart.Config();
+        var config = new Config();
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
 
-        var chart = new LiveChart.Chart(config);
+        var chart = new Chart(config);
 
         chart.add_serie(heat);
         chart.add_serie(heap);
@@ -68,22 +70,14 @@ public class Example : Gtk.Window {
             
         });
         
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(export_button, false, false, 5);
-        box.pack_start(chart, true, true, 0);
+        widget = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        var row1 = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+        var row2 = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+        widget.pack_start(row1, false, false, 5);
+        widget.pack_start(row2, true, true, 5);
 
-        this.add(box);
-
+        row1.pack_start(new Gtk.Label("Basic chart with legend"), false, false, 5);
+        row1.pack_end(export_button, false, false, 5);
+        row2.pack_start(chart, true, true, 0);
      }
-}
-
-static int main (string[] args) {
-    Gtk.init(ref args);
-
-    var view = new Example();
-    view.show_all();
-
-    Gtk.main();
-
-    return 0;
 }

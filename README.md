@@ -36,25 +36,22 @@
 
 ## Getting started
 
-Take a look at code examples :
-
-* [General example](examples/live-chart.vala)
-* [Fixed max y-axis value](examples/fixed-max.vala)
-* [Hide chart elements](examples/hide-parts.vala)
-* [Label configuration](examples/configure-labels.vala)
-* [Static renderers](examples/static-renderer.vala)
-
-Compile and run with :
+Compile and run demo app with :
 
 ```bash
 meson build
 ninja -C build
-./build/examples/example
-./build/examples/example-fixed-max
-./build/examples/example-hide-parts
-./build/examples/example-configure-labels
-./build/examples/example-static-renderer
+./build/examples/demo
 ```
+
+Take a look at code examples :
+
+* [Basic example](examples/basic.vala)
+* [Fixed max y-axis](examples/fixed-max.vala)
+* [Hide chart elements](examples/hide-parts.vala)
+* [Labels and line configuration](examples/axis-configuration.vala)
+* [Bounds and thresholds](examples/bounds-and-thresholds.vala)
+* [Experimental static chart](examples/experimental-static-chart.vala)
 
 ## Dependencies
 

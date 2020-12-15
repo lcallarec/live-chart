@@ -1,21 +1,18 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
-        this.title = "Live Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
-        this.set_default_size(800, 350);
+using LiveChart;
 
-        var cpu = new LiveChart.Serie("CPU 1 usage", new LiveChart.SmoothLineArea());
+public class HideParts {
+    public Gtk.Box widget;
+    public HideParts() {
+
+        var cpu = new Serie("CPU 1 usage", new SmoothLineArea());
         cpu.line.color = { 1, 0.8, 0.1, 1.0};
 
-        var config = new LiveChart.Config();
-        config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
+        var config = new Config();
+        config.padding = Padding() { smart = AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
 
-        var chart = new LiveChart.Chart(config);
+        var chart = new Chart(config);
         chart.legend.visible = false;
         chart.grid.visible = false;
-
-        this.add(chart);
 
         chart.add_serie(cpu);
          
@@ -36,16 +33,14 @@ public class Example : Gtk.Window {
             cpu.add(cpu_value);
             return true;
         });
+
+        widget = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        var row1 = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+        var row2 = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+        widget.pack_start(row1, false, false, 5);
+        widget.pack_start(row2, true, true, 5);
+
+        row1.pack_start(new Gtk.Label("All parts may be hidden"), false, false, 5);
+        row2.pack_start(chart, true, true, 0);
      }
-}
-
-static int main (string[] args) {
-    Gtk.init(ref args);
-
-    var view = new Example();
-    view.show_all();
-
-    Gtk.main();
-
-    return 0;
 }
