@@ -1,5 +1,6 @@
 
 sources = files(
+    'arbitrary_line.vala',
     'area.vala',
     'axis.vala',
     'background.vala',
@@ -15,8 +16,6 @@ sources = files(
     'legend.vala',
     'line_area.vala',
     'line.vala',
-    'max_bound_line.vala',
-    'min_bound_line.vala',
     'path.vala',
     'points.vala',
     'serie.vala',
