@@ -6,27 +6,27 @@ public class BoundsAndThresholds {
 
     public BoundsAndThresholds() {
 
-        var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
+        var heap = new Serie("HEAP", new SmoothLineArea());
         heap.line.color = { 0.3, 0.8, 0.1, 1.0};
         
-        var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
+        var rss = new Serie("RSS",  new Line());
         rss.line.color = { 0.8, 0.1, 0.8, 1.0};
 
-        var threshold = new LiveChart.Serie("threshold", new LiveChart.ThresholdLine(185.0));
+        var threshold = new Serie("threshold", new ThresholdLine(185.0));
         threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
 
-        var max = new LiveChart.Serie("MAX OF ALL SERIES", new LiveChart.MaxBoundLine());
-        var mrss = new LiveChart.Serie("MAX HEAP", new LiveChart.MaxBoundLine.from_serie(rss));
+        var max = new Serie("MAX OF ALL SERIES", new MaxBoundLine());
+        var mrss = new Serie("MAX HEAP", new MaxBoundLine.from_serie(rss));
         max.line.color = { 0.8, 0.5, 0.2, 1.0};
         mrss.line.color = { 0.5, 0, 1.0, 1.0};
         
-        var config = new LiveChart.Config();
+        var config = new Config();
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
 
-        var chart = new LiveChart.Chart(config);
+        var chart = new Chart(config);
 
         chart.add_serie(heap);
         chart.add_serie(rss);
