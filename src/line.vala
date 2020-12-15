@@ -60,18 +60,15 @@ namespace LiveChart {
         }
     }
 
-    public abstract class LineSerie : Drawable, Object {
-        public Path line { get; set; default = new Path(1);}
-        public bool visible { get; set; default = true; }
-        private  Values values;
+    public class LineSerie : TimeSerie {
         private LineDrawer drawer = new LineDrawer();
         private PointsFactory<TimestampedValue?> points_factory;
 
-        protected LineSerie(string name, int buffer_size = 1000) {
-            values = new Values(buffer_size);       
+        public LineSerie(string name, int buffer_size = 1000) {
+            base(name, buffer_size);
             points_factory = new TimeStampedPointsFactory(values);
         }
-        public void draw(Context ctx, Config config) {
+        public override void draw(Context ctx, Config config) {
             if (visible) {
                 drawer.draw(ctx, config, points_factory.create(config), line);
             }
