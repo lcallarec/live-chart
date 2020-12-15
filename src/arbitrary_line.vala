@@ -1,7 +1,6 @@
 using Cairo;
 
 namespace LiveChart { 
-    
     public class StraightLineDrawer {
         public void draw(Context ctx, Config config, Path line, double at_value) {
             var boundaries = config.boundaries();
@@ -12,7 +11,6 @@ namespace LiveChart {
             ctx.stroke();
         }
     }
-
     public class MaxBoundLine : SerieRenderer {
         private StraightLineDrawer drawer = new StraightLineDrawer();
         public MaxBoundLine() {
@@ -45,6 +43,21 @@ namespace LiveChart {
             if (visible) {
                 var at_value = values.size == 0 ? config.y_axis.get_bounds().lower : values.bounds.lower;
                 drawer.draw(ctx, config, line, at_value);
+            }
+        }
+    }
+
+    public class ThresholdLine : SerieRenderer {
+        private StraightLineDrawer drawer = new StraightLineDrawer();
+        public double value { get; set; default = 0;}
+        
+        public ThresholdLine(double value) {
+            this.value = value;
+        }
+
+        public override void draw(Context ctx, Config config) {
+            if (visible) {
+                drawer.draw(ctx, config, line, value);
             }
         }
     }
@@ -84,6 +97,23 @@ namespace LiveChart {
         public override void draw(Context ctx, Config config) {
             if (visible) {
                 var at_value = values.size == 0 ? config.y_axis.get_bounds().lower : values.bounds.lower;
+                drawer.draw(ctx, config, line, at_value);
+            }
+        }
+    }
+
+    public class ThresholdLineSerie : TimeSerie {
+        public double at_value { get; set; default = 0;}
+
+        private StraightLineDrawer drawer = new StraightLineDrawer();
+
+        public ThresholdLineSerie(string name, double at_value) {
+            base(name, 1);
+            this.at_value = at_value;
+        }
+
+        public override void draw(Context ctx, Config config) {
+            if (visible) {
                 drawer.draw(ctx, config, line, at_value);
             }
         }
