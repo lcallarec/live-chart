@@ -1,3 +1,8 @@
+# 1.10.0
+
+* Only one demo app for many configurations
+
+
 # 1.9.1
 
 ## Fixes
