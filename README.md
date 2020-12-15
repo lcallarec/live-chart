@@ -12,7 +12,6 @@
 * Live animated series (lines, smooth lines, area, bar) within a single chart
 * Smart y-axis computation
 * Highly configurable
-* Extendable
 
 ## Screenshots
 
