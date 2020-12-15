@@ -36,6 +36,7 @@ void main (string[] args) {
     register_experimental_smooth_line();
     register_experimental_threshold_line();
     register_experimental_serie();
+    register_experimental_series();
 
     Test.run();
 }
