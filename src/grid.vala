@@ -31,7 +31,6 @@ namespace LiveChart {
                 render_grid(ctx, config);
                 
                 update_bounding_box(config);
-                debug(ctx);
             }
         }
 
@@ -148,13 +147,5 @@ namespace LiveChart {
                 height=boundaries.y.max - boundaries.y.min + Grid.ABSCISSA_TIME_PADDING
             };
         }
-
-        protected void debug(Context ctx) {
-            var debug = Environment.get_variable("LIVE_CHART_DEBUG");
-            if(debug != null) {
-                ctx.rectangle(bounding_box.x, bounding_box.y, bounding_box.width, bounding_box.height);
-                ctx.stroke();
-            }
-        }    
     }
 }
