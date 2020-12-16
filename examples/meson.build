@@ -8,4 +8,4 @@ exemple_src = files(
     'bounds-and-thresholds.vala'
 )
 
-executable('demo', exemple_src, dependencies: deps + [livechart_dep])
+executable('demo', exemple_src, vala_args: vala_args, dependencies: deps + [livechart_dep])
