@@ -30,6 +30,8 @@ public class AxisConfiguration {
 
         var chart = new Chart(config);
 
+        chart.background.gradient = {from: {0.1, 0.1, 0.1, 1}, to: {0.12, 0.12, 0.12, 1}};
+
         chart.legend.labels.font.size = 10;
         chart.legend.labels.font.color = {0.5, 0.5, 0.5, 1};
         chart.legend.labels.font.weight = Cairo.FontWeight.BOLD;
@@ -64,7 +66,7 @@ public class AxisConfiguration {
         widget.pack_start(row1, false, false, 5);
         widget.pack_start(row2, true, true, 5);
 
-        row1.pack_start(new Gtk.Label("Axis and line configuration"), false, false, 5);
+        row1.pack_start(new Gtk.Label("Axis, line & background configurations"), false, false, 5);
         row2.pack_start(chart, true, true, 0);
      }
 }

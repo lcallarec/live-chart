@@ -1,7 +1,7 @@
 exemple_src = files(
     'demo.vala',
     'basic.vala',
-    'axis-configuration.vala',
+    'other-configuration.vala',
     'fixed-max.vala',
     'hide-parts.vala',
     'experimental-static-chart.vala',

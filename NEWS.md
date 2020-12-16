@@ -1,7 +1,12 @@
 # 1.10.0
 
-* Only one demo app for many configurations
+## New features
 
+* Background can now have a gradient : `chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+
+## Demo app
+
+* Only one demo app for many configurations
 
 # 1.9.1
 

@@ -88,6 +88,14 @@ int color_to_int(Gdk.RGBA color) {
     return colors_to_int((uint8) color.red * 255, (uint8) color.green * 255, (uint8) color.blue * 255, (uint8) color.alpha * 255);
 }
 
+Gdk.RGBA red() {
+    return {1, 0, 0, 1};
+}
+
+Gdk.RGBA green() {
+    return {0, 1, 0, 1};
+}
+
 private void register_cairo() {
 
     Test.add_func("/TestTools/color_at", () => {

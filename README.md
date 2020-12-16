@@ -49,7 +49,7 @@ Take a look at code examples :
 * [Basic example](examples/basic.vala)
 * [Fixed max y-axis](examples/fixed-max.vala)
 * [Hide chart elements](examples/hide-parts.vala)
-* [Labels and line configuration](examples/axis-configuration.vala)
+* [Labels, line & background configuration](examples/other-configuration.vala)
 * [Bounds and thresholds](examples/bounds-and-thresholds.vala)
 * [Experimental static chart](examples/experimental-static-chart.vala)
 
@@ -532,12 +532,24 @@ config.padding.top = 10; // in pixels
 ```
 ## Background
 
+### Flat background
+
 Chart has a default colored background that can be changed via the `Background.color` property :
 
 ```vala
 var chart = new LiveChart.Chart();
 chart.background.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
+
+### Gradient background
+
+Background has also a `gradient` property which override the color :
+
+```vala
+chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient
+```
+
+Both `from` and `to` are standards Gdk.RGBA() structs.
 
 ## Legend
 
