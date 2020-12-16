@@ -42,7 +42,7 @@ namespace LiveChart {
         public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
 
-        [Version (deprecated = true, deprecated_since = "1.0.0b7", replacement = "ratio is always smart ;)")]
+        [Version (deprecated = true, deprecated_since = "1.0.0b7", replacement = "Nothing more. Ratio is always smart ;)")]
         public bool smart_ratio = false;
 
         public double? fixed_max;
