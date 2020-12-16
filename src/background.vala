@@ -2,11 +2,6 @@ using Cairo;
 
 namespace LiveChart { 
 
-    public struct LinearGradient {
-        public Gdk.RGBA from;
-        public Gdk.RGBA to;
-    }
-
     public class Background : Drawable, Object {
         private BoundingBox bounding_box = BoundingBox() {
             x=0, 

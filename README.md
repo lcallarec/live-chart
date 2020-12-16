@@ -27,6 +27,7 @@
 - [Serie renderer](#serie-renderer)
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
+- [Grid](#grid)
 - [Legend](#legend)
 - [Chart element visibility](#chart-element-visibility)
 - [Advanced usages](#advanced-usages)
@@ -551,9 +552,28 @@ chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to r
 
 Both `from` and `to` are standards Gdk.RGBA() structs.
 
+## Grid
+
+### Visibility
+
+```vala
+var chart = new LiveChart.Chart(config);
+chart.grid.visible = false; //Hide grid
+```
+
+### Gradient background
+
+Grid area has no background by default, but you can add a gradient background via the `Grid.gradient` property :
+
+```vala
+chart.grid.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient
+```
+
+Both `from` and `to` are standards Gdk.RGBA() structs.
+
 ## Legend
 
-* Visibility
+### Visibility
 
 ```vala
 var chart = new LiveChart.Chart(config);
@@ -561,7 +581,7 @@ var chart = new LiveChart.Chart(config);
 chart.legend.visible = false; // Hide legend
 ```
 
-* Legend font
+### Fonts
 
 ```vala
 var chart = new LiveChart.Chart(config);
@@ -575,17 +595,7 @@ legend.labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 
 ## Chart element visibility
 
-You can prevent all chart parts from being displayed, by using the `visible` property of each part.
-
-```vala
-var config = new LiveChart.Config();
-
-var chart = new LiveChart.Chart(config);
-chart.legend.visible = false; //Hide legend
-chart.grid.visible = false;   //Hide grid
-```
-
-If you want to get rid of chart padding, remember to disable `smart` paddings and set all paddings to `0`.
+If you want to get rid of chart paddings, remember to disable `smart` paddings and set all paddings to `0`.
 
 ```vala
 var config = new LiveChart.Config();

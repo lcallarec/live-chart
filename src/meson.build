@@ -11,6 +11,7 @@ sources = files(
     'debug.vala',
     'drawable.vala',
     'font.vala',
+    'gradient.vala',
     'grid.vala',
     'labels.vala',
     'legend.vala',

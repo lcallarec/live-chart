@@ -21,13 +21,17 @@ namespace LiveChart {
             };
         }
 
+        public LinearGradient? gradient { get; set; }
+
         public void draw(Context ctx, Config config) {
+            render_background(ctx, config);
             if (visible) {
-                this.render_abscissa(ctx, config);
-                this.render_ordinate(ctx, config);            
-                this.render_grid(ctx, config);
-                this.update_bounding_box(config);
-                this.debug(ctx);
+                render_abscissa(ctx, config);
+                render_ordinate(ctx, config);            
+                render_grid(ctx, config);
+                
+                update_bounding_box(config);
+                debug(ctx);
             }
         }
 
@@ -39,6 +43,18 @@ namespace LiveChart {
             ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
             ctx.set_line_width(0.5);
             ctx.set_dash(null, 0.0);
+        }
+
+        protected void render_background(Context ctx, Config config) {
+            if (gradient != null) {
+                var boundaries = config.boundaries();
+                ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.width, boundaries.height);
+                Cairo.Pattern pattern = new Cairo.Pattern.linear(config.width/2, 0, config.width/2, config.height);
+                pattern.add_color_stop_rgba(0, gradient.from.red, gradient.from.green, gradient.from.blue, gradient.from.alpha);
+                pattern.add_color_stop_rgba(1, gradient.to.red, gradient.to.green, gradient.to.blue, gradient.to.alpha);
+                ctx.set_source(pattern);
+                ctx.fill(); 
+            }
         }
 
         protected void render_abscissa(Context ctx, Config config) {

@@ -15,6 +15,7 @@ public class FixedMax {
         config.y_axis.fixed_max = cap(96);
 
         var chart = new Chart(config);
+        chart.grid.gradient = {from: {0.2, 0.1, 0.1, 1}, to: {0.12, 0.12, 0.12, 1}};
 
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {
