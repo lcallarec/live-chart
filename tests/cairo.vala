@@ -18,7 +18,7 @@ LiveChart.Config create_config(int? width = null, int? height = null) {
 
 delegate Gdk.RGBA FromCoodinates(int x, int y);
 
-FromCoodinates color_at(Gdk.Pixbuf pixbuff, int width, int height) {
+FromCoodinates color_at(Gdk.Pixbuf pixbuff) {
     unowned uint8[] data = pixbuff.get_pixels_with_length();
     var stride = pixbuff.rowstride;
     return (x, y) => {
@@ -33,7 +33,7 @@ FromCoodinates color_at(Gdk.Pixbuf pixbuff, int width, int height) {
 
 delegate Gee.HashSet<int> IntFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
 
-IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
+IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff) {
     unowned uint8[] data = pixbuff.get_pixels_with_length();
     var stride = pixbuff.rowstride;
     
@@ -55,7 +55,7 @@ IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int heig
 }
 
 delegate Gee.ArrayList<Gdk.RGBA?> ColorFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
-ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
+ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff) {
     unowned uint8[] data = pixbuff.get_pixels_with_length();
     var stride = pixbuff.rowstride;
     
@@ -118,7 +118,7 @@ private void register_cairo() {
         
         //When
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        var from_coords = color_at(pixbuff, WIDTH, HEIGHT);
+        var from_coords = color_at(pixbuff);
 
         //Then
         assert(from_coords(0, 0) == red);
@@ -163,7 +163,7 @@ private void register_cairo() {
         
         //When
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        var from_to_coords = colors_at(pixbuff, WIDTH, HEIGHT);
+        var from_to_coords = colors_at(pixbuff);
         //Then
         assert(from_to_coords(0, 0, 1, 1).size == 4);
     });

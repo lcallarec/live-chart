@@ -27,7 +27,7 @@ private void register_grid() {
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
 
         //Colors between left side and first pixels of "0" char on y-axis
-        var padding_colors = colors_at(pixbuff, WIDTH, HEIGHT)(0, 80, 10, 80);
+        var padding_colors = colors_at(pixbuff)(0, 80, 10, 80);
         assert(padding_colors.size == 11);
         foreach (var color in padding_colors) {
             assert(color.red == 1.0);

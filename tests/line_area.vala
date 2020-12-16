@@ -128,9 +128,9 @@ private void register_line_area() {
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT) ;
 
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(35, 50).to_string() == "rgb(128,0,0)");
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(80, 50).to_string() == "rgb(128,0,0)");
+        assert(color_at(pixbuff)(35, 50).to_string() == "rgb(128,0,0)");
+        assert(color_at(pixbuff)(57, 50).to_string() == "rgb(0,0,0)");
+        assert(color_at(pixbuff)(80, 50).to_string() == "rgb(128,0,0)");
     });
   
 }
@@ -262,8 +262,8 @@ private void register_experimental_line_area() {
         //Then
         var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT) ;
 
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(35, 50).to_string() == "rgb(128,0,0)");
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");
-        assert(color_at(pixbuff, WIDTH, HEIGHT)(80, 50).to_string() == "rgb(128,0,0)");
+        assert(color_at(pixbuff)(35, 50).to_string() == "rgb(128,0,0)");
+        assert(color_at(pixbuff)(57, 50).to_string() == "rgb(0,0,0)");
+        assert(color_at(pixbuff)(80, 50).to_string() == "rgb(128,0,0)");
     });   
 }
