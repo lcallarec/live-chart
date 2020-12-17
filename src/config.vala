@@ -32,6 +32,11 @@ namespace LiveChart {
         public int max;
     }
 
+    public struct Size {
+        public int width;
+        public int height;
+    }
+
     public struct Boundaries {
         public Boundary x;
         public Boundary y;
@@ -69,13 +74,17 @@ namespace LiveChart {
         public void configure(Context ctx, Legend? legend) {
             configure_y_max_labels_extents(ctx);
             configure_x_max_labels_extents(ctx);
-
-            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = 10 + (int) x_axis.labels.extents.width / 2;
+            
+            var x_labels_needed = x_axis.get_labels_needed_size();
+            
+            if (AutoPadding.RIGHT in this.padding.smart) this.padding.right = x_labels_needed.width;
             if (AutoPadding.LEFT in this.padding.smart) this.padding.left = (int) y_axis.labels.extents.width;
-            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) x_axis.labels.extents.height;
+            if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = x_labels_needed.height;
             if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
             
-            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) {
+                this.padding.bottom += (int) legend.get_needed_height();
+            }
             
             this.y_axis.update(this.boundaries().height);
         }

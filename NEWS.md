@@ -5,6 +5,8 @@
 * Chart's background can now have a gradient : `chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
 * Chart's grid area too : `chart.grid.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
 
+* Improved legend positionning
+  
 ## Demo app
 
 * Only one demo app for many configurations

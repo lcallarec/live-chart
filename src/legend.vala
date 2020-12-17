@@ -14,7 +14,8 @@ namespace LiveChart {
             width=0,
             height=0
         };
-
+        public abstract double get_needed_height();
+            
         public void add_legend(Seriable serie) {
             series.add(serie);
         }
@@ -25,41 +26,63 @@ namespace LiveChart {
         }
     }
 
-     public class HorizontalLegend : Legend {
-        
-        private const int COLOR_BLOCK_WIDTH = 15;
-        private const int COLOR_BLOCK_HEIGHT = 10;
+    public enum LegendSymbolType {
+        QUADRILATERAL,
+        CIRCLE
+    }
+
+    public class HorizontalLegend : Legend {
+
+        public LegendSymbolType symbol_type { get; set; default = LegendSymbolType.QUADRILATERAL; }
+        public uint8 symbol_width { get; set; default = 10; }
+        public uint8 symbol_height { get; set; default = 10; }
+
+        private double needed_height = 10;
+
+        public override double get_needed_height() {
+            return needed_height;
+        }
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
                 
-                var y_padding = get_y_padding(config);
                 var boundaries = config.boundaries();
+                
+                labels.font.configure(ctx);
+                TextExtents size = name_extents("A", ctx);
+                needed_height = double.max(size.height, symbol_height) * 2;
+                
+                var x_labels_height = config.x_axis.get_labels_needed_size().height;
+                var base_y = boundaries.y.max + x_labels_height;
                 var pos = 0;
                 series.foreach((serie) => {
-                    ctx.set_source_rgba(serie.line.color.red, serie.line.color.green, serie.line.color.blue, 1);
-                    ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
-                    ctx.fill();
-                    
                     labels.font.configure(ctx);
                     TextExtents extents = name_extents(serie.name, ctx);
-                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
+                    ctx.move_to(
+                        boundaries.x.min + pos + symbol_width + 2,
+                        base_y + (needed_height - size.height) / 2 + size.height
+                    );
                     ctx.show_text(serie.name);
-
-                    pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
+             
+                    ctx.set_source_rgba(serie.line.color.red, serie.line.color.green, serie.line.color.blue, 1);
+                    ctx.rectangle(
+                        boundaries.x.min + pos,
+                        base_y + (needed_height - symbol_height) / 2,
+                        symbol_width,
+                        symbol_height
+                    );
+                    ctx.fill();
+                                     
+                    pos += symbol_width + (int) extents.width + 20;
 
                     return true;
                 });
-                ctx.stroke();
+                
                 this.update_bounding_box(config, pos);
                 this.debug(ctx);
             }
         }
    
-        private int get_y_padding(Config config) {
-            return (int) (Grid.ABSCISSA_TIME_PADDING * 2 + config.x_axis.labels.extents.height);
-        }
-
         private TextExtents name_extents(string name, Context ctx) {
             TextExtents name_extents;
             ctx.text_extents(name, out name_extents);
@@ -71,9 +94,9 @@ namespace LiveChart {
             var boundaries = config.boundaries();
             this.bounding_box = BoundingBox() {
                 x=boundaries.x.min,
-                y=boundaries.y.max + get_y_padding(config),
+                y=boundaries.y.max ,
                 width=width,
-                height=10
+                height=20
             };
         }
 
@@ -88,5 +111,6 @@ namespace LiveChart {
 
     public class NoopLegend : Legend {
         public override void draw(Context ctx, Config config) {}
+        public override double get_needed_height() {return 0;}
     }
 }

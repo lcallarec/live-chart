@@ -9,6 +9,8 @@ namespace LiveChart {
         public Path axis = new Path();
         public Path lines = new Path();
 
+        public const int LABEL_MARGIN = 8;
+
         public XAxis() {
             axis.color = {0.5, 0.5, 0.5, 0.5};
             lines.color = {0.5, 0.5, 0.5, 0.2};
@@ -16,6 +18,10 @@ namespace LiveChart {
 
         public double get_ratio() {
             return tick_length / tick_interval;
+        }
+
+        public Size get_labels_needed_size() {
+            return {width: LABEL_MARGIN + (int) labels.extents.width / 2, height: LABEL_MARGIN + (int) labels.extents.height };
         }
     }
     

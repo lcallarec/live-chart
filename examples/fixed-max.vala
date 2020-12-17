@@ -6,7 +6,7 @@ public class FixedMax {
 
     public FixedMax() {
 
-        var cpu = new Serie("CPU 1 usage", new SmoothLineArea());
+        var cpu = new Serie("CPU 1 USAGE", new SmoothLineArea());
         cpu.line.color = { 0.8, 0.8, 0.1, 1.0};
         
         var config = new Config();
