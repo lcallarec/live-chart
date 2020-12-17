@@ -14,14 +14,7 @@ namespace LiveChart {
             width=0,
             height=0
         };
-        public Gdk.RGBA main_color { 
-            get; set; default= Gdk.RGBA() {
-                red = 1.0,
-                green = 1.0,
-                blue = 1.0,
-                alpha = 1.0
-            };
-        }
+
         public void add_legend(Seriable serie) {
             series.add(serie);
         }
