@@ -31,10 +31,11 @@ namespace LiveChart {
                     var bar_width = (current_point.x - next_point.x) / 1.2;
                     ctx.rectangle(next_point.x, next_point.y, bar_width, next_point.height);
                     if (gradient != null) {
-                        Cairo.Pattern pattern = new Cairo.Pattern.linear(current_point.x, current_point.y, current_point.x, current_point.y + current_point.height);
-                        pattern.add_color_stop_rgba(0, gradient.from.red, gradient.from.green, gradient.from.blue, gradient.from.alpha);
-                        pattern.add_color_stop_rgba(1, gradient.to.red, gradient.to.green, gradient.to.blue, gradient.to.alpha);
-                        ctx.set_source(pattern);
+                        GradientLine gradient_line = {
+                            from : {current_point.x, current_point.y},
+                            to: { current_point.x, current_point.y + current_point.height}
+                        };
+                        new LinearGradientDrawer().draw(ctx, config, gradient, gradient_line);
                         ctx.fill();
                     }
                 }

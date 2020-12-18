@@ -38,11 +38,11 @@ namespace LiveChart {
                 this.update_bounding_box(config);
                 ctx.rectangle(0, 0, config.width, config.height);
                 if (gradient != null) {
-                    Cairo.Pattern pattern = new Cairo.Pattern.linear(config.width/2, 0, config.width/2, config.height);
-                    pattern.add_color_stop_rgba(0, gradient.from.red, gradient.from.green, gradient.from.blue, gradient.from.alpha);
-                    pattern.add_color_stop_rgba(1, gradient.to.red, gradient.to.green, gradient.to.blue, gradient.to.alpha);
-                    ctx.set_source(pattern);
-
+                    GradientLine line = {
+                        from : {config.width/2, 0},
+                        to: { config.width/2, config.height}
+                    };
+                    new LinearGradientDrawer().draw(ctx, config, gradient, line);
                 } else {
                     ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
                 }

@@ -48,10 +48,11 @@ namespace LiveChart {
             if (gradient != null) {
                 var boundaries = config.boundaries();
                 ctx.rectangle(boundaries.x.min, boundaries.y.min, boundaries.width, boundaries.height);
-                Cairo.Pattern pattern = new Cairo.Pattern.linear(config.width/2, 0, config.width/2, config.height);
-                pattern.add_color_stop_rgba(0, gradient.from.red, gradient.from.green, gradient.from.blue, gradient.from.alpha);
-                pattern.add_color_stop_rgba(1, gradient.to.red, gradient.to.green, gradient.to.blue, gradient.to.alpha);
-                ctx.set_source(pattern);
+                GradientLine line = {
+                    from : {config.width/2, 0},
+                    to: { config.width/2, config.height}
+                };
+                new LinearGradientDrawer().draw(ctx, config, gradient, line);
                 ctx.fill(); 
             }
         }
