@@ -235,6 +235,14 @@ The area color is not yet configurable : it's always equal to `color`.
 * [`LiveChart.SmoothLineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
 ![](resources/renderer_smooth_line_area.png)
 
+But You can also apply a gradient area of any arbitrary color via the `LiveChart.LineArea.gradient` or `LiveChart.SmoothLineArea.gradient` property :
+
+```vala
+serie_renderer.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient
+```
+
+Both `from` and `to` are standards Gdk.RGBA() structs.
+
 ### Histogram
 
 * [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/bar.vala)

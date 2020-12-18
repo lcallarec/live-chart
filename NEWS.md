@@ -2,12 +2,16 @@
 
 ## New features
 
-* Chart's background can now have a gradient : `chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
-* Chart's grid area too : `chart.grid.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+**Gradients can now by applied to all kinds of parts**
 
+* Chart's background : `chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+* Chart's grid area : `chart.grid.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+* SmoothLineArea and LineArea : `serie_renderer.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+
+**Misc**
 * Improved legend positionning
   
-## Demo app
+**Demo app**
 
 * Only one demo app for many configurations
 

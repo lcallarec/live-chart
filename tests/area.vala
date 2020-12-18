@@ -7,7 +7,7 @@ private void register_area() {
 
         var points = new LiveChart.TimeStampedPointsFactory(new LiveChart.Values()).create(create_config());
        
-        var area = new LiveChart.Area(points, Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 }, 1.0);
+        var area = new LiveChart.Area(points, Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 }, 1.0, null);
 
         //When
         area.draw(context, create_config());
@@ -29,6 +29,36 @@ private void register_area() {
                 assert(b == 0);
                 assert(alpha == 255);
             }
+        } else {
+            assert_not_reached();
+        }
+    });
+
+    Test.add_func("/LiveChart/Area#draw#gradient", () => {
+        //Given
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        cairo_background(context);
+
+        var values = new LiveChart.Values();
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 180, value: 10});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 1000, value: 10});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 10050, value: 10});
+
+        var points = new LiveChart.TimeStampedPointsFactory(values).create(create_config());
+        
+        LiveChart.LinearGradient gradient = {from: red(), to: green()};
+        var area = new LiveChart.Area(points, red(), 1.0, gradient);
+
+        //When
+        area.draw(context, create_config());
+ 
+        //Then
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT);
+        if (pixbuff != null) {
+            var at = color_at(pixbuff);
+            assert(at(0, 0).to_string() == "rgb(242,13,0)");
+            assert(at(0, 9).to_string() == "rgb(13,242,0)");   
         } else {
             assert_not_reached();
         }
