@@ -4,25 +4,23 @@ public class Basic {
     public Gtk.Box widget;
     public Basic() {
 
-        var heat = new Serie("HEAT", new SmoothLineArea());
+        var heat = new SmoothLineAreaSerie("HEAT");
         heat.line.color = { 0.3, 0.8, 0.1, 1.0};
 
-        var rss = new Serie("RSS",  new Line());
+        var rss = new LineSerie("RSS");
         rss.line.color = { 0.8, 0.1, 0.1, 1.0};
 
-        var bar = new Bar();
-        bar.gradient = {from: { 0.1, 0.8, 0.7, 1.0}, to: { 0.1, 0.4, 0.7, 1}};
-
-        var heap = new Serie("HEAP", bar);
+        var heap = new BarSerie("HEAP");
+        heap.gradient = {from: { 0.1, 0.8, 0.7, 1.0}, to: { 0.1, 0.4, 0.7, 1}};
         heap.line.color = { 0.1, 0.8, 0.7, 1.0};
-
+        
         var config = new Config();
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
 
-        var chart = new Chart(config);
+        var chart = new TimeChart(config);
 
         chart.add_serie(heat);
         chart.add_serie(heap);
