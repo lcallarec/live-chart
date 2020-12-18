@@ -12,7 +12,10 @@ public class Basic {
         //var rss = new LineSerie("RSS");
         rss.line.color = { 0.8, 0.1, 0.1, 1.0};
 
-        var heap = new Serie("HEAP", new Bar());
+        var bar = new Bar();
+        bar.gradient = {from: { 0.1, 0.8, 0.7, 1.0}, to: { 0.1, 0.4, 0.3, 1}};
+
+        var heap = new Serie("HEAP", bar);
         //var heap = new LineSerie("HEAP");
         heap.line.color = { 0.1, 0.8, 0.7, 1.0};
 

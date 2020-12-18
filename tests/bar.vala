@@ -1,5 +1,5 @@
 private void register_bar() {
-    Test.add_func("/LiveChart/Bar#draw", () => {
+    Test.add_func("/LiveChart/Bar/draw", () => {
         //Given
         var WIDTH = 10;
         var HEIGHT = 10;
@@ -64,6 +64,36 @@ private void register_bar() {
         } else {
             assert_not_reached();
         }
+    });
+
+    Test.add_func("/LiveChart/Bar/draw#gradient", () => {
+        //Given
+        var WIDTH = 10;
+        var HEIGHT = 10;
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        context.set_antialias(Cairo.Antialias.NONE);
+
+        cairo_background(context, red(), WIDTH, HEIGHT);
+
+        var values = new LiveChart.Values();
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 180, value: 10});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 1000, value: 10});
+        values.add({timestamp: (GLib.get_real_time() / 1000) - 10050, value: 10});
+
+        var bar = new LiveChart.Bar(values);
+        bar.gradient = {from: red(), to: green()};
+
+        //When
+        var config = create_config(WIDTH, HEIGHT);
+
+        bar.draw(context, config);
+ 
+        //Then
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        var at = color_at(pixbuff);
+        assert(at(6, 0).to_string() == "rgb(242,13,0)");
+        assert(at(6, 9).to_string() == "rgb(13,242,0)");
     });
 }
 
@@ -132,4 +162,35 @@ private void register_experimental_bar() {
             assert_not_reached();
         }
     });
+
+    //  Test.add_func("/LiveChart/BarSerie/draw#gradient", () => {
+    //      //Given
+    //      var WIDTH = 10;
+    //      var HEIGHT = 10;
+    //      Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+    //      Cairo.Context context = new Cairo.Context(surface);
+    //      context.set_antialias(Cairo.Antialias.NONE);
+
+    //      cairo_background(context, red(), WIDTH, HEIGHT);
+
+    //      var values = new LiveChart.Values();
+    //      values.add({timestamp: (GLib.get_real_time() / 1000) - 180, value: 10});
+    //      values.add({timestamp: (GLib.get_real_time() / 1000) - 1000, value: 10});
+    //      values.add({timestamp: (GLib.get_real_time() / 1000) - 10050, value: 10});
+
+    //      var bar = new LiveChart.BarSerie("Test");
+    //      bar.gradient = {from: red(), to: green()};
+
+    //      //When
+    //      var config = create_config(WIDTH, HEIGHT);
+
+    //      bar.draw(context, config);
+ 
+    //      //Then
+    //      var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+    //      pixbuff.save("c.png", "png");
+    //      var at = color_at(pixbuff);
+    //      assert(at(6, 0).to_string() == "rgb(242,13,0)");
+    //      assert(at(6, 9).to_string() == "rgb(13,242,0)");
+    //  });
 }

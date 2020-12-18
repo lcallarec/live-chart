@@ -5,8 +5,9 @@
 **Gradients can now by applied to all kinds of parts**
 
 * Chart's background : `chart.background.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
-* Chart's grid area : `chart.grid.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+* Chart's grid area : `chart.grid.gradient = {from: {0, 0, 0, 0}, to: {1, 1, 1, 0.5}}; //Black to trasparent mid-grey`
 * SmoothLineArea and LineArea : `serie_renderer.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 1}}; //Black to red gradient`
+* Bar : `serie_renderer.gradient = {from: {1, 0, 0, 1}, to: {1, 0, 0, 0.5}}; //Red to semi-trasparent red gradient`
 
 **Misc**
 * Improved legend positionning
@@ -14,6 +15,10 @@
 **Demo app**
 
 * Only one demo app for many configurations
+
+**Experimental features**
+
+* Experimental new time chart and series (look at [Experimental chart demo](examples/experimental/demo.vala) if you can't wait the official release)
 
 # 1.9.1
 

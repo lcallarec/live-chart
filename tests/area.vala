@@ -58,7 +58,7 @@ private void register_area() {
         if (pixbuff != null) {
             var at = color_at(pixbuff);
             assert(at(0, 0).to_string() == "rgb(242,13,0)");
-            assert(at(0, 9).to_string() == "rgb(13,242,0)");   
+            assert(at(0, 9).to_string() == "rgb(13,242,0)");
         } else {
             assert_not_reached();
         }

@@ -5,7 +5,7 @@ public class HideParts {
     public HideParts() {
 
         var smooth_line_area = new SmoothLineArea();
-        smooth_line_area.gradient = {from: { 1, 0.8, 0.1, 0.2}, to: { 1, 0.8, 0.1, 0.0}};
+        smooth_line_area.gradient = {from: { 1, 0.8, 0.1, 0.2}, to: { 1, 0.8, 0.1, 0.08}};
         var cpu = new Serie("CPU 1 usage", smooth_line_area);
         cpu.line.color = { 1, 0.8, 0.1, 1.0};
 

@@ -3,6 +3,7 @@ using Cairo;
 namespace LiveChart { 
     public class Bar : SerieRenderer {
         private PointsFactory<TimestampedValue?> points_factory;
+        public LinearGradient? gradient;
         private BarDrawer drawer = new BarDrawer();
         public Bar(Values values = new Values()) {
             points_factory = new TimeStampedPointsFactory(values);
@@ -11,13 +12,13 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                drawer.draw(ctx, config, points_factory.create(config), line);
+                drawer.draw(ctx, config, points_factory.create(config), line, gradient);
             }
         }
     }
 
     public class BarDrawer : Object {
-        public void draw(Context ctx, Config config, Points points, Path line) {
+        public void draw(Context ctx, Config config, Points points, Path line, LinearGradient? gradient) {
             if (points.size > 0) {
                 line.configure(ctx);
                 for (int pos = 0; pos <= points.size -1; pos++) {
@@ -29,8 +30,14 @@ namespace LiveChart {
                     }
                     var bar_width = (current_point.x - next_point.x) / 1.2;
                     ctx.rectangle(next_point.x, next_point.y, bar_width, next_point.height);
+                    if (gradient != null) {
+                        Cairo.Pattern pattern = new Cairo.Pattern.linear(current_point.x, current_point.y, current_point.x, current_point.y + current_point.height);
+                        pattern.add_color_stop_rgba(0, gradient.from.red, gradient.from.green, gradient.from.blue, gradient.from.alpha);
+                        pattern.add_color_stop_rgba(1, gradient.to.red, gradient.to.green, gradient.to.blue, gradient.to.alpha);
+                        ctx.set_source(pattern);
+                        ctx.fill();
+                    }
                 }
-                
                 ctx.fill();
             }
         }
@@ -48,6 +55,7 @@ namespace LiveChart {
     [Version (experimental=true)]
     public class BarSerie : TimeSerie {
         private BarDrawer drawer = new BarDrawer();
+        public LinearGradient? gradient;
 
         public BarSerie(string name, int buffer_size = 1000) {
             base(name, buffer_size);
@@ -55,7 +63,7 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                drawer.draw(ctx, config, points_factory.create(config), line);
+                drawer.draw(ctx, config, points_factory.create(config), line, gradient);
             }
         }
     }

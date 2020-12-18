@@ -248,6 +248,14 @@ Both `from` and `to` are standards Gdk.RGBA() structs.
 * [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/bar.vala)
 ![](resources/renderer_bar.png)
 
+**Gradient background**
+
+Bar has also a `gradient` property which override the color :
+
+```vala
+bar.gradient = {from: {0, 0, 0, 1}, to: {1, 0, 0, 0.5}}; //Black to semi-transparent red gradient
+```
+
 ### Static lines
 
 * [`LiveChart.ThresholdLine`](https://github.com/lcallarec/live-chart/blob/master/src/threshold_line.vala)
