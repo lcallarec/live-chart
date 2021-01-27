@@ -1,44 +1,18 @@
-namespace LiveChart { 
+namespace LiveChart {
 
-    public class XAxis {
-
-        public float tick_interval { get; set; default = 10;}
-        public float tick_length { get; set; default = 60;}
-        public bool visible { get; set; default = true; }
-        public Labels labels = new Labels();
-        public Path axis = new Path();
-        public Path lines = new Path();
-
-        public XAxis() {
-            axis.color = {0.5, 0.5, 0.5, 0.5};
-            lines.color = {0.5, 0.5, 0.5, 0.2};
-        }
-
-        public double get_ratio() {
-            return tick_length / tick_interval;
-        }
-    }
-    
-    public struct Ticks {
-        Gee.List<float?> values;
-        public Ticks() {
-            values = new Gee.ArrayList<float?>();
-        }
-    }
-
-    public class YAxis {
-        private Bounds bounds = new Bounds();
+    public abstract class Axis {
+        public Bounds bounds = new Bounds();
         private double ratio = 1;
 
         public float ratio_threshold { get; set; default = 1.118f;}
-        public float tick_interval { get; set; default = 60;}
+        public float tick_interval { get; set; }
         public bool visible { get; set; default = true; }
 
         public Labels labels = new Labels();
         public Path axis = new Path();
         public LiveChart.Path lines = new LiveChart.Path();
 
-        [Version (deprecated = true, deprecated_since = "1.0.0b7")]        
+        [Version (deprecated = true, deprecated_since = "1.0.0b7")]
         public float tick_length { get; set; default = 60;}
         public string unit { get; set; default = "";}
 
@@ -47,16 +21,6 @@ namespace LiveChart {
 
         public double? fixed_max;
         public Ticks ticks;
-
-        public YAxis(string unit = "") {
-            this.unit = unit;
-            ticks = get_ticks();
-            axis.color = {0.5, 0.5, 0.5, 0.5};            
-            lines.color = {0.5, 0.5, 0.5, 0.2};            
-            bounds.notify["upper"].connect(() => {
-                this.ticks = get_ticks();
-            });
-        }
 
         public double get_ratio() {
             return this.ratio;
@@ -74,7 +38,7 @@ namespace LiveChart {
             if (bounds.has_upper() && this.fixed_max == null) {
                 this.ratio = (double) area_height / ((double) bounds.upper * ratio_threshold);
             }
-            
+
             if (this.fixed_max != null) {
                 this.ratio = (double) area_height / ((double) this.fixed_max);
             }
@@ -124,6 +88,37 @@ namespace LiveChart {
             }
 
             return ticks;
+        }
+    }
+
+    public struct Ticks {
+        Gee.List<float?> values;
+        public Ticks() {
+            values = new Gee.ArrayList<float?>();
+        }
+    }
+
+    public class XAxis : Axis {
+        public XAxis() {
+            tick_interval = 10;
+            axis.color = {0.5, 0.5, 0.5, 0.5};
+            lines.color = {0.5, 0.5, 0.5, 0.2};
+        }
+
+        public new double get_ratio() {
+            return tick_length / tick_interval;
+        }
+    }
+
+    public class YAxis : Axis {
+        public YAxis(string unit = "") {
+            this.unit = unit;
+            ticks = get_ticks();
+            axis.color = {0.5, 0.5, 0.5, 0.5};
+            lines.color = {0.5, 0.5, 0.5, 0.2};
+            bounds.notify["upper"].connect(() => {
+                this.ticks = get_ticks();
+            });
         }
     }
 }
