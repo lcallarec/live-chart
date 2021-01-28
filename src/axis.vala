@@ -5,7 +5,7 @@ namespace LiveChart {
         private double ratio = 1;
 
         public float ratio_threshold { get; set; default = 1.118f;}
-        public float tick_interval { get; set; }
+        public float tick_interval { get; set; default = 60; }
         public bool visible { get; set; default = true; }
 
         public Labels labels = new Labels();
