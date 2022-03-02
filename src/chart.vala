@@ -87,15 +87,18 @@ namespace LiveChart {
         public void refresh_every(int ms) {
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
+                source_timeout = 0;
             }
-            source_timeout = Timeout.add(ms, () => {
-                this.queue_draw();
-                return true;
-            });
+            if(ms > 0){
+                source_timeout = Timeout.add(ms, () => {
+                    this.queue_draw();
+                    return true;
+                });
+            }
         }
 
         private bool render(Gtk.Widget _, Context ctx) {
-            
+            ctx.set_antialias(Cairo.Antialias.NONE);
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);
