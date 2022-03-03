@@ -47,9 +47,20 @@ namespace LiveChart {
                 series.remove(serie);
                 signals.unset(serie);
             }
-			if(chart.legend != null){
-				chart.legend.remove_legend(serie);
-			}
+            if(chart.legend != null){
+                chart.legend.remove_legend(serie);
+            }
+        }
+        
+        public void remove_all(){
+            foreach(var entry in signals){
+                entry.key.disconnect(entry.value);
+            }
+            signals.clear();
+            series.clear();
+            if(chart.legend != null){
+                chart.legend.remove_all_legend();
+            }
         }
         
         public Iterator<Serie> iterator() {
