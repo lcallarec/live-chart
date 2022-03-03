@@ -4,7 +4,7 @@ namespace LiveChart {
     public class Series : Object {
         private Gee.Map<Serie, ulong> signals = new Gee.HashMap<Serie, ulong>();
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
-        private Chart chart;
+        private unowned Chart chart;
 
         public Series(Chart chart) {
             this.chart = chart;

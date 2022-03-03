@@ -30,6 +30,10 @@ namespace LiveChart {
             this.refresh_every(100);
 
             series = new Series(this);
+            this.destroy.connect(() => {
+                refresh_every(-1);
+                remove_all_series();
+            });
         }
 
         public void add_serie(Serie serie) {
