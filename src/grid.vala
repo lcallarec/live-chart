@@ -67,7 +67,8 @@ namespace LiveChart {
         }
 
         protected void render_vgrid(Context ctx, Config config) {
-            var time = new DateTime.now().to_unix();
+            // var time = new DateTime.now().to_unix();
+            var time = config.time.current / 1000;
             for (double i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length) {
                 if (config.x_axis.lines.visible) {
                     config.x_axis.lines.configure(ctx);

@@ -57,7 +57,8 @@ namespace LiveChart {
             Points points = new Points();
             if (values.size > 0) {
                 var last_value = values.last();
-                points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
+                //points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
+                points.realtime_delta = ((config.time.current - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
 
                 foreach (TimestampedValue value in values) {
                     var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);

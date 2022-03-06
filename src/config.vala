@@ -38,6 +38,8 @@ namespace LiveChart {
         public int width;
         public int height;
     }
+    
+    
 
     public class Config {
 
@@ -53,7 +55,18 @@ namespace LiveChart {
 
         public YAxis y_axis = new YAxis();
         public XAxis x_axis = new XAxis();
-
+        
+        public struct TimeSeek {
+            int64 current;
+            int64 head_offset;
+            int64 tail_offset;
+        }
+        public TimeSeek time = {
+            GLib.get_real_time() / 1000,
+            0,
+            0
+        };
+        
         internal Gee.ArrayList<string> categories;
 
         public Boundaries boundaries() {

@@ -17,6 +17,7 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
+        private int64 play_rate = 0;
 
         public Chart(Config config = new Config()) {
             this.config = config;
@@ -92,13 +93,17 @@ namespace LiveChart {
             pixbuff.savev(filename, "png", {}, {});
         }
 
-        public void refresh_every(int ms) {
+        public void refresh_every(int ms, bool mod_play_rate = true) {
+            if(mod_play_rate){
+                this.play_rate = (int64)ms;
+            }
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
                 source_timeout = 0;
             }
             if(ms > 0){
                 source_timeout = Timeout.add(ms, () => {
+                    config.time.current += this.play_rate;
                     this.queue_draw();
                     return true;
                 });
