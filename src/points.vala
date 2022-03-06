@@ -55,12 +55,27 @@ namespace LiveChart {
             var boundaries = config.boundaries();
 
             Points points = new Points();
-            if (values.size > 0) {
-                var last_value = values.last();
+            if (values.size > 1) {
+                /// \note SortedSet<G>.sub_set won't work as I expected correctly.
+                SortedSet<TimestampedValue?> renderee = null;
+                TimestampedValue border = {(double)config.time.current, 0.0};
+                renderee = values.head_set(border);
+
+                if(config.time.head_offset >= 0.0 && renderee.size > 0){
+                    border.timestamp -= config.time.head_offset;
+                    if(renderee.first().timestamp < border.timestamp){
+                        renderee = renderee.tail_set(border);
+                    }
+                }
+
+                //var renderee = values;
+                if(renderee.size <= 2){
+                    return points;
+                }
+                var last_value = renderee.last();
                 //points.realtime_delta = (((GLib.get_real_time() / 1000) - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
                 points.realtime_delta = ((config.time.current - last_value.timestamp) * config.x_axis.get_ratio()) / 1000;
-
-                foreach (TimestampedValue value in values) {
+                foreach (TimestampedValue value in renderee) {
                     var point = Points.value_to_point(last_value, value, config, boundaries, points.realtime_delta);
                     points.add(point);
                 }

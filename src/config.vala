@@ -42,9 +42,24 @@ namespace LiveChart {
     
 
     public class Config {
-
+		private int _width = 0;
         public int width {
-            get; set; default = 0;
+            get{
+				return _width;
+			}
+			set{
+				if(_width != value){
+					//i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length
+					if(x_axis.tick_length <= 0.0){
+						time.head_offset = -1.0;
+					}
+					else{
+						var tmp = value / x_axis.tick_length;
+						time.head_offset = tmp * x_axis.tick_interval * 1000.0;
+					}
+				}
+				_width = value;
+			}
         }
 
         public int height {
@@ -58,12 +73,10 @@ namespace LiveChart {
         
         public struct TimeSeek {
             int64 current;
-            int64 head_offset;
-            int64 tail_offset;
+            double head_offset;
         }
         public TimeSeek time = {
             GLib.get_real_time() / 1000,
-            0,
             0
         };
         
