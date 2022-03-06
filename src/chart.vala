@@ -17,7 +17,10 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
-        private int64 play_rate = 0;
+        private double play_ratio = 1.0;
+        
+        private int64 prev_time;
+        
         public Chart(Config config = new Config()) {
             this.config = config;
 
@@ -29,11 +32,11 @@ namespace LiveChart {
             this.draw.connect(render);
 #endif            
 #if GTK4
-			this.set_draw_func((_, ctx, width, height) => {
-				this.config.height = height;
-				this.config.width = width;
-				this.render(_, ctx);
-			});
+            this.set_draw_func((_, ctx, width, height) => {
+                this.config.height = height;
+                this.config.width = width;
+                this.render(_, ctx);
+            });
 #endif
             this.refresh_every(100);
 
@@ -102,17 +105,18 @@ namespace LiveChart {
 #endif
         }
 
-        public void refresh_every(int ms, bool mod_play_rate = true) {
-            if(mod_play_rate){
-                this.play_rate = (int64)ms;
-            }
+        public void refresh_every(int ms, double play_ratio = 1.0) {
+            this.play_ratio = play_ratio;
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
                 source_timeout = 0;
             }
             if(ms > 0){
+                this.prev_time = GLib.get_real_time() / 1000;
                 source_timeout = Timeout.add(ms, () => {
-                    config.time.current += this.play_rate;
+                    var now = GLib.get_real_time() / 1000;
+                    config.time.current += (int64)((now - this.prev_time) * this.play_ratio);
+                    this.prev_time = now;
                     this.queue_draw();
                     return true;
                 });
