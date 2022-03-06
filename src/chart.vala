@@ -18,16 +18,23 @@ namespace LiveChart {
 
         private uint source_timeout = 0;
         private int64 play_rate = 0;
-
         public Chart(Config config = new Config()) {
             this.config = config;
+
+#if GTK3
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
             });
-
             this.draw.connect(render);
-            
+#endif            
+#if GTK4
+			this.set_draw_func((_, ctx, width, height) => {
+				this.config.height = height;
+				this.config.width = width;
+				this.render(_, ctx);
+			});
+#endif
             this.refresh_every(100);
 
             series = new Series(this);
@@ -85,12 +92,14 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
+#if GTK3
             var window = this.get_window();
             if (window == null) {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
             }
             var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
             pixbuff.savev(filename, "png", {}, {});
+#endif
         }
 
         public void refresh_every(int ms, bool mod_play_rate = true) {
