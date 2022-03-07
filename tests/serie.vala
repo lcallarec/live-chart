@@ -52,7 +52,7 @@ private void register_serie() {
         
         //then
         assert(serie.get_values().size == 1);
-        assert(serie.get_values().get(0).value == 100.0);
-        assert(serie.get_values().get(0).timestamp == 5);
+        assert(serie.get_values().first().value == 100.0);
+        assert(serie.get_values().first().timestamp == 5);
     });    
 }
