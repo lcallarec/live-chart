@@ -57,7 +57,12 @@ public class Example : Gtk.Window {
             heat.add(heat_value);
             return true;
         });
-
+		
+		Timeout.add(20000, () => {
+			chart.remove_serie(rss);
+			return false;
+		});
+		
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {
             try {

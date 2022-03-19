@@ -38,11 +38,28 @@ namespace LiveChart {
         public int width;
         public int height;
     }
+    
+    
 
     public class Config {
-
+		private int _width = 0;
         public int width {
-            get; set; default = 0;
+            get{
+				return _width;
+			}
+			set{
+				if(_width != value){
+					//i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length
+					if(x_axis.tick_length <= 0.0){
+						time.head_offset = -1.0;
+					}
+					else{
+						var tmp = value / x_axis.tick_length;
+						time.head_offset = tmp * x_axis.tick_interval * 1000.0;
+					}
+				}
+				_width = value;
+			}
         }
 
         public int height {
@@ -53,7 +70,16 @@ namespace LiveChart {
 
         public YAxis y_axis = new YAxis();
         public XAxis x_axis = new XAxis();
-
+        
+        public struct TimeSeek {
+            int64 current;
+            double head_offset;
+        }
+        public TimeSeek time = {
+            GLib.get_real_time() / 1000,
+            0
+        };
+        
         internal Gee.ArrayList<string> categories;
 
         public Boundaries boundaries() {

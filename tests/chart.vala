@@ -1,4 +1,19 @@
-
+private LiveChart.TimestampedValue get_at(int index, LiveChart.Values values){
+    assert(values.size < index);
+    assert(index >= 0);
+    
+    LiveChart.TimestampedValue ret = {};
+    int i = 0;
+    
+    values.foreach((v) => {
+        if(i == index){
+            ret = v;
+            return false;
+        }
+        return true;
+    });
+    return ret;
+}
 private void register_chart() {
 
     Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
@@ -88,13 +103,20 @@ private void register_chart() {
 
         //then
         assert(serie.get_values().size == 3);
+        /*
         assert(serie.get_values().get(0).value == 5);
         assert(serie.get_values().get(1).value == 10);
         assert(serie.get_values().get(2).value == 15);
         assert(serie.get_values().get(2).timestamp == now);
         assert(serie.get_values().get(1).timestamp == now - 5000);
         assert(serie.get_values().get(0).timestamp == now - 10000);
-
+        */
+        assert(get_at(0, serie.get_values()).value == 5);
+        assert(get_at(1, serie.get_values()).value == 10);
+        assert(get_at(2, serie.get_values()).value == 15);
+        assert(get_at(2, serie.get_values()).timestamp == now);
+        assert(get_at(1, serie.get_values()).timestamp == now - 5000);
+        assert(get_at(0, serie.get_values()).timestamp == now - 10000);
         assert(chart.config.y_axis.get_bounds().lower == 5);
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });
@@ -115,7 +137,7 @@ private void register_chart() {
 
         //then
         assert(serie.get_values().size == 1);
-        assert(serie.get_values().get(0).value == 100);
+        assert(serie.get_values().first().value == 100);
     });
 
     //Deprecated
@@ -135,7 +157,7 @@ private void register_chart() {
 
         //then
         assert(serie.get_values().size == 1);
-        assert(serie.get_values().get(0).value == 100);
+        assert(serie.get_values().first().value == 100);
     });
 
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection_by_index", () => {
@@ -162,13 +184,20 @@ private void register_chart() {
 
         //then
         assert(serie.get_values().size == 3);
+/*
         assert(serie.get_values().get(0).value == 5);
         assert(serie.get_values().get(1).value == 10);
         assert(serie.get_values().get(2).value == 15);
         assert(serie.get_values().get(2).timestamp == now);
         assert(serie.get_values().get(1).timestamp == now - 5000);
         assert(serie.get_values().get(0).timestamp == now - 10000);
-
+*/
+        assert(get_at(0, serie.get_values()).value == 5);
+        assert(get_at(1, serie.get_values()).value == 10);
+        assert(get_at(2, serie.get_values()).value == 15);
+        assert(get_at(2, serie.get_values()).timestamp == now);
+        assert(get_at(1, serie.get_values()).timestamp == now - 5000);
+        assert(get_at(0, serie.get_values()).timestamp == now - 10000);
         assert(chart.config.y_axis.get_bounds().lower == 5);
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });   

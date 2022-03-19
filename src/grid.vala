@@ -14,10 +14,10 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
-                red = 0.4,
-                green = 0.4,
-                blue = 0.4,
-                alpha = 1.0
+                red = 0.4f,
+                green = 0.4f,
+                blue = 0.4f,
+                alpha = 1.0f
             };
         }
 
@@ -67,7 +67,8 @@ namespace LiveChart {
         }
 
         protected void render_vgrid(Context ctx, Config config) {
-            var time = new DateTime.now().to_unix();
+            // var time = new DateTime.now().to_unix();
+            var time = config.time.current / 1000;
             for (double i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length) {
                 if (config.x_axis.lines.visible) {
                     config.x_axis.lines.configure(ctx);

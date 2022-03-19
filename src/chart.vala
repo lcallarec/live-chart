@@ -17,23 +17,46 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
-
+        private double play_ratio = 1.0;
+        
+        private int64 prev_time;
+        
         public Chart(Config config = new Config()) {
             this.config = config;
+
+#if GTK3
             this.size_allocate.connect((allocation) => {
                 this.config.height = allocation.height;
                 this.config.width = allocation.width;
             });
-
             this.draw.connect(render);
-            
+#endif            
+#if GTK4
+            this.set_draw_func((_, ctx, width, height) => {
+                this.config.height = height;
+                this.config.width = width;
+                this.render(_, ctx);
+            });
+#endif
             this.refresh_every(100);
 
             series = new Series(this);
+            this.destroy.connect(() => {
+                refresh_every(-1);
+                remove_all_series();
+            });
         }
 
         public void add_serie(Serie serie) {
             this.series.register(serie);
+        }
+
+        public void remove_serie(Serie serie){
+            this.series.remove_serie(serie);
+        }
+
+        public void remove_all_series(){
+            this.series.remove_all();
         }
 
         [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series (or from the serie you created) and add the value using serie.add")]
@@ -72,26 +95,36 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
+#if GTK3
             var window = this.get_window();
             if (window == null) {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
             }
             var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
             pixbuff.savev(filename, "png", {}, {});
+#endif
         }
 
-        public void refresh_every(int ms) {
+        public void refresh_every(int ms, double play_ratio = 1.0) {
+            this.play_ratio = play_ratio;
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
+                source_timeout = 0;
             }
-            source_timeout = Timeout.add(ms, () => {
-                this.queue_draw();
-                return true;
-            });
+            if(ms > 0){
+                this.prev_time = GLib.get_monotonic_time() / 1000;
+                source_timeout = Timeout.add(ms, () => {
+                    var now = GLib.get_monotonic_time() / 1000;
+                    config.time.current += (int64)((now - this.prev_time) * this.play_ratio);
+                    this.prev_time = now;
+                    this.queue_draw();
+                    return true;
+                });
+            }
         }
 
         private bool render(Gtk.Widget _, Context ctx) {
-            
+            ctx.set_antialias(Cairo.Antialias.NONE);
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);
