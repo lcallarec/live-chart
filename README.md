@@ -25,7 +25,7 @@
 - [API](#api)
 - [Chart widget](#chart-widget)
 - [Series](#series)
-- [Serie renderer](#serie-renderer)
+- [Serie renderer](#serie-renderers)
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
 - [Legend](#legend)
