@@ -31,14 +31,15 @@ FromCoodinates color_at(Gdk.Pixbuf pixbuff, int width, int height) {
     };
 }
 
-delegate Gee.HashSet<int> IntFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
+delegate Gee.HashSet<ulong> IntFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
 
 IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
+
     unowned uint8[] data = pixbuff.get_pixels_with_length();
     var stride = pixbuff.rowstride;
     
     return (from_x, from_y, to_x, to_y) => {
-        var colors = new Gee.HashSet<int>();
+        var colors = new Gee.HashSet<ulong>();
         for (var x = from_x; x <= to_x; x++) {
             for (var y = from_y; y <= to_y; y++) {
                 var pos = (stride * y) + (4 * x);
@@ -51,6 +52,37 @@ IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int heig
             }
         }
         return colors;
+    };
+}
+
+delegate bool HasOnlyColor(Gdk.RGBA color);
+
+HasOnlyColor has_only_color(Gdk.Pixbuf pixbuff, int width, int height) {
+
+    unowned uint8[] data = pixbuff.get_pixels_with_length();
+    var stride = pixbuff.rowstride;
+    
+    return (color) => {
+        var colors = new Gee.HashSet<ulong>();
+        for (var x = 0; x < width - 1; x++) {
+            for (var y = 0; y < height - 1; y++) {
+                var pos = (stride * y) + (4 * x);
+            
+                var r = data[pos];
+                var g = data[pos + 1];
+                var b = data[pos + 2];
+                var alpha = data[pos + 3];
+
+                stdout.printf("found: %u %u %u %u\n", r, g, b, alpha);
+
+                colors.add(colors_to_int(r, g, b, alpha));
+            }
+        }
+        stdout.printf(":::: %d\n", colors.size);
+        return colors.all_match((c) => {
+            stdout.printf("===> %lu %lu\n", c, color_to_int(color));
+            return c == color_to_int(color);
+        });
     };
 }
 
@@ -76,15 +108,11 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
     };
 }
 
-int colors_to_int(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
-    int rgba = red;
-    rgba = (rgba << 8) + green;
-    rgba = (rgba << 8) + green;
-    rgba = (rgba << 8) + alpha;
-    return (int) rgba;
+ulong colors_to_int(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
+    return ((alpha * 256 + red) * 256 + green) * 256 + blue;
 }
 
-int color_to_int(Gdk.RGBA color) {
+ulong color_to_int(Gdk.RGBA color) {
     return colors_to_int((uint8) color.red * 255, (uint8) color.green * 255, (uint8) color.blue * 255, (uint8) color.alpha * 255);
 }
 
