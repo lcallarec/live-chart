@@ -126,7 +126,7 @@ private void register_line_area() {
         area.draw(context, create_config(WIDTH, HEIGHT));
  
         //Then
-        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT) ;
+        //var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT) ;
 
        //assert(color_at(pixbuff, WIDTH, HEIGHT)(35, 50).to_string() == "rgb(128,0,0)");
         //assert(color_at(pixbuff, WIDTH, HEIGHT)(57, 50).to_string() == "rgb(0,0,0)");

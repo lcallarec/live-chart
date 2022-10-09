@@ -37,28 +37,6 @@ LiveChart.Config create_config(int? width = null, int? height = null) {
 
 delegate Gee.HashSet<ulong> IntFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
 
-IntFromToCoodinates unique_int_colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
-
-    unowned uint8[] data = pixbuff.get_pixels_with_length();
-    var stride = pixbuff.rowstride;
-    
-    return (from_x, from_y, to_x, to_y) => {
-        var colors = new Gee.HashSet<ulong>();
-        for (var x = from_x; x <= to_x; x++) {
-            for (var y = from_y; y <= to_y; y++) {
-                var pos = (stride * y) + (4 * x);
-            
-                var r = data[pos];
-                var g = data[pos + 1];
-                var b = data[pos + 2];
-                var alpha = data[pos + 3];
-                colors.add(colors_to_int(r, g, b, alpha));
-            }
-        }
-        return colors;
-    };
-}
-
 delegate bool HasOnlyOneColor(Gdk.RGBA color);
 
 HasOnlyOneColor has_only_one_color(TestContext context) {
@@ -176,15 +154,6 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
 
 Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
     return { red / 255, green / 255, blue / 255, alpha / 255 };
-}
-
-
-ulong colors_to_int(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
-    return ((alpha * 256 + red) * 256 + green) * 256 + blue;
-}
-
-ulong color_to_int(Gdk.RGBA color) {
-    return colors_to_int((uint8) color.red * 255, (uint8) color.green * 255, (uint8) color.blue * 255, (uint8) color.alpha * 255);
 }
 
 private void register_cairo() {
