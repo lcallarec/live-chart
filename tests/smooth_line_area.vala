@@ -4,7 +4,8 @@ private void register_smooth_line_area() {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context);
+        cairo_background(context, { 0, 0, 0, 1}, SURFACE_WIDTH, SURFACE_HEIGHT);
+
 
         var values = new LiveChart.Values();
        
