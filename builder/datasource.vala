@@ -84,7 +84,6 @@ namespace LiveChart.Builder {
         }
 
         private void refresh_configuration() {
-            stdout.printf("Datasource configuration refreshed \n");
             configuration = {
                 probability_of_change.get_value(),
                 min.get_value(),
