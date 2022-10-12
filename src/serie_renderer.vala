@@ -7,7 +7,7 @@ namespace LiveChart {
         private const int VIRTUAL_LEFT_PADDING = -200;
         
         public bool visible { get; set; default = true; }
-        
+
         [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Serie.renderer.line.color")]
         public Gdk.RGBA main_color {
             get {
@@ -37,6 +37,7 @@ namespace LiveChart {
         }
 
         public abstract void draw(Context ctx, Config config);
+
         public BoundingBox get_bounding_box() {
             return bounding_box;
         }
