@@ -77,7 +77,9 @@ namespace LiveChart {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
             }
             var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
-            pixbuff.savev(filename, "png", {}, {});
+            if (pixbuff != null) {
+                pixbuff.save(filename, "png");
+            }
         }
 
         public void refresh_every(int ms) {
@@ -104,7 +106,7 @@ namespace LiveChart {
                 ctx.clip();
                 serie.draw(ctx, this.config);
             }
-            
+
             return true;
         }
     }
