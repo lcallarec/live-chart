@@ -1,6 +1,7 @@
 const int SURFACE_WIDTH = 10;
 const int SURFACE_HEIGHT = 10;
 const Gdk.RGBA DEFAULT_BACKGROUND_COLOR = {1.0, 1.0, 1.0, 1.0};
+const double EPSILON = 0.00000001f;
 
 class TestContext : Object {
     public Cairo.Context ctx { get; set; }
@@ -43,7 +44,6 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
     
     int width = context.surface.get_width();
     int height = context.surface.get_height();
-    stdout.printf("w: %d, h: %d\n", width, height);
     
     return (color) => {
         var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
@@ -72,7 +72,6 @@ HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
     
     int width = context.surface.get_width();
     int height = context.surface.get_height();
-    stdout.printf("w: %d, h: %d\n", width, height);
     
     return (color, row) => {
         var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
@@ -154,6 +153,33 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
 
 Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
     return { red / 255, green / 255, blue / 255, alpha / 255 };
+}
+
+public class PointBuilder {
+    private double _x = 0;
+    private double _y = 0;
+    private double _height = 0;
+    private LiveChart.TimestampedValue _data = { 
+        timestamp: 0,
+        value: 0
+    };
+
+    public PointBuilder.from_value(double value) {
+        this._data.value = value;
+    }
+    public PointBuilder x(double x) {
+        this._x = x;
+        return this;
+    }
+    public LiveChart.Point build() {
+        return {
+            x: this._x,
+            y: this._y,
+            height: this._height,
+            data: _data
+        };
+    }
+
 }
 
 private void register_cairo() {
