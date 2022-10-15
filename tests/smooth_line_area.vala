@@ -64,7 +64,6 @@ private void register_smooth_line_area() {
 
         //When
         line.draw(context.ctx, create_config(43, 20));
-        screenshot(context, "nb.png");
 
         //Then the curve colors are...
         assert(get_color_at(context)({x: 0, y: 14}) == red);
