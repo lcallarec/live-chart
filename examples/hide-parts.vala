@@ -15,7 +15,7 @@ public class HideParts {
         var chart = new Chart(config);
         chart.legend.visible = false;
         chart.grid.visible = false;
-
+        chart.background.visible = false;
         chart.add_serie(cpu);
          
         var cpu_value = 50.0;
@@ -43,6 +43,10 @@ public class HideParts {
         widget.pack_start(row2, true, true, 5);
 
         row1.pack_start(new Gtk.Label("All parts may be hidden"), false, false, 5);
-        row2.pack_start(chart, true, true, 0);
+        var b = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        b.get_style_context().add_class("circular");
+        b.pack_start(chart, true, true, 0);
+        
+        row2.pack_start(b, true, true, 0);
      }
 }

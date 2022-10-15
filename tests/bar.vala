@@ -165,8 +165,8 @@ private void register_experimental_bar() {
 
     //  Test.add_func("/LiveChart/BarSerie/draw#gradient", () => {
     //      //Given
-    //      var WIDTH = 10;
-    //      var HEIGHT = 10;
+    //      var WIDTH = 100;
+    //      var HEIGHT = 100;
     //      Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
     //      Cairo.Context context = new Cairo.Context(surface);
     //      context.set_antialias(Cairo.Antialias.NONE);

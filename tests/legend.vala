@@ -1,5 +1,5 @@
 private void register_legend() {
-    Test.add_func("/LiveChart/Legend#draw", () => {
+    Test.add_func("/LiveChart/Legend/draw", () => {
         //Given
         var WIDTH = 50;
         var HEIGHT = 50;
@@ -8,7 +8,7 @@ private void register_legend() {
         cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
 
         var legend = new LiveChart.HorizontalLegend();
-        var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());;
+        var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());
         legend.add_legend(serie);
          
         //When
@@ -42,7 +42,7 @@ private void register_legend() {
         }
     });
 
-    Test.add_func("/LiveChart/Legend#draw_hidden", () => {
+    Test.add_func("/LiveChart/Legend/draw_hidden", () => {
         //Given
         var WIDTH = 50;
         var HEIGHT = 50;
@@ -51,7 +51,7 @@ private void register_legend() {
         cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
 
         var legend = new LiveChart.HorizontalLegend();
-        var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());;
+        var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());
         legend.add_legend(serie);
         legend.visible = false;
          
@@ -82,5 +82,86 @@ private void register_legend() {
         } else {
             assert_not_reached();
         }
-    });      
+    });
+
+    Test.add_func("/LiveChart/LegendSymbolDrawer/draw#rectangle", () => {
+        //Given
+        var WIDTH = 10;
+        var HEIGHT = 10;
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        context.set_antialias(Cairo.Antialias.NONE);
+        cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
+
+        var drawer = new LiveChart.LegendSymbolDrawer();
+        drawer.draw(context, {x: 0, y: 0}, {width: 10, height: 10, radius: 0}, red());
+
+        //then 
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        if (pixbuff != null) {
+            var at = color_at(pixbuff);
+            assert(at(0, 0).to_string() == "rgb(255,0,0)");
+            assert(at(9, 9).to_string() == "rgb(255,0,0)");
+        } else {
+            assert_not_reached();
+        }
+    });
+
+    Test.add_func("/LiveChart/LegendSymbolDrawer/draw#rounded_rectangle", () => {
+        //Given
+        var WIDTH = 20;
+        var HEIGHT = 20;
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        context.set_antialias(Cairo.Antialias.NONE);
+        cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
+
+        var drawer = new LiveChart.LegendSymbolDrawer();
+        drawer.draw(context, {x: 0, y: 0}, {width: 20, height: 20, radius: 5}, red());
+
+        //then 
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        if (pixbuff != null) {
+            var at = color_at(pixbuff);
+            assert(at(0, 0).to_string() == "rgb(0,0,0)");
+            assert(at(19, 0).to_string() == "rgb(0,0,0)");
+            assert(at(0, 19).to_string() == "rgb(0,0,0)");
+            assert(at(19, 19).to_string() == "rgb(0,0,0)");
+            
+            assert(at(5, 0).to_string() == "rgb(255,0,0)");
+            assert(at(5, 5).to_string() == "rgb(255,0,0)");
+            assert(at(0, 5).to_string() == "rgb(255,0,0)");
+        } else {
+            assert_not_reached();
+        }
+    });
+
+    Test.add_func("/LiveChart/LegendSymbolDrawer/draw#circle", () => {
+        //Given
+        var WIDTH = 10;
+        var HEIGHT = 10;
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        context.set_antialias(Cairo.Antialias.NONE);
+        cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
+
+        var drawer = new LiveChart.LegendSymbolDrawer();
+        drawer.draw(context, {x: 0, y: 0}, {width: 10, height: 10, radius: 5}, red());
+
+        //then 
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        if (pixbuff != null) {
+            var at = color_at(pixbuff);
+            assert(at(0, 0).to_string() == "rgb(0,0,0)");
+            assert(at(9, 0).to_string() == "rgb(0,0,0)");
+            assert(at(0, 9).to_string() == "rgb(0,0,0)");
+            assert(at(9, 9).to_string() == "rgb(0,0,0)");
+            
+            assert(at(5, 0).to_string() == "rgb(255,0,0)");
+            assert(at(5, 5).to_string() == "rgb(255,0,0)");
+            assert(at(0, 5).to_string() == "rgb(255,0,0)");
+        } else {
+            assert_not_reached();
+        }
+    });
 }

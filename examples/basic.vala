@@ -23,6 +23,7 @@ public class Basic {
         config.x_axis.lines.visible = false;
 
         var chart = new Chart(config);
+        chart.legend.symbol = {width: 8, height: 8, radius: 4};
 
         chart.add_serie(heat);
         chart.add_serie(heap);

@@ -589,7 +589,7 @@ Both `from` and `to` are standards Gdk.RGBA() structs.
 
 ## Legend
 
-### Visibility
+**Visibility**
 
 ```vala
 var chart = new LiveChart.Chart(config);
@@ -597,7 +597,11 @@ var chart = new LiveChart.Chart(config);
 chart.legend.visible = false; // Hide legend
 ```
 
-### Fonts
+**Symbols**
+
+
+
+**Fonts**
 
 ```vala
 var chart = new LiveChart.Chart(config);
