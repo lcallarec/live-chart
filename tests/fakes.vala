@@ -173,9 +173,9 @@ public class PointBuilder {
     private double _x = 0;
     private double _y = 0;
     private double _height = 0;
-    private LiveChart.TimestampedValue _data = { 
-        timestamp: 0,
-        value: 0
+    private LiveChart.TimestampedValue _data = LiveChart.TimestampedValue() { 
+        timestamp = 0,
+        value = 0
     };
 
     public PointBuilder.from_value(double value) {
