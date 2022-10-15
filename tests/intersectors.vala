@@ -36,7 +36,7 @@ private void register_intersections() {
 
         //then
         assert(intersections.size() == 1);
-        assert_cmpfloat_with_epsilon(intersections.get(0).start_x, 5f, EPSILON);
-        assert_cmpfloat_with_epsilon(intersections.get(0).end_x, 5f, EPSILON);
+        assert(Math.fabs(intersections.get(0).start_x - 5f) <= EPSILON);
+        assert(Math.fabs(intersections.get(0).end_x - 5f) <= EPSILON);
     });
 }
