@@ -72,7 +72,7 @@ namespace LiveChart {
                 x = (boundaries.x.max - (last_value.timestamp - current_value.timestamp) / 1000 * config.x_axis.get_ratio()) - realtime_delta,
                 y = boundaries.y.max - (current_value.value * config.y_axis.get_ratio()),
                 height = current_value.value * config.y_axis.get_ratio(),
-                data = current_value,
+                data = current_value
             };
         }
     }
