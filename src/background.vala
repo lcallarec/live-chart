@@ -22,7 +22,7 @@ namespace LiveChart {
 
         [Version (deprecated = true, deprecated_since = "1.8.0", replacement = "Background.color")]
         public Gdk.RGBA main_color { 
-            get; set; default= Gdk.RGBA() {
+            get; set; default = Gdk.RGBA() {
                 red = 0.1,
                 green = 0.1,
                 blue = 0.1,

@@ -19,8 +19,8 @@ namespace LiveChart {
         private double ceil;
         private double floor;
 
-        public Gdk.RGBA line_color { get; set; default = { 1, 1, 1, 1 }; }
-        public Gdk.RGBA area_color { get; set; default = { 1, 1, 1, 0.5 }; }
+        public Gdk.RGBA line_color { get; set; default = Gdk.RGBA () { red = 1, green = 1, blue = 1, alpha = 1 }; }
+        public Gdk.RGBA area_color { get; set; default = Gdk.RGBA () { red = 1, green = 1, blue = 1, alpha = 0.5 }; }
 
         public Region(double floor, double ceil) {
             this.floor = floor;
