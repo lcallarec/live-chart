@@ -23,6 +23,8 @@ jobs:
           meson build -Ddebug=true -Db_coverage=true
           ninja -C build
       - name: Run tests
-        run: meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1"
+        run:  |
+          meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1"
+          [[ -f /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt ]] && cat /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt
       - name: Send coverage report
         run: bash <(curl -s https://codecov.io/bash)        
