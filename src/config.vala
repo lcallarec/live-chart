@@ -58,8 +58,8 @@ namespace LiveChart {
 
         public Boundaries boundaries() {
             return Boundaries() {
-               x = {padding.left, width - padding.right},
-               y = {padding.top, height - padding.bottom},
+               x = {min: padding.left, max: width - padding.right},
+               y = {min: padding.top, max: height - padding.bottom},
                width =  width - padding.right - padding.left,
                height = height - padding.bottom - padding.top
             };

@@ -26,6 +26,8 @@ namespace LiveChart {
             this.update_bounding_box(points, config);
             this.debug(ctx);
 
+            line.configure(ctx);
+
             ctx.move_to(first_point.x, first_point.y);
             for (int pos = 0; pos < points.size -1; pos++) {
                 var current_point = points.get(pos);
@@ -37,7 +39,7 @@ namespace LiveChart {
 
                 ctx.line_to(next_point.x, next_point.y);
             }
-
+        
             return points;
         }
 

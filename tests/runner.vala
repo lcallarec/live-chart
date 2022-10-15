@@ -19,12 +19,13 @@ void main (string[] args) {
     register_grid();
     register_background();
     register_legend();
-    register_cairo();
     register_serie();
     register_series();
     register_threshold_line();
     register_min_bound_line();
     register_max_bound_line();
-
+    register_regions();
+    register_intersections();
+    
     Test.run();
 }

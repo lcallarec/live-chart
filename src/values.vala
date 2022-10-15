@@ -6,7 +6,6 @@ namespace LiveChart {
         public double timestamp;
         public double value;
     }
-
     public class Values : LinkedList<TimestampedValue?> {
 
         public Bounds bounds {

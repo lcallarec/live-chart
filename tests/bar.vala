@@ -27,7 +27,7 @@ private void register_bar() {
         assert(has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 0));
         assert(has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 1));
 
-        assert(color_at(context)(5, 5).equal(red));
+        assert(get_color_at(context)({x: 5, y: 5}).equal(red));
     });
 
     Test.add_func("/Bar/should_not_render_anything_if_there_are_no_values", () => {

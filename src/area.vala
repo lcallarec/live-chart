@@ -31,10 +31,9 @@
                 ctx.line_to(first_point.x, boundaries.y.max);
                 ctx.line_to(first_point.x, first_point.y);
                 ctx.close_path();
-                ctx.fill_preserve();
             }
-  
         }
+
         public BoundingBox get_bounding_box() {
             return bounding_box;
         }

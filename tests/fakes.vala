@@ -9,7 +9,7 @@ class TestContext : Object {
 }
 
 TestContext create_context(int width = SURFACE_WIDTH, int height = SURFACE_HEIGHT) {
-    Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
+    Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.RGB24, width, height);
     Cairo.Context context = new Cairo.Context(surface);
     context.set_antialias(Cairo.Antialias.NONE);
     cairo_background(context, DEFAULT_BACKGROUND_COLOR, width, height);
@@ -50,12 +50,13 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
         assert(pixbuff != null);
 
         unowned uint8[] pixels = pixbuff.get_pixels();
+        var channels = pixbuff.get_n_channels();
         var stride = pixbuff.rowstride;
 
         var colors = new Gee.HashSet<Gdk.RGBA?>();
-        for (var x = 0; x < width; x++) {
-            for (var y = 0; y < height; y++) {
-                var rgba = get_color_at(pixels, stride)(x, y);
+        for (var x = 0; x < width - 1; x++) {
+            for (var y = 0; y < height - 1; y++) {
+                var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, y);
                 colors.add(rgba);
             }
         }
@@ -65,7 +66,6 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
         });
     };
 }
-
 
 delegate bool HasOnlyOneColorAtRow(Gdk.RGBA color, int row);
 HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
@@ -78,11 +78,12 @@ HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
         assert(pixbuff != null);
 
         unowned uint8[] pixels = pixbuff.get_pixels();
+        var channels = pixbuff.get_n_channels();
         var stride = pixbuff.rowstride;
 
         var colors = new Gee.HashSet<Gdk.RGBA?>();
         for (var x = 0; x < width; x++) {
-            var rgba = get_color_at(pixels, stride)(x, row);
+            var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, row);
             colors.add(rgba);
         }
 
@@ -92,42 +93,51 @@ HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
     };
 }
 
-delegate Gdk.RGBA ColorAtCoodinates(int x, int y);
-ColorAtCoodinates get_color_at(uint8[] pixels, int stride) {
-    return (x, y) => {
-
-        var pos = (stride * y) + (4 * x);
-                
-        var r = pixels[pos];
-        var g = pixels[pos + 1];
-        var b = pixels[pos + 2];
-        var alpha = pixels[pos + 3];
-        return color8_to_rgba(r, g, b, alpha);
-    };
-}
-
-ColorAtCoodinates color_at(TestContext context) {
+delegate Gdk.RGBA GetColorAt(LiveChart.Coord coord);
+GetColorAt get_color_at(TestContext context) {
+    
     int width = context.surface.get_width();
     int height = context.surface.get_height();
-
-    return (x, y) => {
-
+    
+    return (coord) => {
         var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
         assert(pixbuff != null);
 
         unowned uint8[] pixels = pixbuff.get_pixels();
+        var channels = pixbuff.get_n_channels();
         var stride = pixbuff.rowstride;
 
-        var pos = (stride * y) + (4 * x);
+        return get_color_at_from_pixels(pixels, stride, channels)((int) coord.x, (int) coord.y);
+    };
+}
+
+private delegate Gdk.RGBA ColorAtCoodinates(int x, int y);
+private ColorAtCoodinates get_color_at_from_pixels(uint8[] pixels, int stride, int channels) {
+    return (x, y) => {
+
+        var pos = (stride * y) + (channels * x);
                 
         var r = pixels[pos];
         var g = pixels[pos + 1];
         var b = pixels[pos + 2];
         var alpha = pixels[pos + 3];
-        return color8_to_rgba(r, g, b, alpha);
+        var c = color8_to_rgba(r, g, b, alpha);
+
+        return flat(c);
     };
 }
 
+void screenshot(TestContext context, string filename) {
+    int width = context.surface.get_width();
+    int height = context.surface.get_height();
+    
+    var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
+    try {
+        pixbuff.save(filename, "png");
+    } catch {
+
+    }
+}
 
 delegate Gee.ArrayList<Gdk.RGBA?> ColorFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
 ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
@@ -151,8 +161,12 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
     };
 }
 
-Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
-    return { red / 255, green / 255, blue / 255, alpha / 255 };
+private Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
+    return flat({ (double) red / 255, (double) green / 255, (double) blue / 255.0, (double) alpha / 255 });
+}
+
+private Gdk.RGBA flat(Gdk.RGBA color) {
+    return { Math.ceil(color.red * 100) / 100, Math.ceil(color.green * 100) / 100, Math.ceil(color.blue * 100) / 100, 1};
 }
 
 public class PointBuilder {
@@ -180,85 +194,4 @@ public class PointBuilder {
         };
     }
 
-}
-
-private void register_cairo() {
-
-    Test.add_func("/TestTools/color_at", () => {
-        //Given
-        var WIDTH = 2;
-        var HEIGHT = 2;
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
-
-        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0};
-        var blue = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 1.0, alpha = 1.0};
-
-        cairo_background(context, red, WIDTH, HEIGHT);
-
-        context.set_antialias(Cairo.Antialias.NONE);
-
-        context.set_line_width(0.5);
-        context.set_source_rgba(blue.red, blue.green, blue.blue, blue.alpha);
-        context.set_line_cap(Cairo.LineCap.ROUND);
-
-        context.move_to(0.5, 1.5);
-        context.line_to(0.5, 1.5);
-
-        context.move_to(1.5, 0.5);
-        context.line_to(1.5, 0.5);
-
-        context.stroke();
-        
-        //When
-        //var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        //  var from_coords = color_at(pixbuff, WIDTH, HEIGHT);
-
-        //  //Then
-        //  assert(from_coords(0, 0) == red);
-        //  assert(from_coords(0, 1) == blue);
-        //  assert(from_coords(1, 0) == blue);
-        //  assert(from_coords(1, 1) == red);
-    });
-
-    Test.add_func("/TestTools/colors_at", () => {
-        //Given
-        var WIDTH = 2;
-        var HEIGHT = 2;
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
-
-        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0};
-        var blue = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 1.0, alpha = 1.0};
-        var green = Gdk.RGBA() {red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0};
-        var yellow = Gdk.RGBA() {red = 1.0, green = 1.0, blue = 0.0, alpha = 1.0};        
-
-        cairo_background(context, red, WIDTH, HEIGHT);
-
-        context.set_antialias(Cairo.Antialias.NONE);
-
-        context.set_line_width(0.5);
-        context.set_line_cap(Cairo.LineCap.ROUND);
-
-        context.set_source_rgba(blue.red, blue.green, blue.blue, blue.alpha);
-        context.move_to(0.5, 1.5);
-        context.line_to(0.5, 1.5);
-        context.stroke();
-
-        context.set_source_rgba(green.red, green.green, green.blue, green.alpha);
-        context.move_to(1.5, 0.5);
-        context.line_to(1.5, 0.5);
-        context.stroke();
-
-        context.set_source_rgba(yellow.red, yellow.green, yellow.blue, yellow.alpha);
-        context.move_to(1.5, 1.5);
-        context.line_to(1.5, 1.5);
-        context.stroke();
-        
-        //When
-        //var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        //var from_to_coords = colors_at(pixbuff, WIDTH, HEIGHT);
-        //Then
-        //assert(from_to_coords(0, 0, 1, 1).size == 4);
-    });
 }

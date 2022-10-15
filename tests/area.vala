@@ -1,5 +1,5 @@
 private void register_area() {
-    Test.add_func("/Area/should not render anything when there are no values yet", () => {
+    Test.add_func("/Area/should_not_render_anything_when_there_are_no_values_yet", () => {
         //Given
         var context = create_context();
 

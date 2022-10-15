@@ -5,7 +5,17 @@ public class Example : Gtk.Window {
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
-        var heat = new LiveChart.Serie("HEAT", new LiveChart.SmoothLineArea());
+        var smooth_line_area = new LiveChart.SmoothLineArea();
+
+        var region = new LiveChart.Region
+            .between (0, 200)
+            .with_line_color({ 1.0, 0.5, 0.0, 1.0} )
+            .with_area_color({ 1.0, 0.5, 0.0, 0.5} );
+
+        smooth_line_area.region = region;
+
+        var heat = new LiveChart.Serie("HEAT", smooth_line_area);
+        
         heat.line.color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
@@ -36,7 +46,7 @@ public class Example : Gtk.Window {
             return true;
         });
 
-        var heap_value = 50.0;
+        var heap_value = 100.0;
         heap.add(heap_value);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.1) {
@@ -47,7 +57,7 @@ public class Example : Gtk.Window {
             return true;
         });
 
-        var heat_value = 200.0;
+        var heat_value = 150.0;
         heat.add(heat_value);
         Timeout.add(2000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
@@ -73,7 +83,6 @@ public class Example : Gtk.Window {
         box.pack_start(chart, true, true, 0);
 
         this.add(box);
-
      }
 }
 
