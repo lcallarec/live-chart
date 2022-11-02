@@ -17,7 +17,7 @@ private void register_grid() {
         
         var grid = new LiveChart.Grid();
         var background = new LiveChart.Background();
-        background.color = {1, 0, 0, 1};
+        background.color = { 1f, 0f, 0f, 1f };
         background.draw(context, config);
 
         //when

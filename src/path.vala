@@ -16,7 +16,7 @@ namespace LiveChart {
         public Gdk.RGBA color { get; set; }
         public bool visible {get; set; }
 
-        public Path(double width = 0.5, Gdk.RGBA color = {1.0, 1.0, 1.0, 1.0}, bool visible = true, Dash? dash = null) {
+        public Path(double width = 0.5, Gdk.RGBA color = { 1.0f, 1.0f, 1.0f, 1.0f }, bool visible = true, Dash? dash = null) {
             this.width = width;
             this.color = color;
             this.visible = true;

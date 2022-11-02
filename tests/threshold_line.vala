@@ -3,7 +3,7 @@ private void register_threshold_line() {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, { 0, 0, 0, 1}, SURFACE_WIDTH, SURFACE_HEIGHT);
+        cairo_background(context, { 0f, 0f, 0f, 1f }, SURFACE_WIDTH, SURFACE_HEIGHT);
 
 
         var line = new LiveChart.ThresholdLine(7.5);

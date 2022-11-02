@@ -1,6 +1,6 @@
 const int SURFACE_WIDTH = 10;
 const int SURFACE_HEIGHT = 10;
-const Gdk.RGBA DEFAULT_BACKGROUND_COLOR = {1.0, 1.0, 1.0, 1.0};
+const Gdk.RGBA DEFAULT_BACKGROUND_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
 const double EPSILON = 0.00000001f;
 
 class TestContext : Object {
@@ -31,7 +31,7 @@ LiveChart.Config create_config(int? width = null, int? height = null) {
     var config = new LiveChart.Config();
     config.width = width != null ? width : SURFACE_WIDTH;
     config.height = height != null ? height : SURFACE_HEIGHT;
-    config.padding = { 0, 0, 0, 0};
+    config.padding = { 0f, 0f, 0f, 0f };
 
     return config;
 }

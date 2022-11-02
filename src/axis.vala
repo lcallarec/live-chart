@@ -10,8 +10,8 @@ namespace LiveChart {
         public Path lines = new Path();
 
         public XAxis() {
-            axis.color = {0.5, 0.5, 0.5, 0.5};
-            lines.color = {0.5, 0.5, 0.5, 0.2};
+            axis.color = { 0.5f, 0.5f, 0.5f, 0.5f };
+            lines.color = { 0.5f, 0.5f, 0.5f, 0.2f };
         }
 
         public double get_ratio() {
@@ -51,8 +51,8 @@ namespace LiveChart {
         public YAxis(string unit = "") {
             this.unit = unit;
             ticks = get_ticks();
-            axis.color = {0.5, 0.5, 0.5, 0.5};            
-            lines.color = {0.5, 0.5, 0.5, 0.2};            
+            axis.color = { 0.5f, 0.5f, 0.5f, 0.5f };            
+            lines.color = { 0.5f, 0.5f, 0.5f, 0.2f };            
             bounds.notify["upper"].connect(() => {
                 this.ticks = get_ticks();
             });

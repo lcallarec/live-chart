@@ -19,15 +19,15 @@ Max and Min bound line renderer draws a straight line which represents either a 
 
 ```vala
 var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-heap.line.color = { 0.3, 0.8, 0.1, 1.0};
+heap.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
 
 var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-rss.line.color = { 0.8, 0.1, 0.8, 1.0};
+rss.line.color = { 0.8f, 0.1f, 0.8f, 1.0f };
 
 var max = new LiveChart.Serie("MAX OF RSS OR HEAP", new LiveChart.MaxBoundLine());
 var mrss = new LiveChart.Serie("MAX HEAP", new LiveChart.MaxBoundLine.from_serie(rss));
-max.line.color = { 0.8, 0.5, 0.2, 1.0};
-mrss.line.color = { 0.5, 0, 1.0, 1.0};
+max.line.color = { 0.8f, 0.5f, 0.2f, 1.0f };
+mrss.line.color = { 0.5f, 0f, 1.0f, 1.0f };
 
 chart.add_serie(heap);
 chart.add_serie(rss);
@@ -46,7 +46,7 @@ Below, the red threshold line is defined at 200MB :
 
 ```vala
 var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
-threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
+threshold.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
 threshold.value = 250.0; // update threshold at runtime
 ```
 
@@ -54,7 +54,7 @@ threshold.value = 250.0; // update threshold at runtime
 Full configuration details available in [Path](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
 
 ```vala
-serie.line.color = { 0.0, 0.1, 0.8, 1.0};
+serie.line.color = { 0.0f, 0.1f, 0.8f, 1.0f };
 serie.line.width = 2;
 serie.line.dash = Dash() {dashes = {1}, offset = 2};
 serie.line.visibility = false;//or true
@@ -125,7 +125,7 @@ var chart = new LiveChart.Chart(config);
 var legend = vhart.legend;
 
 legend.labels.font.size = 12;                      // uint8     In pixels
-legend.labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+legend.labels.font.color = { 1.0f, 0.0f, 0.0f, 1.0f };   // Gdk.RGBA
 legend.labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
 legend.labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 ```
@@ -140,7 +140,7 @@ labels = config.x_axis.labels;
 labels = config.y_axis.labels;
 
 labels.font.size = 12;                      // uint8     In pixels
-labels.font.color = {1.0, 0.0, 0.0, 1.0};   // Gdk.RGBA
+labels.font.color = { 1.0f, 0.0f, 0.0f, 1.0f };   // Gdk.RGBA
 labels.font.weight = Cairo.FontWeight.BOLD; // Cairo.FontWeight
 labels.font.slant =  Cairo.FontSlant.ITALIC;// Cairo.FontSlant
 ```

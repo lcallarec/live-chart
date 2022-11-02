@@ -192,7 +192,7 @@ private void register_chart() {
         var chart = new LiveChart.Chart();
 
         //when
-        chart.background.main_color = {1, 1, 1, 1};
+        chart.background.main_color = { 1f, 1f, 1f, 1f };
        
         //then
         //ok

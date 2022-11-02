@@ -8,7 +8,7 @@ docs:
 	src/labels.vala src/legend.vala src/line_area.vala src/line.vala src/path.vala \
 	src/points.vala src/serie.vala src/serie_renderer.vala src/series.vala src/smooth_line_area.vala src/smooth_line.vala \
 	src/threshold_line.vala src/utils.vala src/values.vala \
-	-o Livechart --pkg=gtk+-3.0 --pkg=gee-0.8
+	-o Livechart --pkg=gtk4 --pkg=gee-0.8
 	mv Livechart docs
 	
 

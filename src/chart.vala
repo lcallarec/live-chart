@@ -20,12 +20,12 @@ namespace LiveChart {
 
         public Chart(Config config = new Config()) {
             this.config = config;
-            this.size_allocate.connect((allocation) => {
-                this.config.height = allocation.height;
-                this.config.width = allocation.width;
+            this.resize.connect((width, height) => {
+                this.config.height = height;
+                this.config.width = width;
             });
 
-            this.draw.connect(render);
+            this.set_draw_func(render);
             
             this.refresh_every(100);
 
@@ -72,14 +72,14 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
-            var window = this.get_window();
+            /* var window = this.root() as Gtk.Window;
             if (window == null) {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
             }
             var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
             if (pixbuff != null) {
                 pixbuff.save(filename, "png");
-            }
+            } */
         }
 
         public void refresh_every(int ms) {
@@ -92,7 +92,7 @@ namespace LiveChart {
             });
         }
 
-        private bool render(Gtk.Widget _, Context ctx) {
+        private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {
             
             config.configure(ctx, legend);
             
@@ -106,8 +106,6 @@ namespace LiveChart {
                 ctx.clip();
                 serie.draw(ctx, this.config);
             }
-
-            return true;
         }
     }
 }

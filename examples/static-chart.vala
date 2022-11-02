@@ -2,7 +2,7 @@ public class Example : Gtk.Window {
         
     public Example() {
         this.title = "Static Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
+        // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var heap = new LiveChart.Static.StaticSerie("HEAP");
@@ -22,20 +22,21 @@ public class Example : Gtk.Window {
         heap.add("seville", 3000);
 
         Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(chart, true, true, 0);
+        box.append(chart);
 
-        this.add(box);
+        this.child = box;
 
      }
 }
 
 static int main (string[] args) {
-    Gtk.init(ref args);
+    Gtk.init();
 
-    var view = new Example();
-    view.show_all();
+    var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
+    app.activate.connect (() => {
+        var view = new Example();
+        view.present();
+    });
 
-    Gtk.main();
-
-    return 0;
+    return app.run (args);
 }

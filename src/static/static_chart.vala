@@ -15,12 +15,12 @@ namespace LiveChart.Static {
 
         public StaticChart(Config config = new Config()) {
             this.config = config;
-            this.size_allocate.connect((allocation) => {
-                this.config.height = allocation.height;
-                this.config.width = allocation.width;
+            this.resize.connect((width, height) => {
+                this.config.height = height;
+                this.config.width = width;
             });
 
-            this.draw.connect(render);
+            this.set_draw_func(render);
             
             series = new StaticSeries(this);
         }
@@ -35,7 +35,7 @@ namespace LiveChart.Static {
             
         }
 
-        private bool render(Gtk.Widget _, Context ctx) {
+        private void render(Gtk.Widget drawing_area, Context ctx, int width, int height) {
             
             config.configure(ctx, legend);
             
@@ -49,8 +49,6 @@ namespace LiveChart.Static {
                 ctx.clip();
                 serie.draw(ctx, this.config);
             }
-            
-            return true;
         }
     }
 }

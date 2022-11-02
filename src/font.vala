@@ -14,7 +14,7 @@ namespace LiveChart {
             face = "Sans serif";
             slant = FontSlant.NORMAL;
             weight = FontWeight.NORMAL;
-            color = {0.4, 0.4, 0.4, 1.0};
+            color = {0.4f, 0.4f, 0.4f, 1.0f};
         }
 
         public void configure(Context ctx) {
