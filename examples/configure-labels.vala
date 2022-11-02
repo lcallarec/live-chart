@@ -6,10 +6,12 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-        heap.set_main_color({ 0.3, 0.8, 0.1, 1.0});
+        heap.line.color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.set_main_color({ 0.8, 0.1, 0.1, 1.0});
+        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.dash = LiveChart.Dash() { dashes = {5} };
+        rss.line.width = 4;
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
@@ -42,18 +44,18 @@ public class Example : Gtk.Window {
                 var new_value = Random.double_range(-50, 50.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
-            chart.add_value(rss, rss_value);
+            rss.add(rss_value);
             return true;
         });
 
         var heap_value = 200.0;
-        chart.add_value(heap, heap_value);
+        heap.add(heap_value);
         Timeout.add(2000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
                 var new_value = Random.double_range(-100, 100.0);
                 if (heap_value + new_value > 0) heap_value += new_value;
             }
-            chart.add_value(heap, heap_value);
+            heap.add(heap_value);
             return true;
         });
 

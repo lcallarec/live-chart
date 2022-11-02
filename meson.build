@@ -1,4 +1,4 @@
-project('live-chart', ['vala', 'c'], version: '1.6.0')
+project('live-chart', ['vala', 'c'], version: '1.9.1')
 
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required: true)
@@ -8,8 +8,10 @@ gee = dependency('gee-0.8')
 
 vala_args = ['--target-glib=2.50']
 
-if get_option('debug') == true
-  vala_args += ['--ccode', '--debug']
+if meson.version().version_compare('>= 0.47')
+  if get_option('debug') == true 
+    vala_args += ['--ccode', '--debug']
+  endif
 endif
 
 deps = [

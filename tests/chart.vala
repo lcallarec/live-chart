@@ -1,6 +1,41 @@
 
 private void register_chart() {
 
+    Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when //then
+        assert_false(chart.config.y_axis.get_bounds().has_upper());
+
+        //when
+        serie.add(100.0);
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 100.0);
+    });
+
+    //Deprecated
+    Test.add_func("/LiveChart/Chart/add_value#should_update_bounds_when_adding_a_value", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when //then
+        assert_false(chart.config.y_axis.get_bounds().has_upper());
+
+        //when
+        chart.add_value(serie, 100.0);
+
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 100.0);
+    });
+
     Test.add_func("/LiveChart/Chart#Export", () => {
         //given
         var window = new Gtk.Window();
@@ -64,6 +99,26 @@ private void register_chart() {
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });
 
+    Test.add_func("/LiveChart/Chart/serie/add_value_by_index", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("TEST");
+        
+        chart.add_serie(serie);
+        
+        //when
+        try {
+            chart.series[0].add(100);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
+
+        //then
+        assert(serie.get_values().size == 1);
+        assert(serie.get_values().get(0).value == 100);
+    });
+
+    //Deprecated
     Test.add_func("/LiveChart/Chart/add_value_by_index", () => {
         //given
         var chart = new LiveChart.Chart();
@@ -72,13 +127,16 @@ private void register_chart() {
         chart.add_serie(serie);
         
         //when
-        chart.add_value_by_index(0, 100);
+        try {
+            chart.add_value_by_index(0, 100);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
 
         //then
         assert(serie.get_values().size == 1);
         assert(serie.get_values().get(0).value == 100);
-    });   
-
+    });
 
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection_by_index", () => {
         //given
@@ -96,7 +154,11 @@ private void register_chart() {
 
         //when
         var now = GLib.get_real_time() / 1000;
-        chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
+        try {
+            chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
+        } catch (LiveChart.ChartError e) {
+            assert_not_reached();
+        }
 
         //then
         assert(serie.get_values().size == 3);
@@ -125,13 +187,15 @@ private void register_chart() {
         Gtk.main();
     });
 
-    Test.add_func("/LiveChart/Chart/#should_not_crash_if_value_added_is_zero", () => {
+        Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprected", () => {
         //given
         var chart = new LiveChart.Chart();
-        var serie = new LiveChart.Serie("Test");
-        chart.add_serie(serie);
 
-        //when //then
-        chart.add_value(serie, 0);
-    });    
+        //when
+        chart.background.main_color = {1, 1, 1, 1};
+       
+        //then
+        //ok
+        
+    });
 }

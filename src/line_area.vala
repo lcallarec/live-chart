@@ -18,7 +18,10 @@ namespace LiveChart {
     
                     var area = new Area(points, this.main_color, this.area_alpha);
                     area.draw(ctx, config);
+                    ctx.fill();
                 }
+                //Avoid side-effects
+                ctx.stroke();
             }
         }
     }

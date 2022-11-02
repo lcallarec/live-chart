@@ -1,9 +1,10 @@
 using Cairo;
 
 namespace LiveChart { 
-    public class Line : DrawableSerie {
+    public class Line : SerieRenderer {
 
         public Line(Values values = new Values()) {
+            base();
             this.values = values;
         }
 
@@ -18,16 +19,17 @@ namespace LiveChart {
         }
 
         protected Points draw_line(Points points, Context ctx, Config config) {
-            ctx.set_source_rgba(this.main_color.red, this.main_color.green, this.main_color.blue, this.main_color.alpha);
-            ctx.set_line_width(this.outline_width);
+            line.configure(ctx);
             
             var first_point = points.first();
 
             this.update_bounding_box(points, config);
             this.debug(ctx);
 
+            line.configure(ctx);
+
             ctx.move_to(first_point.x, first_point.y);
-            for (int pos = 1; pos <= points.size -1; pos++) {
+            for (int pos = 0; pos < points.size -1; pos++) {
                 var current_point = points.get(pos);
                 var next_point = points.after(pos);
                 if (this.is_out_of_area(current_point)) {
@@ -37,7 +39,7 @@ namespace LiveChart {
 
                 ctx.line_to(next_point.x, next_point.y);
             }
-
+        
             return points;
         }
 

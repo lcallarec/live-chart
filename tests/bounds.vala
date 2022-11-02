@@ -1,7 +1,7 @@
 
 private void register_bounds() {
 
-    Test.add_func("/LiveChart/Bounds#UpdateBounds", () => {
+    Test.add_func("/Bounds/should_update_bounds_when_value_is_updated", () => {
         //given
         var bounds = new LiveChart.Bounds();
    
@@ -33,6 +33,5 @@ private void register_bounds() {
 
         //then
         assert(updated == false);
-        
     });
 }

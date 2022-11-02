@@ -1,7 +1,7 @@
 
 private void register_axis() {
 
-    Test.add_func("/LiveChart/XAxis#Ratio", () => {
+    Test.add_func("/XAxis/should_compute_ratio_based_on_tick_interval_and_tick_length", () => {
         //given
         var axis = new LiveChart.XAxis();
         axis.tick_interval = 30;
@@ -14,7 +14,7 @@ private void register_axis() {
         assert(ratio == 2);
     });
 
-    Test.add_func("/LiveChart/YAxis#UpdateRatioWithNoBoundsSet", () => {
+    Test.add_func("/YAxis/should_not_update_ratio_when_bounds_are_not_set", () => {
         //given
         var axis = new LiveChart.YAxis();
 
@@ -25,7 +25,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 1);
     });
 
-    Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet", () => {
+    Test.add_func("/YAxis/should_not_update_ratio_when_threshold_is_1_even_if_boubds_are_set", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.update_bounds(10.0);
@@ -35,11 +35,10 @@ private void register_axis() {
         axis.update(100);
         
         //then ratio shouldn't not be updated
-        stdout.printf("axis.get_ratio() %f", axis.get_ratio() );
         assert(axis.get_ratio() == 10);
     });
 
-    Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet#RatioUpdated", () => {
+    Test.add_func("/YAxis/should_update_ratio_when_boubds_are_updated", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.ratio_threshold = 1f;
@@ -52,7 +51,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 0.5);
     });
 
-    Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet#FixedMax#SufficientAreaSize", () => {
+    Test.add_func("/YAxis/UpdateRatioWithBoundsSet#FixedMax#SufficientAreaSize", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.tick_interval = 30;
@@ -66,7 +65,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 1);
     });
 
-    Test.add_func("/LiveChart/YAxis#UpdateRatioWithBoundsSet#FixedMax#UnsufficientAreaSize", () => {
+    Test.add_func("/YAxis/UpdateRatioWithBoundsSet#FixedMax#UnsufficientAreaSize", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.tick_interval = 30;
@@ -80,7 +79,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 0.3);
     });
 
-    Test.add_func("/LiveChart/YAxis#get_max_displayed_values", () => {
+    Test.add_func("/YAxis/get_max_displayed_values", () => {
         //given
         var y_axis = new LiveChart.YAxis();
         y_axis.unit = "GB";
@@ -98,7 +97,7 @@ private void register_axis() {
         assert(max_displayed_value == "0,57GB" || max_displayed_value == "0.57GB");
     });
 
-    Test.add_func("/LiveChart/YAxis#get_max_displayed_values_with_no_values", () => {
+    Test.add_func("/YAxis/get_max_displayed_values_with_no_values", () => {
         //given
         var y_axis = new LiveChart.YAxis();
         y_axis.ticks = LiveChart.Ticks();
@@ -108,7 +107,7 @@ private void register_axis() {
         y_axis.get_max_displayed_value();
     });
 
-    Test.add_func("/LiveChart/YAxis#get_ticks_with_fixed_max", () => {
+    Test.add_func("/YAxis/get_ticks_with_fixed_max", () => {
         //given
         var y_axis = new LiveChart.YAxis();
         y_axis.fixed_max = 100.0;
@@ -126,7 +125,7 @@ private void register_axis() {
         assert(ticks.values.get(4) == 100);
     });
 
-    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_no_values", () => {
+    Test.add_func("/YAxis/get_ticks_with_defaults_and_no_values", () => {
         //given
         var y_axis = new LiveChart.YAxis();
 
@@ -138,7 +137,7 @@ private void register_axis() {
     });
 
 
-    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_bounds", () => {
+    Test.add_func("/YAxis/get_ticks_with_defaults_and_bounds", () => {
         // // For a self-caped value
             //given
             var y_axis = new LiveChart.YAxis();
@@ -207,7 +206,7 @@ private void register_axis() {
             assert(ticks.values.get(6) == 900);
     });
     
-    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_bounds_to_value_below 1", () => {
+    Test.add_func("/YAxis/get_ticks_with_defaults_and_bounds_to_value_below 1", () => {
      
         var y_axis = new LiveChart.YAxis();
         y_axis.update_bounds(0.05);
@@ -223,7 +222,7 @@ private void register_axis() {
         assert(ticks.values.get(3) == 0.06f);
     });
 
-    Test.add_func("/LiveChart/YAxis#get_ticks_with_defaults_and_bounds_to_value_just_above 1", () => {
+    Test.add_func("/YAxis/get_ticks_with_defaults_and_bounds_to_value_just_above 1", () => {
      
         var y_axis = new LiveChart.YAxis();
         y_axis.update_bounds(1.05);
@@ -239,7 +238,7 @@ private void register_axis() {
         assert(ticks.values.get(3) == 1.2f);
     });
 
-    Test.add_func("/LiveChart/YAxis#get_ticks_should_not_crash_when_max_value_is_zero", () => {
+    Test.add_func("/YAxis/get_ticks_should_not_crash_when_max_value_is_zero", () => {
      
         var y_axis = new LiveChart.YAxis();
         y_axis.update_bounds(0);

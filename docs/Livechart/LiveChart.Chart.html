@@ -32,10 +32,15 @@
           <li class="property"><a href="LiveChart.Chart.legend.html">legend</a></li>
           <li class="creation_method"><a href="LiveChart.Chart.Chart.html">Chart</a></li>
           <li class="method"><a href="LiveChart.Chart.add_serie.html">add_serie</a></li>
-          <li class="method"><a href="LiveChart.Chart.add_value.html">add_value</a></li>
+          <li class="method"><a href="LiveChart.Chart.add_unaware_timestamp_collection.html">add_unaware_timestamp_collection</a></li>
+          <li class="method"><a href="LiveChart.Chart.add_unaware_timestamp_collection_by_index.html">add_unaware_timestamp_collection_by_index</a>
+          </li>
+          <li class="method"><span class="deprecated"><a href="LiveChart.Chart.add_value.html">add_value</a></span></li>
+          <li class="method"><span class="deprecated"><a href="LiveChart.Chart.add_value_by_index.html">add_value_by_index</a></span></li>
           <li class="method"><a href="LiveChart.Chart.refresh_every.html">refresh_every</a></li>
           <li class="method"><a href="LiveChart.Chart.to_png.html">to_png</a></li>
           <li class="field"><a href="LiveChart.Chart.config.html">config</a></li>
+          <li class="field"><a href="LiveChart.Chart.series.html">series</a></li>
         </ul>
       </div>
       <div class="site_content">
@@ -45,7 +50,7 @@
         <img class="main_diagram" usemap="#LiveChart.Chart" alt="Object hierarchy for Chart" src="img/LiveChart.Chart.png"/>
 
       <map id="LiveChart.Chart" name="LiveChart.Chart">
-<area shape="rect" id="node1" href="LiveChart.Chart.html" title="LiveChart.Chart" alt="" coords="212,389,359,437"/>
+<area shape="rect" id="node1" href="LiveChart.Chart.html" title="LiveChart.Chart" alt="" coords="203,389,345,437"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
@@ -84,8 +89,20 @@
             </span>
             <div class="leaf_brief_description">
             </div></li>
-          <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.add_value.html" class="method">add_value</a></b> (<span class="main_type"><a href="LiveChart.Serie.html" class="class">Serie</a></span> serie, <span class="main_basic_type"><span class="struct">double</span></span> value)
+          <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.add_unaware_timestamp_collection.html" class="method">add_unaware_timestamp_collection</a></b> (<span class="main_type"><a href="LiveChart.Serie.html" class="class">Serie</a></span> serie, <span class="main_type"><span class="interface">Collection</span></span>&lt;<span class="main_basic_type"><span class="struct">double</span></span>?&gt; collection, <span class="main_basic_type"><span class="struct">int</span></span> timespan_between_value)
             </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.add_unaware_timestamp_collection_by_index.html" class="method">add_unaware_timestamp_collection_by_index</a></b> (<span class="main_basic_type"><span class="struct">int</span></span> serie_index, <span class="main_type"><span class="interface">Collection</span></span>&lt;<span class="main_basic_type"><span class="struct">double</span></span>?&gt; collection, <span class="main_basic_type"><span class="struct">int</span></span> timespan_between_value) <span class="main_keyword">throws</span> <span class="main_type"><a href="LiveChart.ChartError.html" class="errordomain">ChartError</a></span>
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="method"><span class="leaf_code_definition"><span class="deprecated"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.add_value.html" class="method">add_value</a></b> (<span class="main_type"><a href="LiveChart.Serie.html" class="class">Serie</a></span> serie, <span class="main_basic_type"><span class="struct">double</span></span> value)
+              </span></span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="method"><span class="leaf_code_definition"><span class="deprecated"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.add_value_by_index.html" class="method">add_value_by_index</a></b> (<span class="main_basic_type"><span class="struct">int</span></span> serie_index, <span class="main_basic_type"><span class="struct">double</span></span> value) <span class="main_keyword">throws</span> <span class="main_type"><a href="LiveChart.ChartError.html" class="errordomain">ChartError</a></span>
+              </span></span>
             <div class="leaf_brief_description">
             </div></li>
           <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="LiveChart.Chart.refresh_every.html" class="method">refresh_every</a></b> (<span class="main_basic_type"><span class="struct">int</span></span> ms)
@@ -103,11 +120,15 @@
             </span>
             <div class="leaf_brief_description">
             </div></li>
+          <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="LiveChart.Series.html" class="class">Series</a></span> <b><a href="LiveChart.Chart.series.html" class="field">series</a></b>
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-0')">All known members inherited from class Gtk.Widget</div>
-          <div class="content" id="box-content-0">
+          <div class="headline" onclick="toggle_box (this, 'box-content-8')">All known members inherited from class Gtk.Widget</div>
+          <div class="content" id="box-content-8">
             <div class="column">
               <ul class="navi_inline">
                 <li class="signal">accel_closures_changed</li>
@@ -472,8 +493,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-1')">All known members inherited from class GLib.Object</div>
-          <div class="content" id="box-content-1">
+          <div class="headline" onclick="toggle_box (this, 'box-content-9')">All known members inherited from class GLib.Object</div>
+          <div class="content" id="box-content-9">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">@get</li>
@@ -539,8 +560,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-2')">All known members inherited from interface Atk.Implementor</div>
-          <div class="content" id="box-content-2">
+          <div class="headline" onclick="toggle_box (this, 'box-content-10')">All known members inherited from interface Atk.Implementor</div>
+          <div class="content" id="box-content-10">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_method">ref_accessible</li>
@@ -557,8 +578,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-3')">All known members inherited from interface Gtk.Buildable</div>
-          <div class="content" id="box-content-3">
+          <div class="headline" onclick="toggle_box (this, 'box-content-11')">All known members inherited from interface Gtk.Buildable</div>
+          <div class="content" id="box-content-11">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_method">add_child</li>

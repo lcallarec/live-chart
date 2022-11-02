@@ -6,7 +6,7 @@ public class Example : Gtk.Window {
         this.set_default_size(800, 350);
 
         var cpu = new LiveChart.Serie("CPU 1 usage", new LiveChart.SmoothLineArea());
-        cpu.set_main_color({ 1, 0.8, 0.1, 1.0});
+        cpu.line.color = { 1, 0.8, 0.1, 1.0};
 
         var config = new LiveChart.Config();
         config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
@@ -20,7 +20,7 @@ public class Example : Gtk.Window {
         chart.add_serie(cpu);
          
         var cpu_value = 50.0;
-        chart.add_value(cpu, cpu_value);
+        cpu.add(cpu_value);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
                 var new_value = Random.double_range(-25, 25.0);
@@ -33,7 +33,7 @@ public class Example : Gtk.Window {
                 }
             }
            
-            chart.add_value(cpu, cpu_value);
+            cpu.add(cpu_value);
             return true;
         });
      }

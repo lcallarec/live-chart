@@ -72,7 +72,7 @@ namespace LiveChart {
 
         public void update(int area_height) {
             if (bounds.has_upper() && this.fixed_max == null) {
-                  this.ratio = (double) area_height / ((double) bounds.upper * ratio_threshold);
+                this.ratio = (double) area_height / ((double) bounds.upper * ratio_threshold);
             }
             
             if (this.fixed_max != null) {
@@ -104,8 +104,7 @@ namespace LiveChart {
 
                 return ticks;
             }
-
-            if (bounds.has_upper() && fixed_max == null) {
+            if (bounds.has_upper()) {
                 float upper = LiveChart.cap((float) bounds.upper);
                 var divs = LiveChart.golden_divisors(upper);
 

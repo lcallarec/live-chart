@@ -1,68 +1,49 @@
 private void register_bar() {
-    Test.add_func("/LiveChart/Bar#draw", () => {
+    Test.add_func("/Bar/should_draw_bars_at_specified_values", () => {
         //Given
         var WIDTH = 10;
         var HEIGHT = 10;
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
-        context.set_antialias(Cairo.Antialias.NONE);
+        var context = create_context(WIDTH, HEIGHT);
 
         var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
-        var white = Gdk.RGBA() {red = 1.0, green = 1.0, blue = 1.0, alpha = 1.0 };
 
-        cairo_background(context, red, WIDTH, HEIGHT);
-
+        var now = GLib.get_real_time() / 1000;
         var values = new LiveChart.Values();
-        values.add({timestamp: (GLib.get_real_time() / 1000) - 180, value: (HEIGHT/2) + 0.5});
-        values.add({timestamp: (GLib.get_real_time() / 1000) - 1000, value: (HEIGHT/2) + 0.5});
-        values.add({timestamp: (GLib.get_real_time() / 1000) - 10050, value: (HEIGHT/2) + 0.5});
+        values.add({timestamp: now, value: 10 });
+        values.add({timestamp: now - 3000, value: 5 });
+        values.add({timestamp: now - 6000, value: 6 });
 
         var bar = new LiveChart.Bar(values);
-        bar.main_color = white;
+        bar.line.color = red;
 
         //When
         var config = create_config(WIDTH, HEIGHT);
         config.x_axis.tick_length = 1;
         config.x_axis.tick_interval = 1;
         config.padding = LiveChart.Padding() {smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
-        bar.draw(context, config);
+        bar.draw(context.ctx, config);
  
         //Then
-        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
-        
-        var top_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 0, 0, 3);
-        assert(top_colors.size == 1);
-        assert(top_colors.contains(color_to_int(red)));
+        assert(has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 0));
+        assert(has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 1));
 
-        var bootom_colors = unique_colors_at(pixbuff, WIDTH, HEIGHT)(0, 4, 0, 9);
-        assert(bootom_colors.size == 1);
-        assert(bootom_colors.contains(color_to_int(white)));
+        assert(get_color_at(context)({x: 5, y: 5}).equal(red));
     });
 
-    Test.add_func("/LiveChart/Bar#draw#ShouldntRenderIfNoValues", () => {
+    Test.add_func("/Bar/should_not_render_anything_if_there_are_no_values", () => {
         //Given
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
-
-        var black = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 0.0, alpha = 1.0};
-        cairo_background(context, black);
+        var context = create_context();
 
         var values = new LiveChart.Values();
        
+        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
         var bar = new LiveChart.Bar(values);
-        bar.main_color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        bar.line.color = red;
 
         //When
-        bar.draw(context, create_config());
+        bar.draw(context.ctx, create_config());
  
         //Then
-        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT);
-        if (pixbuff != null) {
-            var colors = unique_colors_at(pixbuff, SURFACE_WIDTH, SURFACE_HEIGHT)(0, 0, SURFACE_WIDTH - 1, SURFACE_HEIGHT - 1);
-            assert(colors.size == 1);
-            assert(colors.contains(color_to_int(black)));
-        } else {
-            assert_not_reached();
-        }
+        assert(has_only_one_color(context)(DEFAULT_BACKGROUND_COLOR));
     });
 }

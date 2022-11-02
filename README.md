@@ -9,7 +9,7 @@
 
 ## Features
 
-* Render many series (lines, smooth lines, area, bar) within a single chart
+* Live animated series (lines, smooth lines, area, bar) within a single chart
 * Smart y-axis computation
 * Highly configurable
 * Extendable
@@ -19,22 +19,21 @@
 ![](resources/chart1.gif)  ![](resources/chart2.gif)
   
 # Documentation
- 
-*N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to changes in a future release*
 
 - [Getting started](#getting-started)
 - [Dependencies](#dependencies)
 - [API](#api)
 - [Chart widget](#chart-widget)
 - [Series](#series)
-- [Serie renderer](#serie-renderer)
+- [Serie renderer](#serie-renderers)
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
 - [Legend](#legend)
 - [Chart element visibility](#chart-element-visibility)
-- [Programmatic export](#programmatic-export)
-- [Deal with your own data](#deal-with-your-own-data)
+- [Advanced usages](#advanced-usages)
 - [How Livechart versions works ?](#how-livechart-versions-works)
+
+    *N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to change without warning in any future release*
 
 ## Getting started
 
@@ -44,6 +43,7 @@ Take a look at code examples :
 * [Fixed max y-axis value](examples/fixed-max.vala)
 * [Hide chart elements](examples/hide-parts.vala)
 * [Label configuration](examples/configure-labels.vala)
+* [Static renderers](examples/static-renderer.vala)
 
 Compile and run with :
 
@@ -54,6 +54,7 @@ ninja -C build
 ./build/examples/example-fixed-max
 ./build/examples/example-hide-parts
 ./build/examples/example-configure-labels
+./build/examples/example-static-renderer
 ```
 
 ## Dependencies
@@ -65,30 +66,21 @@ ninja -C build
 
 ## API
 
-[Full API documentation here](https://lcallarec.github.io/live-chart/Livechart/LiveChart.html)
+[Full valadoc API documentation here](https://lcallarec.github.io/live-chart/Livechart/LiveChart.html)
 
 ## Chart widget
 
-`Chart` widget is the main entrypoint of lour live-chart.
+`Chart` widget is the main entrypoint of your live chart.
 
 ```vala  
 var chart = LiveChart.Chart();
 ```
 
-As `Chart` object derives from `Gtk.DrawingArea`, you need to attach it to a `Gtk.Container` :
+As `Chart` object derives from `Gtk.DrawingArea`, you can directly attach it to any `Gtk.Container` :
 
 ```vala
 var window = new Gtk.Window();
 window.add(chart);
-```
-### Controlling refresh rate
-
-By default, the chart is rendered every `100ms` or very time a new data point is added.
-If it doesn't fit your needs, you can adjust the rate. The lower, the smoother.
-
-```vala  
-var chart = LiveChart.Chart();
-vhart.refresh_every(1000); // refresh every 1000ms
 ```
 
 ## Series
@@ -97,9 +89,9 @@ A `Serie` is basically a structure that :
 
 * Contains its own data set
 * Has a name, like `Temperature in Paris`
-* Know how it renders on the chart, i.e `Bar`, `Line`, `SmoothLineArea`...
+* Know how it renders on the chart, i.e as `Bar`, a `Line`, a `SmoothLineArea`...
 
-### Create a serie
+### Create and attach a **Serie**
 
 ```vala
 // Serie with a default Line renderer
@@ -119,47 +111,75 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 chart.add_serie(paris);
 ```
 
-The serie name can be adjusted after initalization, for example if the y-axis unit changes during runtime or if you want to display the last value for this serie :
+### Interacting with series
+
+All methods of `Serie` class could be called before or after having been attached to the chart using `chart.add_serie` method, exepted for the `Renderer` and underlying data store.
+
+Accessing a serie can be done via :
+
+* the local reference in your code 
+* the accessor methods of `chart.series` object : by index `chart.series[index] / chart.series.get(index)` or by name `chart.series.get_by_name(name)`. Beware, these methods may throw a `ChartError.SERIE_NOT_FOUND` error. 
+
+#### Adding data points method
+
+Please note that your `Serie` must have been registered to the `Chart` before being able to add data points to this serie.
+
+Adding a point / value to a serie using [serie.add]((https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html) method automatically compute a timestamp stored in underlying value container.
+If you need to manually compute a timestamp, in milliseconds, use [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html)
 
 ```vala
-var serie_name = "Temperature in Paris (°C)";
-var paris_temperature = new LiveChart.Serie(serie_name);
-chart.add_serie(paris);
-
-paris_temperature.name = "Temperature in Paris (°F)";
-//
-paris_temperature.name = "Temperature in Paris (%s)".printf(last_value);
+serie.add(19.5);
+//or
+serie.add_with_timestamp(19.5, 15978984664);
 ```
 
-### Adding data points
-
-Your `Serie` must have been registererd to the `Chart` before being able to add data points to this serie. 
-
-#### By serie
+#### Name
 
 ```vala
-var serie_name = "Temperature in Paris";
-var paris_temperature = new LiveChart.Serie(serie_name);
-
-chart.add_serie(paris);
-
-chart.add_value(paris_temperature, 19.5);
+serie.name = "Temperature in Paris (%s)".printf(last_value);
 ```
 
-#### By serie index
+#### Visibility
+
+You can programmatically hide / display the serie :
 
 ```vala
-var serie_name = "Temperature in Paris";
-var paris_temperature = new LiveChart.Serie(serie_name);
-
-chart.add_serie(paris); // First serie, index 0
-
-chart.add_value_by_index(0, 19.5);
+serie.visible = true;//or false
 ```
 
-### Datapoint buffer
+#### Lines and outlines
 
-When you add a data point to a serie, data are stored in a `LiveChart.Values` object, which is nothing more than a wrapper around a `Gee.LinkedList`.
+Lines and outlines (for bar series) can be configured with `Serie.line` property. Full configuration details available in [Path](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Path.html) class.
+
+```vala
+serie.line.color = { 0.0, 0.1, 0.8, 1.0};
+serie.line.width = 2;
+serie.line.dash = Dash() {dashes = {1}, offset = 2};
+serie.line.visibility = false;//or true
+```
+
+About color : [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html) struct.
+Dashes : please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
+
+For series with area, this impact only the outline, not the area itself.
+
+#### Clear underlying data
+
+Remove all data from underlying data store :
+
+```vala
+serie.clear();
+```
+
+#### Data accessor
+
+```vala
+serie.get_values();
+```
+
+### Underlying data buffer
+
+When you add a data point to a serie, it is stored in a `LiveChart.Values` object, which derives from `Gee.LinkedList`.
 To avoid your program growing too much in memory, be default, `LiveChart.Values` keeps only the last 1000 values.
 You can change that behaviour by injecting manually a `LiveChart.Values` object in your serie and specify the buffer size in `Values` constructor. 
 
@@ -171,69 +191,95 @@ var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(value
 chart.add_serie(paris);
 ```
 
-## Serie renderer
+## Serie renderers
 
-There's currently 5 built-in series available:
-
-### Line serie: [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](resources/serie_line.png)
-
-Line serie connect each data point with a straight segment.
-
-### SmoothLine serie: [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
-![](resources/serie_smooth_line.png)
-
-Smooth line serie connect each data point with a bezier spline for a smoother rendering.
-
-### Bar serie: [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
-![](resources/serie_bar.png)
-
-### LineArea seris: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
-![](resources/serie_line_area.png)
-
-### SmoothLineArea serie: [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
-![](resources/serie_smooth_line_area.png)
-
-### Serie renderer API
-
-For all series, you can control the line or the bar color via the `main_color: Gdk.RGBA` property:
+A Serie renderer is responsible of drawing data points to the chart's surface. It is passed as second argument of `Serie` constructor :
 
 ```vala
-var smooth_line = LiveChart.SmoothLine();
-smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1}; // Pure blue
+var serie_name = "Temperature in Paris";
+Values values = new Values(50000); // buffer of 50 000 data points
+var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(values));
+
+chart.add_serie(paris);
 ```
 
-For area series only, you can control the area color via the `area_alpha: double` property (default : 0.1):
+There's currently 6 built-in series available.
+
+### Lines
+
+* [`LiveChart.Line`](https://github.com/lcallarec/live-chart/blob/master/src/line.vala)
+
+Line renderer connects each data point with a straight segment.
+
+![](resources/renderer_line.png)
+
+* [`LiveChart.SmoothLine`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line.vala)
+
+Smooth line renderer connects each data point with a bezier spline for a smoother rendering.
+
+![](resources/renderer_smooth_line.png)
+
+
+### Lines with area
+
+For area renderers, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
-smooth_line.main_color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
+smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
 smooth_line.area_alpha = 0.5;
 ```
 
-The area color is always the same as `main_color` value.
+The area color is not yet configurable : it's always equal to `color`.
 
-### Conveniant methods on `Serie`
+* [`LiveChart.LineArea`](https://github.com/lcallarec/live-chart/blob/master/src/line_area.vala)
+![](resources/renderer_line_area.png)
 
-* Main color [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html)
+* [`LiveChart.SmoothLineArea`](https://github.com/lcallarec/live-chart/blob/master/src/smooth_line_area.vala)
+![](resources/renderer_smooth_line_area.png)
 
-Give back the main color to the underlying renderer.
+### Histogram
+
+* [`LiveChart.Bar`](https://github.com/lcallarec/live-chart/blob/master/src/bar.vala)
+![](resources/renderer_bar.png)
+
+### Static lines
+
+* [`LiveChart.ThresholdLine`](https://github.com/lcallarec/live-chart/blob/master/src/threshold_line.vala)
+
+Threshold renderer draws a straight line at a given value. Below, the red threshold line is defined at 200MB :
+
+![](resources/renderer_threshold_line.png)
 
 ```vala
-var serie_name = "Temperature in Paris";
-var paris_temperature = new LiveChart.Serie(serie_name, LiveChart.SmoothLineArea());
-
-paris_temperature.set_main_color({ 0.0, 0.1, 0.8, 1.0});
+var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
+threshold.line.color = { 0.8, 0.1, 0.1, 1.0};
+threshold.value = 250.0; // update threshold at runtime
 ```
 
-is the same thing than :
+* [`LiveChart.MaxBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html) and [`LiveChart.MinBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html)
+
+Max and Min bound line renderer draws a straight line which represents either a `MIN` or a `MAX` of a given serie, or of all series. In the example below, the yellow line represents the `MAX` value of **all** series, the purple one represents the `MAX` of **HEAP**
+
+![](resources/renderer_min_max_bound_line.png)
+
 
 ```vala
-var renderer = LiveChart.SmoothLineArea();
-var serie_name = "Temperature in Paris";
-var paris_temperature = new LiveChart.Serie(serie_name, renderer);
+var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
+heap.line.color = { 0.3, 0.8, 0.1, 1.0};
 
-renderer.main_color = Gdk.RGBA() {red = 0, green = 0.1, blue = 0.8, alpha = 1};;
+var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
+rss.line.color = { 0.8, 0.1, 0.8, 1.0};
+
+var max = new LiveChart.Serie("MAX OF RSS OR HEAP", new LiveChart.MaxBoundLine());
+var mrss = new LiveChart.Serie("MAX HEAP", new LiveChart.MaxBoundLine.from_serie(rss));
+max.line.color = { 0.8, 0.5, 0.2, 1.0};
+mrss.line.color = { 0.5, 0, 1.0, 1.0};
+
+chart.add_serie(heap);
+chart.add_serie(rss);
+chart.add_serie(max);
+chart.add_serie(mrss);
 ```
 
 ## Chart configuration
@@ -490,11 +536,11 @@ config.padding.top = 10; // in pixels
 ```
 ## Background
 
-Chart has a default colored background that can be changed via the `Background.main_color` attribute :
+Chart has a default colored background that can be changed via the `Background.color` property :
 
 ```vala
 var chart = new LiveChart.Chart();
-chart.background.main_color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
+chart.background.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
 ```
 
 ## Legend
@@ -531,14 +577,6 @@ chart.legend.visible = false; //Hide legend
 chart.grid.visible = false;   //Hide grid
 ```
 
-You can also programmatically hide series :
-
-```vala
-var paris_temperature = new LiveChart.Serie("CPU usage", new LiveChart.LineArea());
-
-paris_temperature.visible = false;
-```
-
 If you want to get rid of chart padding, remember to disable `smart` paddings and set all paddings to `0`.
 
 ```vala
@@ -572,7 +610,9 @@ axis = config.y_axis;
 axis.visible = false;
 ```
 
-## Programmatic export
+## Advanced usages
+
+### Programmatic export
 
 You can export your chart in `PNG` format :
 
@@ -581,7 +621,17 @@ var filename = "chart_export.png";
 chart.to_png(filename);
 ```
 
-## Deal with your own data
+### Controlling refresh rate
+
+By default, the chart is refreshed every `100ms` and very time a new data point is added.
+If it doesn't fit your needs, you can adjust the refresh rate. The lower, the smoother.
+
+```vala  
+var chart = LiveChart.Chart();
+vhart.refresh_every(1000); // refresh every 1000ms
+```
+
+### Deal with your own data
 
 LiveChart uses custom [Value](https://lcallarec.github.io/live-chart/Livechart/LiveChart.TimestampedValue.html) struct to store recorded values.
 Basically, it stores the value, as a double, and a timestamp.
@@ -617,7 +667,7 @@ Et voilà !
 * For each new feature, the `minor` version number will be bumped
 * For each bug fix, small improvement or documentation update, the `patch` version number will be bumped
 
-We'll do our best to never break the API on `minor` and `path` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
+We'll do our best to never break the API on `minor` and `patch` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
 
 Some classes, structs, methods, attributes or property will be marked as `Deprecated`, please check the compiler warnings about them. All the stuff marked as `Deprecated` will be removed from Livechart `2.0.0`, one day...
 

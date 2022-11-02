@@ -1,7 +1,7 @@
 
 private void register_serie() {
 
-    Test.add_func("/LiveChart/Serie#get_values", () => {
+    Test.add_func("/LiveChart/Serie/get_values", () => {
         //given
         var values = new LiveChart.Values();
         values.add({0, 1});
@@ -17,7 +17,7 @@ private void register_serie() {
         assert(serie_values.size == 3);
     });
 
-    Test.add_func("/LiveChart/Serie#clear", () => {
+    Test.add_func("/LiveChart/Serie/clear", () => {
         //given
         var values = new LiveChart.Values();
         values.add({0, 1});
@@ -31,5 +31,28 @@ private void register_serie() {
         
         //then
         assert(serie.get_values().size == 0);
-    });   
+    });
+
+    Test.add_func("/LiveChart/Chart/#should_not_crash_if_value_added_is_zero", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var serie = new LiveChart.Serie("Test");
+        chart.add_serie(serie);
+
+        //when //then
+        serie.add(0);
+    });
+    
+    Test.add_func("/LiveChart/Serie/add_with_timestamp", () => {
+        //given
+        var serie = new LiveChart.Serie("Test", new LiveChart.Line());
+
+        //when 
+        serie.add_with_timestamp(100.0, 5);
+        
+        //then
+        assert(serie.get_values().size == 1);
+        assert(serie.get_values().get(0).value == 100.0);
+        assert(serie.get_values().get(0).timestamp == 5);
+    });    
 }
