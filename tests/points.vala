@@ -6,7 +6,7 @@ private void register_points() {
         var config = new LiveChart.Config();
         config.width = 100;
         config.height = 100;
-        config.padding = { 0f, 0f, 0f, 00f };
+        config.padding = { 0, 0, 0, 0 };
 
         var values = new LiveChart.Values();
         var now = GLib.get_real_time() / 1000;

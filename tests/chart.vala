@@ -40,10 +40,10 @@ private void register_chart() {
         //given
         var window = new Gtk.Window();
         var chart = new LiveChart.Chart();
-        window.add(chart);
-        window.show();
-        window.resize(50, 50);
-        chart.show_all();
+        window.child = chart;
+        window.default_width = 50;
+        window.default_height = 50;
+        window.present();
  
         //when
         try {
@@ -181,10 +181,10 @@ private void register_chart() {
         //when
         //then
         Timeout.add(1000, () => {
-            Gtk.main_quit();
+            //FIXME: Gtk.main_quit();
             return false;
         });
-        Gtk.main();
+        //FIXME: Gtk.main();
     });
 
         Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprected", () => {

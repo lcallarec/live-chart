@@ -4,7 +4,7 @@ private void register_background() {
         var context = create_context();
 
         var back = new LiveChart.Background();
-        back.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        back.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
         back.draw(context.ctx, create_config());
@@ -18,7 +18,7 @@ private void register_background() {
         var context = create_context();
 
         var back = new LiveChart.Background();
-        back.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        back.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
         back.visible = false;
 
         //When

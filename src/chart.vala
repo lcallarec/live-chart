@@ -72,6 +72,7 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
+            //FIXME
             /* var window = this.root() as Gtk.Window;
             if (window == null) {
                 throw new ChartError.EXPORT_ERROR("Chart is not realized yet");

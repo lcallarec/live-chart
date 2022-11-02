@@ -21,5 +21,5 @@ deps = [
 ]
 
 subdir('src')
-# subdir('tests')
+subdir('tests')
 subdir('examples')
