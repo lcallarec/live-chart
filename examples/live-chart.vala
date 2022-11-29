@@ -1,6 +1,7 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
+public class Example : Gtk.ApplicationWindow {    
+    public Example(Gtk.Application app) {
+        Object (application: app);
+
         this.title = "Live Chart Demo";
         // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
@@ -86,13 +87,13 @@ public class Example : Gtk.Window {
      }
 }
 
-static int main (string[] args) {
+int main (string[] args) {
     Gtk.init();
 
     var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
     app.activate.connect (() => {
-        var view = new Example();
-        view.present();
+        var view = new Example(app);
+        view.show();
     });
 
     return app.run (args);
