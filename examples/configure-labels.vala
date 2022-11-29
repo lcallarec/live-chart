@@ -30,7 +30,8 @@ public class Example : Gtk.ApplicationWindow {
         config.y_axis.labels.font.slant = Cairo.FontSlant.ITALIC;
 
         var chart = new LiveChart.Chart(config);
-
+        chart.vexpand = true;
+        chart.vexpand = true;
         chart.legend.labels.font.size = 14;
         chart.legend.labels.font.color = { 1f, 1f, 0f, 1f };
         chart.legend.labels.font.weight = Cairo.FontWeight.BOLD;
@@ -63,7 +64,7 @@ public class Example : Gtk.ApplicationWindow {
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {
             try {
-                chart.to_png("export.png");
+                chart.to_png("export-labels.png");
             } catch (Error e) {
                 GLib.error(e.message);
             }

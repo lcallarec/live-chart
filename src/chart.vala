@@ -9,6 +9,7 @@ namespace LiveChart {
     }
 
     public class Chart : Gtk.DrawingArea {
+        private Cairo.Context? m_context = null;
 
         public Grid grid { get; set; default = new Grid(); }
         public Background background { get; set; default = new Background(); } 
@@ -72,15 +73,10 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
-            //FIXME
-            /* var window = this.root() as Gtk.Window;
-            if (window == null) {
-                throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
-            }
-            var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
-            if (pixbuff != null) {
-                pixbuff.save(filename, "png");
-            } */
+            GLib.return_if_fail(null != m_context);
+
+            var surface = m_context.get_target();
+            surface.write_to_png(filename);
         }
 
         public void refresh_every(int ms) {
@@ -94,7 +90,7 @@ namespace LiveChart {
         }
 
         private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {
-            
+            m_context = ctx;
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);

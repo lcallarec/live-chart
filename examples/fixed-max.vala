@@ -15,6 +15,8 @@ public class Example : Gtk.ApplicationWindow {
         config.y_axis.fixed_max = LiveChart.cap(96);
 
         var chart = new LiveChart.Chart(config);
+        chart.vexpand = true;
+        chart.vexpand = true;
 
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {

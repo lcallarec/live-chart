@@ -4,6 +4,7 @@ using LiveChart;
 namespace LiveChart.Static {
 
      public class StaticChart : Gtk.DrawingArea {
+        private Cairo.Context? m_context = null;
 
         public StaticGrid grid { get; set; default = new StaticGrid(); }
         public Background background { get; set; default = new Background(); } 
@@ -35,8 +36,15 @@ namespace LiveChart.Static {
             
         }
 
+        public void to_png(string filename) throws Error {
+            GLib.return_if_fail(null != m_context);
+
+            var surface = m_context.get_target();
+            surface.write_to_png(filename);
+        }
+
         private void render(Gtk.Widget drawing_area, Context ctx, int width, int height) {
-            
+            m_context = ctx;
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);

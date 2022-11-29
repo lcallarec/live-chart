@@ -32,6 +32,8 @@ public class Example : Gtk.ApplicationWindow {
         config.x_axis.lines.visible = false;
 
         var chart = new LiveChart.Chart(config);
+        chart.vexpand = true;
+        chart.vexpand = true;
 
         chart.add_serie(heat);
         chart.add_serie(heap);
@@ -93,7 +95,7 @@ int main (string[] args) {
     var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
     app.activate.connect (() => {
         var view = new Example(app);
-        view.show();
+        view.present();
     });
 
     return app.run (args);

@@ -27,6 +27,8 @@ public class Example : Gtk.ApplicationWindow {
         config.x_axis.lines.visible = false;
 
         var chart = new LiveChart.Chart(config);
+        chart.vexpand = true;
+        chart.vexpand = true;
 
         chart.add_serie(heap);
         chart.add_serie(rss);
@@ -58,7 +60,7 @@ public class Example : Gtk.ApplicationWindow {
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {
             try {
-                chart.to_png("export.png");
+                chart.to_png("export-static-renderer.png");
             } catch (Error e) {
                 GLib.error(e.message);
             }
