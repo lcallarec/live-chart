@@ -89,11 +89,11 @@ namespace LiveChart {
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
             }
-            this.prev_time = GLib.get_monotonic_time() / 1000;
+            this.prev_time = GLib.get_monotonic_time() / this.config.time.conv_us;
             source_timeout = Timeout.add(ms, () => {
                 if(this.play_ratio != 0.0){
-                    var now = GLib.get_monotonic_time() / 1000;
-                    config.time.current += (int64)((now - this.prev_time) * this.config.time.conv_ms);
+                    var now = GLib.get_monotonic_time() / this.config.time.conv_us;
+                    config.time.current += (int64)((now - this.prev_time));
                     this.prev_time = now;
                 }
                 this.queue_draw();
