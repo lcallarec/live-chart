@@ -30,7 +30,7 @@ public class Example : Gtk.Window {
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
         config.x_axis.show_fraction = true;
-        config.time.set_range("s");
+        config.time.set_range("u");
 
         var chart = new LiveChart.Chart(config);
         
