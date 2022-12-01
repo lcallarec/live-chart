@@ -29,6 +29,7 @@ public class Example : Gtk.Window {
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
+        config.time.show_fraction = true;
 
         var chart = new LiveChart.Chart(config);
 
@@ -69,7 +70,7 @@ public class Example : Gtk.Window {
         });
 
         var export_button = new Gtk.Button.with_label("Export to PNG");
-		export_button.clicked.connect (() => {
+        export_button.clicked.connect (() => {
             try {
                 chart.to_png("export.png");
             } catch (Error e) {
@@ -78,21 +79,21 @@ public class Example : Gtk.Window {
             
         });
         
-		int64 seek_sec = 10;
-		int64 conv = chart.config.time.conv_sec;
-		var seek_forward = new Gtk.Button.with_label(">>(%lldsec)".printf(seek_sec));
-		seek_forward.clicked.connect(() => {
-			chart.config.time.current += seek_sec * conv;
-		});
-		var seek_backward = new Gtk.Button.with_label("(%lldsec)<<".printf(-seek_sec));
-		seek_backward.clicked.connect(() => {
-			chart.config.time.current -= seek_sec * conv;
-		});
-		
+        int64 seek_sec = 10;
+        int64 conv = chart.config.time.conv_sec;
+        var seek_forward = new Gtk.Button.with_label(">>(%lldsec)".printf(seek_sec));
+        seek_forward.clicked.connect(() => {
+            chart.config.time.current += seek_sec * conv;
+        });
+        var seek_backward = new Gtk.Button.with_label("(%lldsec)<<".printf(-seek_sec));
+        seek_backward.clicked.connect(() => {
+            chart.config.time.current -= seek_sec * conv;
+        });
+        
         Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
         box.pack_start(export_button, false, false, 5);
-		box.pack_start(seek_forward, false, false, 5);
-		box.pack_start(seek_backward, false, false, 5);
+        box.pack_start(seek_forward, false, false, 5);
+        box.pack_start(seek_backward, false, false, 5);
         box.pack_start(chart, true, true, 0);
 
         this.add(box);
