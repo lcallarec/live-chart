@@ -29,8 +29,8 @@ public class Example : Gtk.Window {
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
+        config.x_axis.show_fraction = true;
         config.time.set_range("s");
-        config.time.show_fraction = true;
 
         var chart = new LiveChart.Chart(config);
         
