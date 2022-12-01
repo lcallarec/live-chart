@@ -440,6 +440,15 @@ x_axis.tick_length = 60; // 60 pixels between each ticks
 
 For example, with `tick_interval=10`  and `tick_length=60`, each second is displayed as 6 pixels on the chart.
 
+* Show fraction (*bool*, default false)
+
+Define if the timepoints on x-axis would be printed with fractional part or not.
+
+```vala
+var x_axis = config.x_axis;
+x_axis.show_fraction = true; // Shows timepoint in the format: "HH:MM:SS.xxx"
+```
+
 #### y-axis
 
 * Unit
