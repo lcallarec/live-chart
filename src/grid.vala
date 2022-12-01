@@ -67,7 +67,9 @@ namespace LiveChart {
         }
 
         protected void render_vgrid(Context ctx, Config config) {
-            var time = new DateTime.now().to_unix();
+            
+            var grid_interval = (int64)(config.x_axis.tick_interval * config.time.conv_ms);
+            var time = config.time.current;
             for (double i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length) {
                 if (config.x_axis.lines.visible) {
                     config.x_axis.lines.configure(ctx);
@@ -80,7 +82,7 @@ namespace LiveChart {
                 // Labels
                 if (config.x_axis.visible && config.x_axis.labels.visible) {
                     config.x_axis.labels.font.configure(ctx);
-                    var text = new DateTime.from_unix_local(time).format("%H:%M:%S");
+                    var text = new DateTime.from_unix_local(time / config.time.conv_sec).format("%H:%M:%S");
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
                     
@@ -88,7 +90,7 @@ namespace LiveChart {
                     ctx.show_text(text);
                     ctx.stroke();
                 }
-                time -= (int) config.x_axis.tick_interval;
+                time -= grid_interval;
             }
         }
 
