@@ -233,4 +233,131 @@ private void register_regions() {
         assert(intersections.get(0).start_x == 100);
         assert(intersections.get(0).end_x == 200);
     });
+
+    //Boundaries / edge cases
+    Test.add_func("/Region/should_not_consider_any_crossing_when_entering_by_the_top_if_no_intersections_are_found_by_geometry", () => {
+        //given
+        var min = 100.0;
+        var max = 200.0;
+        var region = new Region.between(min, max);
+        var intersections = new Intersections();
+
+        //when
+        region.handle(
+            intersections,
+            new PointBuilder.from_value(200).build(),
+            new PointBuilder.from_value(150).build(),
+            (value) => {
+                return null;
+        });
+
+        //then
+        assert(intersections.size() == 0);
+    });
+
+    //CrossRegionResolver
+    Test.add_func("/Region/CrossRegionResolver/shouln_not_crossing_if_always_below_floor_and_ceil", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(0).build();
+        var current = new PointBuilder.from_value(1).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/sould_not_crossing_if_always_above_floor_and_ceil", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(22).build();
+        var current = new PointBuilder.from_value(25).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/should_be_within", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(10).build();
+        var current = new PointBuilder.from_value(15).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_true(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/should_entering_by_the_bottom", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(5).build();
+        var current = new PointBuilder.from_value(15).build();
+
+        //when //then
+        assert_true(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/should_entering_by_the_top", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(30).build();
+        var current = new PointBuilder.from_value(15).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_true(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/should_leaving_by_the_top", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(15).build();
+        var current = new PointBuilder.from_value(30).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_true(resolver.is_leaving_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
+
+    Test.add_func("/Region/CrossRegionResolver/should_leaving_by_the_bottom", () => {
+        //given
+        var resolver = new CrossRegionResolver(10, 20);
+
+        var previous = new PointBuilder.from_value(15).build();
+        var current = new PointBuilder.from_value(5).build();
+
+        //when //then
+        assert_false(resolver.is_entering_by_the_bottom(previous, current));
+        assert_false(resolver.is_entering_by_the_top(previous, current));
+        assert_false(resolver.is_leaving_by_the_top(previous, current));
+        assert_true(resolver.is_leaving_by_the_bottom(previous, current));
+        assert_false(resolver.is_within(previous, current));
+    });
 }
