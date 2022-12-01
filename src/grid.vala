@@ -82,7 +82,7 @@ namespace LiveChart {
                 // Labels
                 if (config.x_axis.visible && config.x_axis.labels.visible) {
                     config.x_axis.labels.font.configure(ctx);
-                    var text = new DateTime.from_unix_local(time / config.time.conv_sec).format("%H:%M:%S");
+                    var text = config.time.get_time_str(time);
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
                     
