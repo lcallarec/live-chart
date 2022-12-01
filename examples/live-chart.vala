@@ -90,10 +90,18 @@ public class Example : Gtk.Window {
             chart.config.time.current -= seek_sec * conv;
         });
         
+        var pausing = false;
+        var pause_btn = new Gtk.Button.with_label("pause/resume");
+        pause_btn.clicked.connect(() => {
+            pausing = !pausing;
+            chart.refresh_every(100, pausing ? 0.0 : 1.0);
+        });
+        
         Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
         box.pack_start(export_button, false, false, 5);
         box.pack_start(seek_forward, false, false, 5);
         box.pack_start(seek_backward, false, false, 5);
+        box.pack_start(pause_btn, false, false, 5);
         box.pack_start(chart, true, true, 0);
 
         this.add(box);
