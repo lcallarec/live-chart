@@ -54,7 +54,8 @@ namespace LiveChart {
         }
 
         public void add_unaware_timestamp_collection(Serie serie, Gee.Collection<double?> collection, int timespan_between_value) {
-            var ts = GLib.get_real_time() / 1000 - (collection.size * timespan_between_value);
+            var conv_us = this.config.time.conv_us;
+            var ts = GLib.get_real_time() / conv_us - (collection.size * timespan_between_value);
             var values = serie.get_values();
             collection.foreach((value) => {
                 ts += timespan_between_value;

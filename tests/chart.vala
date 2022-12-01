@@ -73,6 +73,7 @@ private void register_chart() {
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection", () => {
         //given
         var chart = new LiveChart.Chart();
+
         var serie = new LiveChart.Serie("TEST");
 
         var unaware_timestamp_collection = new Gee.ArrayList<double?>();
@@ -83,7 +84,7 @@ private void register_chart() {
         var timespan_between_value = 5000;
 
         //when
-        var now = GLib.get_real_time() / 1000;
+        var now = GLib.get_real_time() / chart.config.time.conv_us;
         chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
 
         //then
@@ -153,7 +154,7 @@ private void register_chart() {
         var timespan_between_value = 5000;
 
         //when
-        var now = GLib.get_real_time() / 1000;
+        var now = GLib.get_real_time() / chart.config.time.conv_us;
         try {
             chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
         } catch (LiveChart.ChartError e) {
