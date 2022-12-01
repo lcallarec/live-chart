@@ -5,7 +5,6 @@ namespace LiveChart{
         public int64 current;
         
         public int64 conv_us {get; private set;}
-        public int64 conv_ms {get; private set;}
         public int64 conv_sec {get; private set;}
         public bool show_fraction = false;
         private string fmt;
@@ -22,20 +21,17 @@ namespace LiveChart{
             switch(unit_sec){
             case "s":
                 this.conv_us = 1000 * 1000;
-                this.conv_ms = 1000;
                 this.conv_sec = 1;
                 this.fmt = "%s.%01lld";
                 this.show_fraction = false;
                 break;
             case "m":
                 this.conv_us = 1000;
-                this.conv_ms = 1;
                 this.conv_sec = 1000;
                 this.fmt = "%s.%03lld";
                 break;
             case "u":
                 this.conv_us = 1;
-                this.conv_ms = 1000;
                 this.conv_sec = 1000 * 1000;
                 this.fmt = "%s.%06lld";
                 break;
