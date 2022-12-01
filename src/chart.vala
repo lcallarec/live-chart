@@ -17,7 +17,7 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
-
+        private int64 prev_time;
         public Chart(Config config = new Config()) {
             this.config = config;
             this.size_allocate.connect((allocation) => {
@@ -86,7 +86,11 @@ namespace LiveChart {
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
             }
+            this.prev_time = GLib.get_monotonic_time() / 1000;
             source_timeout = Timeout.add(ms, () => {
+                var now = GLib.get_monotonic_time() / 1000;
+                config.time.current += (int64)((now - this.prev_time) * this.config.time.conv_ms);
+                this.prev_time = now;
                 this.queue_draw();
                 return true;
             });
