@@ -641,8 +641,25 @@ Time is represented in unixtime milliseconds in default.
 
 ```vala  
 var chart = LiveChart.Chart();
+var conv_usec = chart.config.time.conv_usec;
 chart.config.time.current -= 5000; // Go 5 seconds back.
-chart.config.time.current = GLib.get_real_time() / chart.config.time.conv_ms; // Go to System's local time.
+chart.config.time.current = GLib.get_real_time() / conv_usec; // Go to System's local time.
+```
+
+### Specify the range of the timeline.
+
+In default, timestamp is treated in milliseconds.
+But if you want to treat timestamp in microseconds or seconds,
+then you can call `config.time.set_range` in the first to use other the range in your app.
+
+(Warning!) If you switched to other range from "m"(milliseconds), you cannot push values with `Serie.add(double value)`.
+
+```vala
+var chart = LiveChart.Chart();
+var serie = new LiveChart.Serie("USEC VALS",  new LiveChart.Line());
+chart.config.time.set_range("u"); //"u" means microseconds. "m" means milliseconds. "s" to seconds.
+chart.add_serie(serie);
+serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_usec); //serie.add(val) is only usable in millisecs.
 ```
 
 ### Deal with your own data
