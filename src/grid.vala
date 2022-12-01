@@ -82,7 +82,7 @@ namespace LiveChart {
                 // Labels
                 if (config.x_axis.visible && config.x_axis.labels.visible) {
                     config.x_axis.labels.font.configure(ctx);
-                    var text = config.time.get_time_str(time);
+                    var text = config.time.get_time_str(time, config.x_axis.show_fraction);
                     TextExtents extents;
                     ctx.text_extents(text, out extents);
                     

@@ -8,6 +8,7 @@ namespace LiveChart {
         public Labels labels = new Labels();
         public Path axis = new Path();
         public Path lines = new Path();
+        public bool show_fraction = false;
 
         public XAxis() {
             axis.color = {0.5, 0.5, 0.5, 0.5};

@@ -6,7 +6,6 @@ namespace LiveChart{
         
         public int64 conv_us {get; private set;}
         public int64 conv_sec {get; private set;}
-        public bool show_fraction = false;
         private string fmt;
         
         public TimeSeek(){
@@ -23,7 +22,6 @@ namespace LiveChart{
                 this.conv_us = 1000 * 1000;
                 this.conv_sec = 1;
                 this.fmt = "%s.%01lld";
-                this.show_fraction = false;
                 break;
             case "m":
                 this.conv_us = 1000;
@@ -44,7 +42,7 @@ namespace LiveChart{
             
         }
         
-        public string get_time_str(int64 time){
+        public string get_time_str(int64 time, bool show_fraction){
             var t = time / this.conv_sec;
             var frac = time - t * this.conv_sec;
             if(frac < 0){
@@ -53,7 +51,7 @@ namespace LiveChart{
             }
             
             var dtime = new DateTime.from_unix_local(t).format("%H:%M:%S");
-            if(this.show_fraction){
+            if(show_fraction){
                 return this.fmt.printf(dtime, frac);
             }
             return dtime;
