@@ -17,6 +17,8 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
+        private double play_ratio = 1.0;
+        
         private int64 prev_time;
         public Chart(Config config = new Config()) {
             this.config = config;
@@ -82,15 +84,18 @@ namespace LiveChart {
             }
         }
 
-        public void refresh_every(int ms) {
+        public void refresh_every(int ms, double play_ratio = 1.0) {
+            this.play_ratio = play_ratio;
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
             }
             this.prev_time = GLib.get_monotonic_time() / 1000;
             source_timeout = Timeout.add(ms, () => {
-                var now = GLib.get_monotonic_time() / 1000;
-                config.time.current += (int64)((now - this.prev_time) * this.config.time.conv_ms);
-                this.prev_time = now;
+                if(this.play_ratio != 0.0){
+                    var now = GLib.get_monotonic_time() / 1000;
+                    config.time.current += (int64)((now - this.prev_time) * this.config.time.conv_ms);
+                    this.prev_time = now;
+                }
                 this.queue_draw();
                 return true;
             });
