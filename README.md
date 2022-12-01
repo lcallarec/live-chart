@@ -626,9 +626,23 @@ chart.to_png(filename);
 By default, the chart is refreshed every `100ms` and very time a new data point is added.
 If it doesn't fit your needs, you can adjust the refresh rate. The lower, the smoother.
 
+(Extra)You can also control the scrolling ratio with 2nd arg (default is 1.0).
+
 ```vala  
 var chart = LiveChart.Chart();
-vhart.refresh_every(1000); // refresh every 1000ms
+chart.refresh_every(1000); // refresh every 1000ms
+chart.refresh_every(100, 0.0); // refresh every 100ms, and pausing
+```
+
+### Seeking on the timeline.
+
+If you want to watch the past data, then you can specify the time which you want to seek.
+Time is represented in unixtime milliseconds in default.
+
+```vala  
+var chart = LiveChart.Chart();
+chart.config.time.current -= 5000; // Go 5 seconds back.
+chart.config.time.current = GLib.get_real_time() / chart.config.time.conv_ms; // Go to System's local time.
 ```
 
 ### Deal with your own data
