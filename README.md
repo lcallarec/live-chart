@@ -650,6 +650,7 @@ If it doesn't fit your needs, you can adjust the refresh rate. The lower, the sm
 
 ```vala  
 var chart = LiveChart.Chart();
+chart.refresh_every(-1); // means to stop auto-refresh.
 chart.refresh_every(1000); // refresh every 1000ms
 chart.refresh_every(100, 0.0); // refresh every 100ms, and pausing
 ```
