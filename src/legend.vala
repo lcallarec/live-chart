@@ -30,6 +30,10 @@ namespace LiveChart {
                 series.remove(serie);
             }
         }
+        public void remove_all_legend(){
+            series.clear();
+        }
+        
         public abstract void draw(Context ctx, Config config);
         public BoundingBox get_bounding_box() {
             return bounding_box;

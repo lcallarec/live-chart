@@ -54,6 +54,17 @@ namespace LiveChart {
             }
         }
         
+        public void remove_all(){
+            foreach(var entry in signals){
+                entry.key.disconnect(entry.value);
+            }
+            signals.clear();
+            series.clear();
+            if(chart.legend != null){
+                chart.legend.remove_all_legend();
+            }
+        }
+        
         public Iterator<Serie> iterator() {
             return series.list_iterator();
         }
