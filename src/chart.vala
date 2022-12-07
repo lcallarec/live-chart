@@ -42,6 +42,10 @@ namespace LiveChart {
             this.series.remove_serie(serie);
         }
 
+        public void remove_all_series(){
+            this.series.remove_all();
+        }
+
         [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series (or from the serie you created) and add the value using serie.add")]
         public void add_value(Serie serie, double value) {
             serie.add(value);
