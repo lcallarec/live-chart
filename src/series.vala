@@ -11,7 +11,7 @@ namespace LiveChart {
         }
 
         public Serie register(Serie serie) {
-            if(signals.has_key(serie)){
+            if(series.contains(serie)){
                 return serie;
             }
             this.series.add(serie);
