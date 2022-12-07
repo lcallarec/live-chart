@@ -714,6 +714,23 @@ chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection,
 
 Et voilà !
 
+## CAUTIONS
+
+### Removing LiveChart.Chart from Gtk.Widget
+
+Removing LiveChart.Chart from Gtk.Widget without stopping auto-refresh causes memory leak.
+
+```vala
+var window = new Gtk.Window();
+var chart = new LiveChart.Chart();
+window.add(chart);
+
+//...
+chart.refresh_every(-1);  //Don't forget to stop auto-refresh if your app replaces the LiveChart.Chart widget.
+window.remove(chart);
+
+```
+
 ## How LiveChart versions works ?
 
 * For each new feature, the `minor` version number will be bumped
