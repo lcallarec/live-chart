@@ -32,6 +32,10 @@ namespace LiveChart {
             this.refresh_every(100);
 
             series = new Series(this);
+            this.destroy.connect(() => {
+                refresh_every(-1);
+                remove_all_series();
+            });
         }
 
         public void add_serie(Serie serie) {
@@ -100,16 +104,16 @@ namespace LiveChart {
                 source_timeout = 0;
             }
             if(ms > 0){
-	            this.prev_time = GLib.get_monotonic_time() / this.config.time.conv_us;
-	            source_timeout = Timeout.add(ms, () => {
-	                if(this.play_ratio != 0.0){
-	                    var now = GLib.get_monotonic_time() / this.config.time.conv_us;
-	                    config.time.current += (int64)((now - this.prev_time));
-	                    this.prev_time = now;
-	                }
-	                this.queue_draw();
-	                return true;
-	            });
+                this.prev_time = GLib.get_monotonic_time() / this.config.time.conv_us;
+                source_timeout = Timeout.add(ms, () => {
+                    if(this.play_ratio != 0.0){
+                        var now = GLib.get_monotonic_time() / this.config.time.conv_us;
+                        config.time.current += (int64)((now - this.prev_time));
+                        this.prev_time = now;
+                    }
+                    this.queue_draw();
+                    return true;
+                });
             }
         }
 

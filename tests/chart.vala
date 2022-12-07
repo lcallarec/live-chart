@@ -1,4 +1,4 @@
-
+private delegate void VoidTestDelegate();
 private void register_chart() {
 
     Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
@@ -199,4 +199,31 @@ private void register_chart() {
         //ok
         
     });
+    
+    Test.add_func("/LiveChart/Chart/#destroy test", () => {
+        
+        //given
+        var window = new Gtk.Window();
+        var serie = new LiveChart.Serie("TEST");
+        bool result = false;
+        window.resize(50, 50);
+        window.show();
+        
+        //when
+        VoidTestDelegate proc = () => {
+            var chart = new LiveChart.Chart();
+            window.add(chart);
+            chart.add_serie(serie);
+            chart.show_all();
+            chart.destroy.connect(() => {
+                print("Chart.destroy\n");
+                result = true;
+            });
+            chart.refresh_every(-1);
+            window.remove(chart);
+        };
+        proc();
+        assert(result == true);
+    });
+    
 }
