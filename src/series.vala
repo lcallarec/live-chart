@@ -2,23 +2,27 @@ using Gee;
 namespace LiveChart { 
 
     public class Series : Object {
-
+        private Gee.Map<Serie, ulong> signals = new Gee.HashMap<Serie, ulong>();
         private Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
-        private unowned Chart chart;
+        private weak Chart chart;
 
         public Series(Chart chart) {
             this.chart = chart;
         }
 
         public Serie register(Serie serie) {
+            if(signals.has_key(serie)){
+                return serie;
+            }
             this.series.add(serie);
             //if values were added to serie before registration
             serie.get_values().foreach((value) => {chart.config.y_axis.update_bounds(value.value); return true;});
             
             if(chart.legend != null) chart.legend.add_legend(serie);
-            serie.value_added.connect((value) => {
+            var sh = serie.value_added.connect((value) => {
                 chart.config.y_axis.update_bounds(value);
             });
+            signals[serie] = sh;
             return serie;
         }
 
@@ -35,7 +39,21 @@ namespace LiveChart {
             }
             throw new ChartError.SERIE_NOT_FOUND("Serie with name %s not found".printf(name));
         }
-
+        
+        public void remove_serie(Serie serie){
+            if(signals.has_key(serie)){
+                var sh = signals[serie];
+                serie.disconnect(sh);
+                signals.unset(serie);
+            }
+            if(series.contains(serie)){
+                series.remove(serie);
+            }
+            if(chart.legend != null){
+                chart.legend.remove_legend(serie);
+            }
+        }
+        
         public Iterator<Serie> iterator() {
             return series.list_iterator();
         }
