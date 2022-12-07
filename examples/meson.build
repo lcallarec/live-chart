@@ -3,6 +3,7 @@ executable('example-fixed-max', 'fixed-max.vala', dependencies: deps + [livechar
 executable('example-hide-parts', 'hide-parts.vala', dependencies: deps + [livechart_dep])
 executable('example-configure-labels', 'configure-labels.vala', dependencies: deps + [livechart_dep])
 executable('example-remove-serie', 'remove-serie.vala', dependencies: deps + [livechart_dep])
+executable('example-replace-chart', 'replace-chart.vala', dependencies: deps + [livechart_dep])
 executable('example-static-renderer', 'static-renderer.vala', dependencies: deps + [livechart_dep])
 executable('example-static-chart', 'static-chart.vala', dependencies: deps + [livechart_dep])
 executable('example-usec', 'live-chart-usec.vala', dependencies: deps + [livechart_dep])
