@@ -111,6 +111,17 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 chart.add_serie(paris);
 ```
 
+The serie attached into chart is removable from the chart.
+```vala
+var paris_temperature = new LiveChart.Serie("Temperature in Paris");
+var msm_temperature = new LiveChart.Serie("Temperature in Mont Saint-Michel")
+chart.add_serie(paris_temperature);
+chart.add_serie(msm_temperature);
+//...
+chart.remove_serie(paris_temperature);  //Remove specified serie.
+chart.remove_all_series();              //Remove all series from the chart.
+```
+
 ### Interacting with series
 
 All methods of `Serie` class could be called before or after having been attached to the chart using `chart.add_serie` method, exepted for the `Renderer` and underlying data store.
