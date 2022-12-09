@@ -70,7 +70,13 @@ namespace LiveChart {
             
             var grid_interval = (int64)(config.x_axis.tick_interval * config.time.conv_sec);
             var time = config.time.current;
-            for (double i = config.width - config.padding.right; i > config.padding.left; i -= config.x_axis.tick_length) {
+            var gap = 0.0;
+            if(config.x_axis.slide_timeline && grid_interval != 0){
+                time = time - (config.time.current % grid_interval);
+                gap = (config.time.current - time) * config.x_axis.get_ratio() / config.time.conv_sec;
+            }
+            
+            for (double i = config.width - config.padding.right - gap; i > config.padding.left; i -= config.x_axis.tick_length) {
                 if (config.x_axis.lines.visible) {
                     config.x_axis.lines.configure(ctx);
                     ctx.move_to((int) i + 0.5, 0.5 + config.height - config.padding.bottom);
