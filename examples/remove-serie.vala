@@ -1,7 +1,7 @@
 public class Example : Gtk.Window {
         
     public Example() {
-        this.title = "Live Chart Demo";
+        this.title = "Removable Series Demo(with sliding timeline)";
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
@@ -28,8 +28,9 @@ public class Example : Gtk.Window {
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
-        config.x_axis.lines.visible = false;
+        config.x_axis.lines.visible = true;
         config.x_axis.show_fraction = true;
+        config.x_axis.slide_timeline = true;
 
         var chart = new LiveChart.Chart(config);
         
