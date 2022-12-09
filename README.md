@@ -460,6 +460,16 @@ var x_axis = config.x_axis;
 x_axis.show_fraction = true; // Shows timepoint in the format: "HH:MM:SS.xxx"
 ```
 
+* Slide timeline (*bool*, default false)
+
+Define if the timeline(each of timepoints and grid line) is moving or fixed.
+If true, then each timepoints has fixed value, slides along the flow if time.
+
+```vala
+var x_axis = config.x_axis;
+x_axis.slide_timeline = true; // Slides the timeline like horizontal scrolling with the chart.
+```
+
 #### y-axis
 
 * Unit
