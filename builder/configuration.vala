@@ -26,7 +26,7 @@ namespace LiveChart.Builder {
                 configuration_changed(configuration);
             });
 
-            pack_start(datasources.with_expander("Datasources"), false, false, 0);
+            this.append(datasources.with_expander("Datasources"));
         }     
         
         //  public uint8 create_data_source() {

@@ -206,21 +206,22 @@ private void register_chart() {
         var window = new Gtk.Window();
         var serie = new LiveChart.Serie("TEST");
         bool result = false;
-        window.resize(50, 50);
-        window.show();
+        window.width_request = 50;
+        window.height_request = 50;
+        window.present();
         
         //when
         VoidTestDelegate proc = () => {
             var chart = new LiveChart.Chart();
-            window.add(chart);
+            window.child = chart;
             chart.add_serie(serie);
-            chart.show_all();
+            chart.visible = true;
             chart.destroy.connect(() => {
                 print("Chart.destroy\n");
                 result = true;
             });
             chart.refresh_every(-1);
-            window.remove(chart);
+            window.child = null;
         };
         proc();
         assert(result == true);

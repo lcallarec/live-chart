@@ -100,12 +100,12 @@ public class Example : Gtk.ApplicationWindow {
             chart.refresh_every(100, pausing ? 0.0 : 1.0);
         });
         
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(export_button, false, false, 5);
-        box.pack_start(seek_forward, false, false, 5);
-        box.pack_start(seek_backward, false, false, 5);
-        box.pack_start(pause_btn, false, false, 5);
-        box.pack_start(chart, true, true, 0);
+        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+        box.append(export_button);
+        box.append(seek_forward);
+        box.append(seek_backward);
+        box.append(pause_btn);
+        box.append(chart);
         this.child = box;
      }
 }

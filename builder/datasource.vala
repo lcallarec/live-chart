@@ -8,7 +8,7 @@ namespace LiveChart.Builder {
         public WidgetRow add_label(Gtk.Label label) {
             label.xalign = 0;
             label.set_size_request(150,-1);
-            this.pack_start(label, false, true, 0);
+            this.append(label);
             return this;
         }
 
@@ -67,10 +67,10 @@ namespace LiveChart.Builder {
 
             connect_signals();
 
-            this.pack_start(row1, false, false, 2);
-            this.pack_start(row2, false, false, 2);
-            this.pack_start(row3, false, false, 2);
-            this.pack_start(row4, false, false, 2);
+            this.append(row1);
+            this.append(row2);
+            this.append(row3);
+            this.append(row4);
         }
         
         public Gtk.Expander with_expander(string label) {
