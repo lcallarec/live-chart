@@ -53,7 +53,9 @@ namespace LiveChart {
 
         public YAxis y_axis = new YAxis();
         public XAxis x_axis = new XAxis();
-
+        
+        public TimeSeek time = new TimeSeek();
+        
         internal Gee.ArrayList<string> categories;
 
         public Boundaries boundaries() {

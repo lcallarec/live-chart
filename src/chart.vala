@@ -18,7 +18,9 @@ namespace LiveChart {
         public Series series;
 
         private uint source_timeout = 0;
-
+        private double play_ratio = 1.0;
+        
+        private int64 prev_time;
         public Chart(Config config = new Config()) {
             this.config = config;
             this.resize.connect((width, height) => {
@@ -31,10 +33,22 @@ namespace LiveChart {
             this.refresh_every(100);
 
             series = new Series(this);
+            this.destroy.connect(() => {
+                refresh_every(-1);
+                remove_all_series();
+            });
         }
 
         public void add_serie(Serie serie) {
             this.series.register(serie);
+        }
+
+        public void remove_serie(Serie serie){
+            this.series.remove_serie(serie);
+        }
+
+        public void remove_all_series(){
+            this.series.remove_all();
         }
 
         [Version (deprecated = true, deprecated_since = "1.7.0", replacement = "Retrieve the Serie from Chart.series (or from the serie you created) and add the value using serie.add")]
@@ -53,7 +67,8 @@ namespace LiveChart {
         }
 
         public void add_unaware_timestamp_collection(Serie serie, Gee.Collection<double?> collection, int timespan_between_value) {
-            var ts = GLib.get_real_time() / 1000 - (collection.size * timespan_between_value);
+            var conv_us = this.config.time.conv_us;
+            var ts = GLib.get_real_time() / conv_us - (collection.size * timespan_between_value);
             var values = serie.get_values();
             collection.foreach((value) => {
                 ts += timespan_between_value;
@@ -79,14 +94,24 @@ namespace LiveChart {
             surface.write_to_png(filename);
         }
 
-        public void refresh_every(int ms) {
+        public void refresh_every(int ms, double play_ratio = 1.0) {
+            this.play_ratio = play_ratio;
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
+                source_timeout = 0;
             }
-            source_timeout = Timeout.add(ms, () => {
-                this.queue_draw();
-                return true;
-            });
+            if(ms > 0){
+                this.prev_time = GLib.get_monotonic_time() / this.config.time.conv_us;
+                source_timeout = Timeout.add(ms, () => {
+                    if(this.play_ratio != 0.0){
+                        var now = GLib.get_monotonic_time() / this.config.time.conv_us;
+                        config.time.current += (int64)((now - this.prev_time));
+                        this.prev_time = now;
+                    }
+                    this.queue_draw();
+                    return true;
+                });
+            }
         }
 
         private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {

@@ -1,4 +1,4 @@
-
+private delegate void VoidTestDelegate();
 private void register_chart() {
 
     Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
@@ -73,6 +73,7 @@ private void register_chart() {
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection", () => {
         //given
         var chart = new LiveChart.Chart();
+
         var serie = new LiveChart.Serie("TEST");
 
         var unaware_timestamp_collection = new Gee.ArrayList<double?>();
@@ -83,7 +84,7 @@ private void register_chart() {
         var timespan_between_value = 5000;
 
         //when
-        var now = GLib.get_real_time() / 1000;
+        var now = GLib.get_real_time() / chart.config.time.conv_us;
         chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
 
         //then
@@ -153,7 +154,7 @@ private void register_chart() {
         var timespan_between_value = 5000;
 
         //when
-        var now = GLib.get_real_time() / 1000;
+        var now = GLib.get_real_time() / chart.config.time.conv_us;
         try {
             chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
         } catch (LiveChart.ChartError e) {
@@ -198,4 +199,31 @@ private void register_chart() {
         //ok
         
     });
+    
+    Test.add_func("/LiveChart/Chart/#destroy test", () => {
+        
+        //given
+        var window = new Gtk.Window();
+        var serie = new LiveChart.Serie("TEST");
+        bool result = false;
+        window.resize(50, 50);
+        window.show();
+        
+        //when
+        VoidTestDelegate proc = () => {
+            var chart = new LiveChart.Chart();
+            window.add(chart);
+            chart.add_serie(serie);
+            chart.show_all();
+            chart.destroy.connect(() => {
+                print("Chart.destroy\n");
+                result = true;
+            });
+            chart.refresh_every(-1);
+            window.remove(chart);
+        };
+        proc();
+        assert(result == true);
+    });
+    
 }

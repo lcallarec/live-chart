@@ -1,74 +1,73 @@
-public class Example : Gtk.ApplicationWindow {    
-    public Example(Gtk.Application app) {
-        Object (application: app);
-
+public class Example : Gtk.Window {
+        
+    public Example() {
         this.title = "Live Chart Demo";
-        // this.destroy.connect(Gtk.main_quit);
+        this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var smooth_line_area = new LiveChart.SmoothLineArea();
 
         var region = new LiveChart.Region
             .between (0, 200)
-            .with_line_color({ 1.0f, 0.5f, 0.0f, 1.0f } )
-            .with_area_color({ 1.0f, 0.5f, 0.0f, 0.5f } );
+            .with_line_color({ 1.0, 0.5, 0.0, 1.0} )
+            .with_area_color({ 1.0, 0.5, 0.0, 0.5} );
 
         smooth_line_area.region = region;
 
         var heat = new LiveChart.Serie("HEAT", smooth_line_area);
         
-        heat.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
+        heat.line.color = { 0.3, 0.8, 0.1, 1.0};
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
+        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.line.color = { 0.1f, 0.8f, 0.7f, 1.0f };
+        heap.line.color = { 0.1, 0.8, 0.7, 1.0};
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
         config.x_axis.tick_length = 60;
         config.x_axis.tick_interval = 10;
         config.x_axis.lines.visible = false;
-        config.x_axis.show_fraction = false;
+        config.x_axis.show_fraction = true;
+        config.time.set_range("u");
 
         var chart = new LiveChart.Chart(config);
-        chart.vexpand = true;
-        chart.vexpand = true;
-
+        
         chart.add_serie(heat);
         chart.add_serie(heap);
         chart.add_serie(rss);
- 
+
         double rss_value = 200.0;
+        var conv_us = config.time.conv_us;
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.13) {
                 var new_value = Random.double_range(-50, 50.0);
                 if (rss_value + new_value > 0) rss_value += new_value;
             }
-            rss.add(rss_value);
+            rss.add_with_timestamp(rss_value, GLib.get_real_time() / conv_us);
             return true;
         });
 
         var heap_value = 100.0;
-        heap.add(heap_value);
+        heap.add_with_timestamp(heap_value, GLib.get_real_time() / conv_us);
         Timeout.add(1000, () => {
             if (Random.double_range(0.0, 1.0) > 0.1) {
                 var new_value = Random.double_range(-10, 10.0);
                 if (heap_value + new_value > 0) heap_value += new_value;
             }
-            heap.add(heap_value);
+            heap.add_with_timestamp(heap_value, GLib.get_real_time() / conv_us);
             return true;
         });
 
         var heat_value = 150.0;
-        heat.add(heat_value);
+        heat.add_with_timestamp(heat_value, GLib.get_real_time() / conv_us);
         Timeout.add(2000, () => {
             if (Random.double_range(0.0, 1.0) > 0.2) {
                 var new_value = Random.double_range(-100, 100.0);
                 if (heat_value + new_value > 0) heat_value += new_value;
             }
-            heat.add(heat_value);
+            heat.add_with_timestamp(heat_value, GLib.get_real_time() / conv_us);
             return true;
         });
 
@@ -106,18 +105,18 @@ public class Example : Gtk.ApplicationWindow {
         box.pack_start(seek_backward, false, false, 5);
         box.pack_start(pause_btn, false, false, 5);
         box.pack_start(chart, true, true, 0);
-        this.child = box;
+
+        this.add(box);
      }
 }
 
-int main (string[] args) {
-    Gtk.init();
+static int main (string[] args) {
+    Gtk.init(ref args);
 
-    var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
-    app.activate.connect (() => {
-        var view = new Example(app);
-        view.present();
-    });
+    var view = new Example();
+    view.show_all();
 
-    return app.run (args);
+    Gtk.main();
+
+    return 0;
 }

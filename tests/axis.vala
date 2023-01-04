@@ -14,6 +14,67 @@ private void register_axis() {
         assert(ratio == 2);
     });
 
+    
+    Test.add_func("/XAxis/slide_timeline = true", () => {
+        
+        //## GIVEN
+        var WIDTH = 100;
+        var HEIGHT = 100;
+        
+        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
+        Cairo.Context context = new Cairo.Context(surface);
+        
+        var config = new LiveChart.Config();
+        config.height = HEIGHT;
+        config.width = WIDTH;
+        config.y_axis.update_bounds(10);
+        config.y_axis.lines.visible = false;
+        
+        //Vertical grid: render each 20 [sec], 10[px]
+        //Abscissa part is not rendered because this is just for sliding vgrid test.
+        config.x_axis.slide_timeline = true;
+        config.x_axis.tick_interval = 20;
+        config.x_axis.tick_length = 10;
+        config.x_axis.lines.color = Gdk.RGBA(){red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f};
+        config.x_axis.lines.width = 2;
+        config.x_axis.axis.visible = false;
+        
+        //410 [sec] after 1970-01-01 00:00:00 UTC
+        config.time.current = 400 * config.time.conv_sec;
+        config.time.current += (10 * config.time.conv_sec);
+        config.padding.right = 10;
+        config.configure(context, null);
+        
+        var grid = new LiveChart.Grid();
+        
+        //## WHEN
+        grid.draw(context, config);
+        
+        //## THEN
+        
+        //The 2nd grid must be rendered in 15[px] left from the pos of right padding.
+        // -> Interval len of vgrid is 10[px],
+        // -> Interval time of vgrid is 20[sec]
+        // -> Current time(=right edge of plotting area) is 410[sec] = 20(tick_interval) * 20 + 10(surplus).
+        // -> then, in this case, gap from the right edge is here: 5[px] = 10[px] * 10[sec](surplus) / 20[sec](interval)
+        var init_x = config.width - config.padding.right - 10 - 5;
+        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        //Edge of the line tends to be blurred ? It bothers the alpha color picking test.
+        var from_y = config.padding.top + 1;
+        var to_y = config.height - config.padding.bottom - 1;
+        
+        var colors = colors_at(pixbuff, WIDTH, HEIGHT)(init_x, (int)from_y, init_x, (int)to_y);
+        foreach(var color in colors){
+            //print("r%f, g%f, b%f, a%f\n".printf(color.red, color.green, color.blue, color.alpha));
+            assert(color.red == 1.0f);
+            assert(color.green == 0.0f);
+            assert(color.blue == 0.0f);
+            assert(color.alpha == 1.0f);
+        }
+        
+    });
+    
+
     Test.add_func("/YAxis/should_not_update_ratio_when_bounds_are_not_set", () => {
         //given
         var axis = new LiveChart.YAxis();

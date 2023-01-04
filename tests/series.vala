@@ -77,4 +77,61 @@ private void register_series() {
         //then
         assert(chart.config.y_axis.get_bounds().upper == 150.0);
     });    
+    
+    Test.add_func("/LiveChart/Series/remove_serie#disconnect_serie.value_add", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var series = new LiveChart.Series(chart);
+        var serie = new LiveChart.Serie("Test 1");
+        series.register(serie);
+
+        
+        //when
+        serie.add(150.0);
+        series.remove_serie(serie);
+        serie.add(200.0);
+        
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 150.0);
+        try{
+            series.get_by_name("Test 1");
+            assert(false);
+        }
+        catch(LiveChart.ChartError e){}
+    });    
+    
+    Test.add_func("/LiveChart/Series/remove_all", () => {
+        //given
+        var chart = new LiveChart.Chart();
+        var series = new LiveChart.Series(chart);
+        var serie_a = new LiveChart.Serie("Test 1");
+        var serie_b = new LiveChart.Serie("Test 2");
+        series.register(serie_a);
+        series.register(serie_b);
+
+        
+        //when
+        serie_a.add(150.0);
+        serie_b.add(200.0);
+        
+        series.remove_all();
+        serie_b.add(200.0);
+        serie_b.add(400.0);
+        
+        //then
+        assert(chart.config.y_axis.get_bounds().upper == 200.0);
+        try{
+            series.get_by_name("Test 1");
+            assert(false);
+        }
+        catch(LiveChart.ChartError e){}
+        
+        try{
+            series.get_by_name("Test 2");
+            assert(false);
+        }
+        catch(LiveChart.ChartError e){}
+    });    
+    
+
 }

@@ -111,6 +111,17 @@ var paris_temperature = new LiveChart.Serie(serie_name);
 chart.add_serie(paris);
 ```
 
+The serie attached into chart is removable from the chart.
+```vala
+var paris_temperature = new LiveChart.Serie("Temperature in Paris");
+var msm_temperature = new LiveChart.Serie("Temperature in Mont Saint-Michel")
+chart.add_serie(paris_temperature);
+chart.add_serie(msm_temperature);
+//...
+chart.remove_serie(paris_temperature);  //Remove specified serie.
+chart.remove_all_series();              //Remove all series from the chart.
+```
+
 ### Interacting with series
 
 All methods of `Serie` class could be called before or after having been attached to the chart using `chart.add_serie` method, exepted for the `Renderer` and underlying data store.
@@ -440,6 +451,25 @@ x_axis.tick_length = 60; // 60 pixels between each ticks
 
 For example, with `tick_interval=10`  and `tick_length=60`, each second is displayed as 6 pixels on the chart.
 
+* Show fraction (*bool*, default false)
+
+Define if the timepoints on x-axis would be printed with fractional part or not.
+
+```vala
+var x_axis = config.x_axis;
+x_axis.show_fraction = true; // Shows timepoint in the format: "HH:MM:SS.xxx"
+```
+
+* Slide timeline (*bool*, default false)
+
+Define if the timeline(each of timepoints and grid line) is moving or fixed.
+If true, then each timepoints has fixed value, slides along the flow of time.
+
+```vala
+var x_axis = config.x_axis;
+x_axis.slide_timeline = true; // Slides the timeline like horizontal scrolling with the chart.
+```
+
 #### y-axis
 
 * Unit
@@ -626,9 +656,41 @@ chart.to_png(filename);
 By default, the chart is refreshed every `100ms` and very time a new data point is added.
 If it doesn't fit your needs, you can adjust the refresh rate. The lower, the smoother.
 
+(Extra)You can also control the scrolling ratio with 2nd arg (default is 1.0).
+
 ```vala  
 var chart = LiveChart.Chart();
-vhart.refresh_every(1000); // refresh every 1000ms
+chart.refresh_every(-1); // means to stop auto-refresh.
+chart.refresh_every(1000); // refresh every 1000ms
+chart.refresh_every(100, 0.0); // refresh every 100ms, and pausing
+```
+
+### Seeking on the timeline.
+
+If you want to watch the past data, then you can specify the time which you want to seek.
+Time is represented in unixtime milliseconds in default.
+
+```vala  
+var chart = LiveChart.Chart();
+var conv_usec = chart.config.time.conv_usec;
+chart.config.time.current -= 5000; // Go 5 seconds back.
+chart.config.time.current = GLib.get_real_time() / conv_usec; // Go to System's local time.
+```
+
+### Specify the range of the timeline.
+
+In default, timestamp is treated in milliseconds.
+But if you want to treat timestamp in microseconds or seconds,
+then you can call `config.time.set_range` in the first to use other the range in your app.
+
+(Warning!) If you switched to other range from "m"(milliseconds), you cannot push values with `Serie.add(double value)`.
+
+```vala
+var chart = LiveChart.Chart();
+var serie = new LiveChart.Serie("USEC VALS",  new LiveChart.Line());
+chart.config.time.set_range("u"); //"u" means microseconds. "m" means milliseconds. "s" to seconds.
+chart.add_serie(serie);
+serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_usec); //serie.add(val) is only usable in millisecs.
 ```
 
 ### Deal with your own data
@@ -661,6 +723,23 @@ chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection,
 ```
 
 Et voilà !
+
+## CAUTIONS
+
+### Removing LiveChart.Chart from Gtk.Widget
+
+Removing LiveChart.Chart from Gtk.Widget without stopping auto-refresh causes memory leak.
+
+```vala
+var window = new Gtk.Window();
+var chart = new LiveChart.Chart();
+window.add(chart);
+
+//...
+chart.refresh_every(-1);  //Don't forget to stop auto-refresh if your app replaces the LiveChart.Chart widget.
+window.remove(chart);
+
+```
 
 ## How LiveChart versions works ?
 
