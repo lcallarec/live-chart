@@ -8,7 +8,7 @@ private void register_smooth_line_area() {
         var values = new LiveChart.Values();
        
         var line = new LiveChart.SmoothLineArea(values);
-        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
         line.draw(context.ctx, create_config());
@@ -19,7 +19,7 @@ private void register_smooth_line_area() {
 
     Test.add_func("/SmoothLineArea/should_render_a_smooth_line_with_area_below", () => {
         //Given
-        var green = Gdk.RGBA() { red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
+        var green = Gdk.RGBA() { red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
 
         var context = create_context(43, 20);
 
@@ -30,7 +30,7 @@ private void register_smooth_line_area() {
        
         var line = new LiveChart.SmoothLineArea(values);
         line.line.color = green;
-        line.area_alpha = 0.5;
+        line.area_alpha = 0.5f;
 
         //When
         line.draw(context.ctx, create_config(43, 20));
@@ -41,14 +41,14 @@ private void register_smooth_line_area() {
         assert(get_color_at(context)({x: 42, y: 14}) == green);
 
         //And below the curve, color is...
-        var area_color = Gdk.RGBA() { red = 0.5, green = 1, blue = 0.5, alpha = 1 };
+        var area_color = Gdk.RGBA() { red = 0.5f, green = 1f, blue = 0.5f, alpha = 1f };
         assert(get_color_at(context)({x: 22, y: 7}).equal(area_color));
     });   
 
     Test.add_func("/SmoothLineArea/should_render_a_smooth_line_area_with_region", () => {
         //Given
-        var green = Gdk.RGBA() { red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
-        var red = Gdk.RGBA() { red = 1.0, green = 0, blue = 0.0, alpha = 1.0 };
+        var green = Gdk.RGBA() { red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
+        var red = Gdk.RGBA() { red = 1.0f, green = 0f, blue = 0.0f, alpha = 1.0f };
 
         var context = create_context(43, 20);
 
@@ -60,7 +60,7 @@ private void register_smooth_line_area() {
         var line = new LiveChart.SmoothLineArea(values);
         line.region = new LiveChart.Region.between(3, 10).with_line_color(red);
         line.line.color = green;
-        line.area_alpha = 0.5;
+        line.area_alpha = 0.5f;
 
         //When
         line.draw(context.ctx, create_config(43, 20));
@@ -71,8 +71,8 @@ private void register_smooth_line_area() {
         assert(get_color_at(context)({x: 42, y: 14}) == red);
 
         //And below the curve, color is...
-        var normal_area_color = Gdk.RGBA() { red = 0.5, green = 1, blue = 0.5, alpha = 1 };
-        var within_region_area_color = Gdk.RGBA() { red = 1, green = 0.5, blue = 0.5, alpha = 1 };
+        var normal_area_color = Gdk.RGBA() { red = 0.5f, green = 1f, blue = 0.5f, alpha = 1f };
+        var within_region_area_color = Gdk.RGBA() { red = 1f, green = 0.5f, blue = 0.5f, alpha = 1f };
 
         assert(get_color_at(context)({x: 0, y: 18}).equal(within_region_area_color));
         assert(get_color_at(context)({x: 22, y: 18}).equal(normal_area_color));

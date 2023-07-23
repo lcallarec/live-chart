@@ -40,10 +40,10 @@ private void register_chart() {
         //given
         var window = new Gtk.Window();
         var chart = new LiveChart.Chart();
-        window.add(chart);
-        window.show();
-        window.resize(50, 50);
-        chart.show_all();
+        window.child = chart;
+        window.default_width = 50;
+        window.default_height = 50;
+        window.present();
  
         //when
         try {
@@ -182,10 +182,10 @@ private void register_chart() {
         //when
         //then
         Timeout.add(1000, () => {
-            Gtk.main_quit();
+            //FIXME: Gtk.main_quit();
             return false;
         });
-        Gtk.main();
+        //FIXME: Gtk.main();
     });
 
         Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprected", () => {
@@ -193,7 +193,7 @@ private void register_chart() {
         var chart = new LiveChart.Chart();
 
         //when
-        chart.background.main_color = {1, 1, 1, 1};
+        chart.background.main_color = { 1f, 1f, 1f, 1f };
        
         //then
         //ok
@@ -206,21 +206,22 @@ private void register_chart() {
         var window = new Gtk.Window();
         var serie = new LiveChart.Serie("TEST");
         bool result = false;
-        window.resize(50, 50);
-        window.show();
+        window.width_request = 50;
+        window.height_request = 50;
+        window.present();
         
         //when
         VoidTestDelegate proc = () => {
             var chart = new LiveChart.Chart();
-            window.add(chart);
+            window.child = chart;
             chart.add_serie(serie);
-            chart.show_all();
+            chart.visible = true;
             chart.destroy.connect(() => {
                 print("Chart.destroy\n");
                 result = true;
             });
             chart.refresh_every(-1);
-            window.remove(chart);
+            window.child = null;
         };
         proc();
         assert(result == true);

@@ -9,6 +9,7 @@ namespace LiveChart {
     }
 
     public class Chart : Gtk.DrawingArea {
+        private Cairo.Context? m_context = null;
 
         public Grid grid { get; set; default = new Grid(); }
         public Background background { get; set; default = new Background(); } 
@@ -22,12 +23,12 @@ namespace LiveChart {
         private int64 prev_time;
         public Chart(Config config = new Config()) {
             this.config = config;
-            this.size_allocate.connect((allocation) => {
-                this.config.height = allocation.height;
-                this.config.width = allocation.width;
+            this.resize.connect((width, height) => {
+                this.config.height = height;
+                this.config.width = width;
             });
 
-            this.draw.connect(render);
+            this.set_draw_func(render);
             
             this.refresh_every(100);
 
@@ -87,14 +88,10 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
-            var window = this.get_window();
-            if (window == null) {
-                throw new ChartError.EXPORT_ERROR("Chart is not realized yet");
-            }
-            var pixbuff = Gdk.pixbuf_get_from_window(window, 0, 0, window.get_width(), window.get_height());
-            if (pixbuff != null) {
-                pixbuff.save(filename, "png");
-            }
+            GLib.return_if_fail(null != m_context);
+
+            var surface = m_context.get_target();
+            surface.write_to_png(filename);
         }
 
         public void refresh_every(int ms, double play_ratio = 1.0) {
@@ -117,8 +114,8 @@ namespace LiveChart {
             }
         }
 
-        private bool render(Gtk.Widget _, Context ctx) {
-            
+        private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {
+            m_context = ctx;
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);
@@ -131,8 +128,6 @@ namespace LiveChart {
                 ctx.clip();
                 serie.draw(ctx, this.config);
             }
-
-            return true;
         }
     }
 }

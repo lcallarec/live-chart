@@ -14,9 +14,8 @@ namespace LiveChart {
     public delegate Coord? GetIntersection(double at_value);
 
     public class Region {
-        
-        public Gdk.RGBA line_color { get; set; default = Gdk.RGBA () { red = 1, green = 1, blue = 1, alpha = 1 }; }
-        public Gdk.RGBA area_color { get; set; default = Gdk.RGBA () { red = 1, green = 1, blue = 1, alpha = 0.5 }; }
+        public Gdk.RGBA line_color { get; set; default = Gdk.RGBA () { red = 1f, green = 1f, blue = 1f, alpha = 1f }; }
+        public Gdk.RGBA area_color { get; set; default = Gdk.RGBA () { red = 1f, green = 1f, blue = 1f, alpha = 0.5f }; }
 
         private double floor;
         private double ceil;

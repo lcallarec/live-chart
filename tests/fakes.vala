@@ -1,6 +1,6 @@
 const int SURFACE_WIDTH = 10;
 const int SURFACE_HEIGHT = 10;
-const Gdk.RGBA DEFAULT_BACKGROUND_COLOR = {1.0, 1.0, 1.0, 1.0};
+const Gdk.RGBA DEFAULT_BACKGROUND_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
 const double EPSILON = 0.00000001f;
 
 class TestContext : Object {
@@ -31,7 +31,7 @@ LiveChart.Config create_config(int? width = null, int? height = null) {
     var config = new LiveChart.Config();
     config.width = width != null ? width : SURFACE_WIDTH;
     config.height = height != null ? height : SURFACE_HEIGHT;
-    config.padding = { 0, 0, 0, 0};
+    config.padding = { 0, 0, 0, 0 };
 
     return config;
 }
@@ -154,7 +154,7 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
                 var g = data[pos + 1];
                 var b = data[pos + 2];
                 var alpha = data[pos + 3];
-                colors.add({red: (double) r/255, green: (double) g/255, blue: (double) b/255, alpha: (double) alpha/255});
+                colors.add({red: (float) r/255, green: (float) g/255, blue: (float) b/255, alpha: (float) alpha/255});
             }
         }
         return colors;
@@ -162,11 +162,11 @@ ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
 }
 
 private Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
-    return flat({ (double) red / 255, (double) green / 255, (double) blue / 255.0, (double) alpha / 255 });
+    return flat({ (float) red / 255f, (float) green / 255f, (float) blue / 255.0f, (float) alpha / 255f });
 }
 
 private Gdk.RGBA flat(Gdk.RGBA color) {
-    return { Math.ceil(color.red * 100) / 100, Math.ceil(color.green * 100) / 100, Math.ceil(color.blue * 100) / 100, 1};
+    return { (float)Math.ceil(color.red * 100) / 100f, (float)Math.ceil(color.green * 100) / 100f, (float)Math.ceil(color.blue * 100) / 100f, 1f};
 }
 
 public class PointBuilder {

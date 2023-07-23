@@ -9,8 +9,8 @@ private void register_line_area() {
         values.add({timestamp: (GLib.get_real_time() / 1000), value: 5.5});
 
         var line = new LiveChart.LineArea(values);
-        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
-        line.area_alpha = 0.5;
+        line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
+        line.area_alpha = 0.5f;
 
         //When
         line.draw(context.ctx, create_config());
@@ -22,12 +22,12 @@ private void register_line_area() {
         has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 2);
         has_only_one_color_at_row(context)(DEFAULT_BACKGROUND_COLOR, 3);
         //Line
-        has_only_one_color_at_row(context)({1, 0, 0, 1}, 4);
+        has_only_one_color_at_row(context)({ 1f, 0f, 0f, 1f }, 4);
         //Area
-        has_only_one_color_at_row(context)({ 1, 1, 1, 0.5}, 0);
-        has_only_one_color_at_row(context)({ 1, 1, 1, 0.5}, 1);
-        has_only_one_color_at_row(context)({ 1, 1, 1, 0.5}, 2);
-        has_only_one_color_at_row(context)({ 1, 1, 1, 0.5}, 3);
+        has_only_one_color_at_row(context)({ 1f, 1f, 1f, 0.5f }, 0);
+        has_only_one_color_at_row(context)({ 1f, 1f, 1f, 0.5f }, 1);
+        has_only_one_color_at_row(context)({ 1f, 1f, 1f, 0.5f }, 2);
+        has_only_one_color_at_row(context)({ 1f, 1f, 1f, 0.5f }, 3);
     });
 
     Test.add_func("/LineArea/should_not_render_anything_if_no_values", () => {
@@ -37,7 +37,7 @@ private void register_line_area() {
         var values = new LiveChart.Values();
        
         var line = new LiveChart.LineArea(values);
-        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
         line.draw(context.ctx, create_config());
@@ -52,7 +52,7 @@ private void register_line_area() {
         var HEIGHT = 100;
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, {0, 0, 0, 1}, WIDTH, HEIGHT);
+        cairo_background(context, { 0f, 0f, 0f, 1f }, WIDTH, HEIGHT);
 
         var values = new LiveChart.Values();
         values.add({timestamp: (GLib.get_real_time() / 1000), value: 0});
@@ -63,8 +63,8 @@ private void register_line_area() {
 
         var area = new LiveChart.LineArea(values);
           
-        area.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 0.5 };
-        area.area_alpha = 0.5;
+        area.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 0.5f };
+        area.area_alpha = 0.5f;
 
         //When
         area.draw(context, create_config(WIDTH, HEIGHT));

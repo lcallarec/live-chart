@@ -14,10 +14,10 @@ namespace LiveChart {
         public bool visible { get; set; default = true; }
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
-                red = 0.4,
-                green = 0.4,
-                blue = 0.4,
-                alpha = 1.0
+                red = 0.4f,
+                green = 0.4f,
+                blue = 0.4f,
+                alpha = 1.0f
             };
         }
 

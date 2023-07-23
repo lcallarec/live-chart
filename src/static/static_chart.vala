@@ -4,6 +4,7 @@ using LiveChart;
 namespace LiveChart.Static {
 
      public class StaticChart : Gtk.DrawingArea {
+        private Cairo.Context? m_context = null;
 
         public StaticGrid grid { get; set; default = new StaticGrid(); }
         public Background background { get; set; default = new Background(); } 
@@ -15,12 +16,12 @@ namespace LiveChart.Static {
 
         public StaticChart(Config config = new Config()) {
             this.config = config;
-            this.size_allocate.connect((allocation) => {
-                this.config.height = allocation.height;
-                this.config.width = allocation.width;
+            this.resize.connect((width, height) => {
+                this.config.height = height;
+                this.config.width = width;
             });
 
-            this.draw.connect(render);
+            this.set_draw_func(render);
             
             series = new StaticSeries(this);
         }
@@ -35,8 +36,15 @@ namespace LiveChart.Static {
             
         }
 
-        private bool render(Gtk.Widget _, Context ctx) {
-            
+        public void to_png(string filename) throws Error {
+            GLib.return_if_fail(null != m_context);
+
+            var surface = m_context.get_target();
+            surface.write_to_png(filename);
+        }
+
+        private void render(Gtk.Widget drawing_area, Context ctx, int width, int height) {
+            m_context = ctx;
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);
@@ -49,8 +57,6 @@ namespace LiveChart.Static {
                 ctx.clip();
                 serie.draw(ctx, this.config);
             }
-            
-            return true;
         }
     }
 }

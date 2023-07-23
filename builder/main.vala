@@ -5,7 +5,7 @@ public class LiveChart.Builder.App : Gtk.Window {
         this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
-        var container = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+        var container = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5);
 
         var conf_container = new ConfigurationWidget();
 
@@ -16,8 +16,8 @@ public class LiveChart.Builder.App : Gtk.Window {
 
         var chart = new Gtk.Label("Chart  here");//new LiveChart.Chart();
 
-        container.pack_start(conf_container, true, true, 5);
-        container.pack_start(chart, true, true, 5);
+        container.append(conf_container);
+        container.append(chart);
 
         this.add(container);
     }
@@ -27,7 +27,7 @@ static int main (string[] args) {
     Gtk.init(ref args);
 
     var view = new LiveChart.Builder.App();
-    view.show_all();
+    view.present();
 
     Gtk.main();
 

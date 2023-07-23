@@ -5,7 +5,7 @@ private void register_bar() {
         var HEIGHT = 10;
         var context = create_context(WIDTH, HEIGHT);
 
-        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        var red = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         var now = GLib.get_real_time() / 1000;
         var values = new LiveChart.Values();
@@ -36,7 +36,7 @@ private void register_bar() {
 
         var values = new LiveChart.Values();
        
-        var red = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        var red = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
         var bar = new LiveChart.Bar(values);
         bar.line.color = red;
 

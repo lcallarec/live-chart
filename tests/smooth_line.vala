@@ -6,7 +6,7 @@ private void register_smooth_line() {
         var values = new LiveChart.Values();
        
         var line = new LiveChart.SmoothLine(values);
-        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
         line.draw(context.ctx, create_config());
@@ -17,7 +17,7 @@ private void register_smooth_line() {
 
     Test.add_func("/SmoothLine/should_render_smooth_line", () => {
         //Given
-        var green = Gdk.RGBA() { red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
+        var green = Gdk.RGBA() { red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
 
         var context = create_context(43, 20);
 
@@ -43,8 +43,8 @@ private void register_smooth_line() {
 
     Test.add_func("/SmoothLine/should_render_smooth_line_with_region", () => {
         //Given
-        var red = Gdk.RGBA() { red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
-        var green = Gdk.RGBA() { red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
+        var red = Gdk.RGBA() { red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
+        var green = Gdk.RGBA() { red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
 
         var context = create_context(43, 20);
 

@@ -5,30 +5,31 @@ private class DestructChart: LiveChart.Chart {
 }
 
 public class Example : Gtk.Window {
-        
-    public Example() {
+    public Example(Gtk.Application app) {
+        Object (application: app);
+
         this.title = "Live Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
+        // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var smooth_line_area = new LiveChart.SmoothLineArea();
 
         var region = new LiveChart.Region
             .between (0, 200)
-            .with_line_color({ 1.0, 0.5, 0.0, 1.0} )
-            .with_area_color({ 1.0, 0.5, 0.0, 0.5} );
+            .with_line_color({ 1.0f, 0.5f, 0.0f, 1.0f } )
+            .with_area_color({ 1.0f, 0.5f, 0.0f, 0.5f } );
 
         smooth_line_area.region = region;
 
         var heat = new LiveChart.Serie("HEAT", smooth_line_area);
         
-        heat.line.color = { 0.3, 0.8, 0.1, 1.0};
+        heat.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.line.color = { 0.1, 0.8, 0.7, 1.0};
+        heap.line.color = { 0.1f, 0.8f, 0.7f, 1.0f };
 
         var chart = new DestructChart();
         
@@ -71,10 +72,10 @@ public class Example : Gtk.Window {
             return true;
         });
         
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(chart, true, true, 0);
+        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+        box.append(chart);
 
-        this.add(box);
+        this.child = box;
         
         var replace_chart = new Gtk.Button.with_label("replace chart");
         replace_chart.clicked.connect(() => {
@@ -92,21 +93,22 @@ public class Example : Gtk.Window {
             chart.destroy.connect(() => {
                 print("chart.destroy\n");
             });
-            box.pack_start(chart, true, true, 0);
-            chart.show_all();
+            box.append(chart);
+            chart.visible = true;
         });
-        box.pack_start(replace_chart, false, false, 5);
+        box.append(replace_chart);
 
      }
 }
 
-static int main (string[] args) {
-    Gtk.init(ref args);
+int main (string[] args) {
+    Gtk.init();
 
-    var view = new Example();
-    view.show_all();
+    var app = new Gtk.Application ("com.github.replace-chart", GLib.ApplicationFlags.FLAGS_NONE);
+    app.activate.connect (() => {
+        var view = new Example(app);
+        view.present();
+    });
 
-    Gtk.main();
-
-    return 0;
+    return app.run (args);
 }

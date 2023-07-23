@@ -3,14 +3,14 @@ private void register_min_bound_line() {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, { 0, 0, 0, 1}, SURFACE_WIDTH, SURFACE_HEIGHT);
+        cairo_background(context, { 0f, 0f, 0f, 1f }, SURFACE_WIDTH, SURFACE_HEIGHT);
 
 
         var chart = new LiveChart.Chart();
         chart.config = create_config();
-        chart.series.register(new LiveChart.Serie("S1")).line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
-        chart.series.register(new LiveChart.Serie("S2")).line.color = Gdk.RGBA() {red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
-        chart.series.register(new LiveChart.Serie("MIN", new LiveChart.MinBoundLine())).line.color = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 1.0, alpha = 1.0 };;
+        chart.series.register(new LiveChart.Serie("S1")).line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
+        chart.series.register(new LiveChart.Serie("S2")).line.color = Gdk.RGBA() {red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
+        chart.series.register(new LiveChart.Serie("MIN", new LiveChart.MinBoundLine())).line.color = Gdk.RGBA() {red = 0.0f, green = 0.0f, blue = 1.0f, alpha = 1.0f };;
         
         //When
         try {
@@ -54,15 +54,15 @@ private void register_min_bound_line() {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, { 0, 0, 0, 1}, SURFACE_WIDTH, SURFACE_HEIGHT);
+        cairo_background(context, { 0f, 0f, 0f, 1f }, SURFACE_WIDTH, SURFACE_HEIGHT);
 
         var chart = new LiveChart.Chart();
         chart.config = create_config();
 
         try {
-            chart.series.register(new LiveChart.Serie("S1")).line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
-            chart.series.register(new LiveChart.Serie("S2")).line.color = Gdk.RGBA() {red = 0.0, green = 1.0, blue = 0.0, alpha = 1.0 };
-            chart.series.register(new LiveChart.Serie("MIN OF S2", new LiveChart.MinBoundLine.from_serie(chart.series.get_by_name("S2")))).line.color = Gdk.RGBA() {red = 0.0, green = 0.0, blue = 1.0, alpha = 1.0 };;
+            chart.series.register(new LiveChart.Serie("S1")).line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
+            chart.series.register(new LiveChart.Serie("S2")).line.color = Gdk.RGBA() {red = 0.0f, green = 1.0f, blue = 0.0f, alpha = 1.0f };
+            chart.series.register(new LiveChart.Serie("MIN OF S2", new LiveChart.MinBoundLine.from_serie(chart.series.get_by_name("S2")))).line.color = Gdk.RGBA() {red = 0.0f, green = 0.0f, blue = 1.0f, alpha = 1.0f };;
             
             //When
      

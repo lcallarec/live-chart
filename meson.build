@@ -3,7 +3,7 @@ project('live-chart', ['vala', 'c'], version: '1.9.1')
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required: true)
 
-gtk = dependency('gtk+-3.0', version: '>= 3.22')
+gtk = dependency('gtk4', version: '>= 4.0')
 gee = dependency('gee-0.8')
 
 vala_args = ['--target-glib=2.50']

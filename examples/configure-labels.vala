@@ -1,15 +1,16 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
+public class Example : Gtk.ApplicationWindow {    
+    public Example(Gtk.Application app) {
+        Object (application: app);
+
         this.title = "LiveChart Demo";
-        this.destroy.connect(Gtk.main_quit);
+        // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
-        heap.line.color = { 0.3, 0.8, 0.1, 1.0};
+        heap.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
         rss.line.dash = LiveChart.Dash() { dashes = {5} };
         rss.line.width = 4;
 
@@ -20,18 +21,19 @@ public class Example : Gtk.Window {
         config.x_axis.lines.visible = false;
 
         config.x_axis.labels.font.size = 8;
-        config.x_axis.labels.font.color = {0, 1, 1, 1};
+        config.x_axis.labels.font.color = { 0f, 1f, 1f, 1f };
         config.x_axis.labels.font.weight = Cairo.FontWeight.BOLD;
 
         config.y_axis.labels.font.size = 15;
-        config.y_axis.labels.font.color = {1, 0, 1, 0.8};
+        config.y_axis.labels.font.color = { 1f, 0f, 1f, 0.8f };
         config.y_axis.labels.font.weight = Cairo.FontWeight.NORMAL;
         config.y_axis.labels.font.slant = Cairo.FontSlant.ITALIC;
 
         var chart = new LiveChart.Chart(config);
-
+        chart.vexpand = true;
+        chart.vexpand = true;
         chart.legend.labels.font.size = 14;
-        chart.legend.labels.font.color = {1, 1, 0, 1};
+        chart.legend.labels.font.color = { 1f, 1f, 0f, 1f };
         chart.legend.labels.font.weight = Cairo.FontWeight.BOLD;
 
 
@@ -62,7 +64,7 @@ public class Example : Gtk.Window {
         var export_button = new Gtk.Button.with_label("Export to PNG");
 		export_button.clicked.connect (() => {
             try {
-                chart.to_png("export.png");
+                chart.to_png("export-labels.png");
             } catch (Error e) {
                 GLib.error(e.message);
             }
@@ -70,21 +72,22 @@ public class Example : Gtk.Window {
         });
         
         Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(export_button, false, false, 5);
-        box.pack_start(chart, true, true, 0);
+        box.append(export_button);
+        box.append(chart);
 
-        this.add(box);
+        this.child = box;
 
      }
 }
 
 static int main (string[] args) {
-    Gtk.init(ref args);
+    Gtk.init();
 
-    var view = new Example();
-    view.show_all();
+    var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
+    app.activate.connect (() => {
+        var view = new Example(app);
+        view.present();
+    });
 
-    Gtk.main();
-
-    return 0;
+    return app.run (args);
 }

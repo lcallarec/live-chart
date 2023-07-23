@@ -1,28 +1,29 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
+public class Example : Gtk.ApplicationWindow {    
+    public Example(Gtk.Application app) {
+        Object (application: app);
+
         this.title = "Live Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
+        // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var smooth_line_area = new LiveChart.SmoothLineArea();
 
         var region = new LiveChart.Region
             .between (0, 200)
-            .with_line_color({ 1.0, 0.5, 0.0, 1.0} )
-            .with_area_color({ 1.0, 0.5, 0.0, 0.5} );
+            .with_line_color({ 1.0f, 0.5f, 0.0f, 1.0f } )
+            .with_area_color({ 1.0f, 0.5f, 0.0f, 0.5f } );
 
         smooth_line_area.region = region;
 
         var heat = new LiveChart.Serie("HEAT", smooth_line_area);
         
-        heat.line.color = { 0.3, 0.8, 0.1, 1.0};
+        heat.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
         
         var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
-        rss.line.color = { 0.8, 0.1, 0.1, 1.0};
+        rss.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
 
         var heap = new LiveChart.Serie("HEAP", new LiveChart.Bar());
-        heap.line.color = { 0.1, 0.8, 0.7, 1.0};
+        heap.line.color = { 0.1f, 0.8f, 0.7f, 1.0f };
 
         var config = new LiveChart.Config();
         config.y_axis.unit = "MB";
@@ -32,6 +33,8 @@ public class Example : Gtk.Window {
         config.x_axis.show_fraction = false;
 
         var chart = new LiveChart.Chart(config);
+        chart.vexpand = true;
+        chart.vexpand = true;
 
         chart.add_serie(heat);
         chart.add_serie(heap);
@@ -97,24 +100,24 @@ public class Example : Gtk.Window {
             chart.refresh_every(100, pausing ? 0.0 : 1.0);
         });
         
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(export_button, false, false, 5);
-        box.pack_start(seek_forward, false, false, 5);
-        box.pack_start(seek_backward, false, false, 5);
-        box.pack_start(pause_btn, false, false, 5);
-        box.pack_start(chart, true, true, 0);
-
-        this.add(box);
+        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+        box.append(export_button);
+        box.append(seek_forward);
+        box.append(seek_backward);
+        box.append(pause_btn);
+        box.append(chart);
+        this.child = box;
      }
 }
 
-static int main (string[] args) {
-    Gtk.init(ref args);
+int main (string[] args) {
+    Gtk.init();
 
-    var view = new Example();
-    view.show_all();
+    var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
+    app.activate.connect (() => {
+        var view = new Example(app);
+        view.present();
+    });
 
-    Gtk.main();
-
-    return 0;
+    return app.run (args);
 }

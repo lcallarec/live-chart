@@ -1,12 +1,13 @@
-public class Example : Gtk.Window {
-        
-    public Example() {
+public class Example : Gtk.ApplicationWindow {    
+    public Example(Gtk.Application app) {
+        Object (application: app);
+
         this.title = "Live Chart Demo";
-        this.destroy.connect(Gtk.main_quit);
+        // this.destroy.connect(Gtk.main_quit);
         this.set_default_size(800, 350);
 
         var cpu = new LiveChart.Serie("CPU 1 usage", new LiveChart.SmoothLineArea());
-        cpu.line.color = { 1, 0.8, 0.1, 1.0};
+        cpu.line.color = { 1f, 0.8f, 0.1f, 1.0f };
 
         var config = new LiveChart.Config();
         config.padding = LiveChart.Padding() { smart = LiveChart.AutoPadding.NONE, top = 0, right = 0, bottom = 0, left = 0};
@@ -15,7 +16,7 @@ public class Example : Gtk.Window {
         chart.legend.visible = false;
         chart.grid.visible = false;
 
-        this.add(chart);
+        this.child = chart;
 
         chart.add_serie(cpu);
          
@@ -40,12 +41,13 @@ public class Example : Gtk.Window {
 }
 
 static int main (string[] args) {
-    Gtk.init(ref args);
+    Gtk.init();
 
-    var view = new Example();
-    view.show_all();
+    var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
+    app.activate.connect (() => {
+        var view = new Example(app);
+        view.present();
+    });
 
-    Gtk.main();
-
-    return 0;
+    return app.run (args);
 }

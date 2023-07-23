@@ -3,11 +3,11 @@ private void register_threshold_line() {
         //Given
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, { 0, 0, 0, 1}, SURFACE_WIDTH, SURFACE_HEIGHT);
+        cairo_background(context, { 0f, 0f, 0f, 1f }, SURFACE_WIDTH, SURFACE_HEIGHT);
 
 
         var line = new LiveChart.ThresholdLine(7.5);
-        line.line.color = Gdk.RGBA() {red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0 };
+        line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
         line.draw(context, create_config());

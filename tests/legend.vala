@@ -5,7 +5,7 @@ private void register_legend() {
         var HEIGHT = 50;
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
+        cairo_background(context, { 0.0f, 0.0f, 0.0f, 1.0f }, WIDTH, HEIGHT);
 
         var legend = new LiveChart.HorizontalLegend();
         var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());;
@@ -48,7 +48,7 @@ private void register_legend() {
         var HEIGHT = 50;
         Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
         Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, {0.0, 0.0, 0.0, 1.0 }, WIDTH, HEIGHT);
+        cairo_background(context, { 0.0f, 0.0f, 0.0f, 1.0f }, WIDTH, HEIGHT);
 
         var legend = new LiveChart.HorizontalLegend();
         var serie = new LiveChart.Serie("TEST",  new LiveChart.Line());;
