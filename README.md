@@ -62,7 +62,7 @@ ninja -C build
 | dependency | 
 |---------|
 | libgee-0.8-dev   |
-| libgtk-3-dev  |
+| libgtk-4-dev  |
 
 ## API
 
@@ -672,7 +672,7 @@ Time is represented in unixtime milliseconds in default.
 
 ```vala  
 var chart = LiveChart.Chart();
-var conv_usec = chart.config.time.conv_usec;
+var conv_usec = chart.config.time.conv_us;
 chart.config.time.current -= 5000; // Go 5 seconds back.
 chart.config.time.current = GLib.get_real_time() / conv_usec; // Go to System's local time.
 ```
@@ -690,7 +690,7 @@ var chart = LiveChart.Chart();
 var serie = new LiveChart.Serie("USEC VALS",  new LiveChart.Line());
 chart.config.time.set_range("u"); //"u" means microseconds. "m" means milliseconds. "s" to seconds.
 chart.add_serie(serie);
-serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_usec); //serie.add(val) is only usable in millisecs.
+serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_us); //serie.add(val) is only usable in millisecs.
 ```
 
 ### Deal with your own data
