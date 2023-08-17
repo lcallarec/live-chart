@@ -62,7 +62,7 @@ ninja -C build
 | dependency | 
 |---------|
 | libgee-0.8-dev   |
-| libgtk-3-dev  |
+| libgtk-4-dev  |
 
 ## API
 
@@ -169,7 +169,7 @@ serie.line.dash = Dash() {dashes = {1}, offset = 2};
 serie.line.visibility = false;//or true
 ```
 
-About color : [`Gdk.RGBA`](https://valadoc.org/gdk-3.0/Gdk.RGBA.html) struct.
+About color : [`Gdk.RGBA`](https://valadoc.org/gtk4/Gdk.RGBA.html) struct.
 Dashes : please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
 
 For series with area, this impact only the outline, not the area itself.
@@ -237,7 +237,7 @@ For area renderers, you can control the area color via the `area_alpha: double` 
 
 ```vala
 var smooth_line = LiveChart.SmoothLineArea();
-smooth_line.color = Gdk.RGBA() {red = 0, green = 0, blue = 1, alpha = 1};
+smooth_line.color = Gdk.RGBA() {red = 0.0f, green = 0.0f, blue = 1.0f, alpha = 1.0f};
 smooth_line.area_alpha = 0.5;
 ```
 
@@ -360,7 +360,7 @@ var axis;
 axis = config.x_axis;
 //or
 axis = config.y_axis;
-axis.lines.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 0.2}; //Light grey
+axis.lines.color = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 0.2f}; //Light grey
 ```
 
 * Line width
@@ -420,9 +420,9 @@ axis_config = config.x_axis.axis;
 //or
 axis_config = config.y_axis.axis;
 
-axis_config.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 0.2}; //Light grey
-axis_config.lines.width = 1.0;
-axis_config.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
+axis_config.color = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 0.2f}; //Light grey
+axis_config.width = 1.0;
+axis_config.dash = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
 axis_config.visible = false;
 ```
 
@@ -570,7 +570,7 @@ Chart has a default colored background that can be changed via the `Background.c
 
 ```vala
 var chart = new LiveChart.Chart();
-chart.background.color = Gdk.RGBA() {red = 1, green = 1, blue = 1, alpha = 1}; //White background
+chart.background.color = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f}; //White background
 ```
 
 ## Legend
@@ -672,7 +672,7 @@ Time is represented in unixtime milliseconds in default.
 
 ```vala  
 var chart = LiveChart.Chart();
-var conv_usec = chart.config.time.conv_usec;
+var conv_usec = chart.config.time.conv_us;
 chart.config.time.current -= 5000; // Go 5 seconds back.
 chart.config.time.current = GLib.get_real_time() / conv_usec; // Go to System's local time.
 ```
@@ -690,7 +690,7 @@ var chart = LiveChart.Chart();
 var serie = new LiveChart.Serie("USEC VALS",  new LiveChart.Line());
 chart.config.time.set_range("u"); //"u" means microseconds. "m" means milliseconds. "s" to seconds.
 chart.add_serie(serie);
-serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_usec); //serie.add(val) is only usable in millisecs.
+serie.add_with_timestamp(100.0, GLib.get_real_time() / chart.config.time.conv_us); //serie.add(val) is only usable in millisecs.
 ```
 
 ### Deal with your own data
@@ -746,7 +746,7 @@ window.remove(chart);
 * For each new feature, the `minor` version number will be bumped
 * For each bug fix, small improvement or documentation update, the `patch` version number will be bumped
 
-We'll do our best to never break the API on `minor` and `patch` updates. If we do it, it's not intentionnal so don't hesitate to open an issue !
+We'll do our best to never break the API on `minor` and `patch` updates. If we do it, it's not intentional so don't hesitate to open an issue !
 
 Some classes, structs, methods, attributes or property will be marked as `Deprecated`, please check the compiler warnings about them. All the stuff marked as `Deprecated` will be removed from Livechart `2.0.0`, one day...
 
