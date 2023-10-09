@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/release/lcallarec/live-chart.svg)](https://github.com/lcallarec/live-chart/releases)
 [![License](https://img.shields.io/github/license/lcallarec/live-chart)](https://github.com/lcallarec/live-chart/blob/master/LICENSE)
 
-#### Live Chart is a real-time charting library for GTK3 and Vala, based on [Cairo](https://cairographics.org/).
+#### Live Chart is a real-time charting library for GTK4 and Vala, based on [Cairo](https://cairographics.org/).
 
 ## Features
 
