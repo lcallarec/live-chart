@@ -25,12 +25,13 @@
 - [API](#api)
 - [Chart widget](#chart-widget)
 - [Series](#series)
-- [Serie renderer](#serie-renderers)
+- [Serie renderers](#serie-renderers)
 - [Chart configuration](#chart-configuration)
 - [Background](#background)
 - [Legend](#legend)
 - [Chart element visibility](#chart-element-visibility)
 - [Advanced usages](#advanced-usages)
+- [CAUTIONS](#cautions)
 - [How Livechart versions works ?](#how-livechart-versions-works)
 
     *N.B.: Classes and methods available in the source code and not documented here - even if they are public - are subject to change without warning in any future release*
@@ -76,7 +77,7 @@ ninja -C build
 var chart = LiveChart.Chart();
 ```
 
-As `Chart` object derives from `Gtk.DrawingArea`, you can directly attach it to any `Gtk.Container` :
+As `Chart` object derives from `Gtk.DrawingArea`, you can directly attach it to any container widgets :
 
 ```vala
 var window = new Gtk.Window();
@@ -135,7 +136,7 @@ Accessing a serie can be done via :
 
 Please note that your `Serie` must have been registered to the `Chart` before being able to add data points to this serie.
 
-Adding a point / value to a serie using [serie.add]((https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html) method automatically compute a timestamp stored in underlying value container.
+Adding a point / value to a serie using [serie.add](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add.html) method automatically compute a timestamp stored in underlying value container.
 If you need to manually compute a timestamp, in milliseconds, use [serie.add_with_timestamp(double value, int64 timestamp)](https://lcallarec.github.io/live-chart/Livechart/LiveChart.Serie.add_with_timestamp.html)
 
 ```vala
@@ -169,7 +170,7 @@ serie.line.dash = Dash() {dashes = {1}, offset = 2};
 serie.line.visibility = false;//or true
 ```
 
-About color : [`Gdk.RGBA`](https://valadoc.org/gtk4/Gdk.RGBA.html) struct.
+About color : [`Gdk.RGBA`](https://valadoc.org/gtk4/Gdk.RGBA.html) struct.  
 Dashes : please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
 
 For series with area, this impact only the outline, not the area itself.
