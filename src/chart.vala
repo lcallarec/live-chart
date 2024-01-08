@@ -90,7 +90,9 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
-            GLib.return_if_fail(null != cairo_context);
+            if (cairo_context == null) {
+                throw new ChartError.EXPORT_ERROR("No cairo context available for export");
+            }
 
             var surface = cairo_context.get_target();
             surface.write_to_png(filename);

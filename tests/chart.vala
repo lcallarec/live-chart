@@ -61,12 +61,12 @@ private void register_chart() {
         var chart = new LiveChart.Chart();
 
         //when //then
-        //  try {
-        //      chart.to_png("export.png");
-        //      assert_not_reached();
-        //  } catch (Error e) {
-        //      assert(e is LiveChart.ChartError.EXPORT_ERROR);
-        //  }
+        try {
+              chart.to_png("export.png");
+              assert_not_reached();
+        } catch (Error e) {
+              assert(e is LiveChart.ChartError.EXPORT_ERROR);
+        }
     });
 
     Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection", () => {
@@ -187,7 +187,7 @@ private void register_chart() {
         //FIXME: Gtk.main();
     });
 
-        Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprected", () => {
+    Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprecated", () => {
         //given
         var chart = new LiveChart.Chart();
 
