@@ -3,27 +3,27 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Python
-        uses: actions/setup-python@v1
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-      - uses: actions/checkout@v2
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install valac libgee-0.8-dev libgtk-4-dev libcairo-dev xvfb at-spi2-core
-          pip install meson
-          pip install ninja
-      - name: Build
-        run: |
-          meson build -Ddebug=true -Db_coverage=true
-          ninja -C build
-      - name: Run tests
-        run:  |
-          meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1" || [[ -f /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt ]] && cat /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt && exit 1
-      - name: Send coverage report
-        run: bash <(curl -s https://codecov.io/bash)        
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up Python
+              uses: actions/setup-python@v1
+            - name: Install Python dependencies
+              run: |
+                  python -m pip install --upgrade pip
+            - uses: actions/checkout@v2
+            - name: Install deps
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install valac libgee-0.8-dev libgtk-4-dev libcairo-dev xvfb at-spi2-core
+                  pip install meson
+                  pip install ninja
+            - name: Build
+              run: |
+                  meson build -Ddebug=true -Db_coverage=true
+                  ninja -C build
+            - name: Run tests
+              run: |
+                  meson test -C build --wrapper="xvfb-run --auto-servernum --server-num=1" || ([[ -f /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt ]] && cat /home/runner/work/live-chart/live-chart/build/meson-logs/testlog-xvfb-run.txt && exit 1)
+            - name: Send coverage report
+              run: bash <(curl -s https://codecov.io/bash)
