@@ -86,7 +86,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 1);
     });
 
-    Test.add_func("/YAxis/should_not_update_ratio_when_threshold_is_1_even_if_boubds_are_set", () => {
+    Test.add_func("/YAxis/should_not_update_ratio_when_threshold_is_1_even_if_bounds_are_set", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.update_bounds(10.0);
@@ -99,7 +99,7 @@ private void register_axis() {
         assert(axis.get_ratio() == 10);
     });
 
-    Test.add_func("/YAxis/should_update_ratio_when_boubds_are_updated", () => {
+    Test.add_func("/YAxis/should_update_ratio_when_bounds_are_updated", () => {
         //given
         var axis = new LiveChart.YAxis();
         axis.ratio_threshold = 1f;
