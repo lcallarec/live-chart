@@ -23,6 +23,7 @@ namespace LiveChart {
         private double play_ratio = 1.0;
         
         private int64 prev_time;
+
         public Chart(Config config = new Config()) {
             this.config = config;
             this.resize.connect((width, height) => {
@@ -34,7 +35,8 @@ namespace LiveChart {
             
             this.refresh_every(this.refresh_rate);
 
-            series = new Series(this);
+            this.series = new Series(this);
+
             this.destroy.connect(() => {
                 refresh_every(0);
                 remove_all_series();
@@ -72,6 +74,7 @@ namespace LiveChart {
             var conv_us = this.config.time.conv_us;
             var ts = GLib.get_real_time() / conv_us - (collection.size * timespan_between_value);
             var values = serie.get_values();
+
             collection.foreach((value) => {
                 ts += timespan_between_value;
                 values.add({ts, value});
@@ -93,7 +96,6 @@ namespace LiveChart {
             if (cairo_context == null) {
                 throw new ChartError.EXPORT_ERROR("No cairo context available for export");
             }
-
             var surface = cairo_context.get_target();
             surface.write_to_png(filename);
         }
@@ -117,6 +119,10 @@ namespace LiveChart {
                     return true;
                 });
             }
+        }
+
+        public bool is_started() {
+            return cairo_context != null;
         }
 
         private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {

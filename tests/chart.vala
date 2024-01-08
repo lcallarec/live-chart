@@ -37,23 +37,33 @@ private void register_chart() {
 
     Test.add_func("/LiveChart/Chart/export", () => {
         //given
-        var window = new Gtk.Window();
         var chart = new LiveChart.Chart();
-        window.child = chart;
-        window.default_width = 50;
-        window.default_height = 50;
-        window.present();
- 
-        //when
-        //  try {
-        //      chart.to_png("export.png");
-        //  } catch (Error e) {
-        //      assert_not_reached() ;
-        //  }
+
+        var app = new Gtk.Application ("com.github.live-chart", GLib.ApplicationFlags.FLAGS_NONE);
+        app.activate.connect (() => {
+            var view = new Gtk.ApplicationWindow(app);
+            view.set_child(chart);
+            view.present();
+        });
         
-        //then
-        //File file = File.new_for_path("export.png");
-        //assert(true == file.query_exists());
+        Timeout.add(1, () => {
+            if(chart.is_started()) {
+                try {
+                    chart.to_png("export.png");
+                } catch (Error e) {
+                    assert_not_reached();
+                } finally {
+                    app.quit();
+                }
+
+                //then
+                File file = File.new_for_path("export.png");
+                assert(true == file.query_exists());
+            }
+            return true;
+        });
+
+        app.run();
     });
 
     Test.add_func("/LiveChart/Chart/export_should_fails_when_not_realized", () => {
