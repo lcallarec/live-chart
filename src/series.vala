@@ -33,6 +33,10 @@ namespace LiveChart {
             return series.get(index);
         }
 
+        public int size() {
+            return series.size;
+        }
+
         public Serie get_by_name(string name) throws ChartError {
             foreach (Serie serie in series) {
                 if (serie.name == name) return serie;

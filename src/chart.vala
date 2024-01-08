@@ -9,13 +9,15 @@ namespace LiveChart {
     }
 
     public class Chart : Gtk.DrawingArea {
-        private Cairo.Context? m_context = null;
+        private Cairo.Context? cairo_context = null;
 
         public Grid grid { get; set; default = new Grid(); }
         public Background background { get; set; default = new Background(); } 
         public Legend legend { get; set; default = new HorizontalLegend(); } 
         public Config config;
         public Series series;
+
+        public int refresh_rate { get; private set; default = 100; } 
 
         private uint source_timeout = 0;
         private double play_ratio = 1.0;
@@ -30,11 +32,11 @@ namespace LiveChart {
 
             this.set_draw_func(render);
             
-            this.refresh_every(100);
+            this.refresh_every(this.refresh_rate);
 
             series = new Series(this);
             this.destroy.connect(() => {
-                refresh_every(-1);
+                refresh_every(0);
                 remove_all_series();
             });
         }
@@ -88,21 +90,22 @@ namespace LiveChart {
         }
 
         public void to_png(string filename) throws Error {
-            GLib.return_if_fail(null != m_context);
+            GLib.return_if_fail(null != cairo_context);
 
-            var surface = m_context.get_target();
+            var surface = cairo_context.get_target();
             surface.write_to_png(filename);
         }
 
-        public void refresh_every(int ms, double play_ratio = 1.0) {
+        public void refresh_every(int refresh_rate, double play_ratio = 1.0) {
             this.play_ratio = play_ratio;
+            this.refresh_rate = refresh_rate;
             if (source_timeout != 0) {
                 GLib.Source.remove(source_timeout); 
                 source_timeout = 0;
             }
-            if(ms > 0){
+            if(refresh_rate > 0){
                 this.prev_time = GLib.get_monotonic_time() / this.config.time.conv_us;
-                source_timeout = Timeout.add(ms, () => {
+                source_timeout = Timeout.add(refresh_rate, () => {
                     if(this.play_ratio != 0.0){
                         var now = GLib.get_monotonic_time() / this.config.time.conv_us;
                         config.time.current += (int64)((now - this.prev_time));
@@ -115,7 +118,7 @@ namespace LiveChart {
         }
 
         private void render(Gtk.DrawingArea drawing_area, Context ctx, int width, int height) {
-            m_context = ctx;
+            cairo_context = ctx;
             config.configure(ctx, legend);
             
             this.background.draw(ctx, config);
