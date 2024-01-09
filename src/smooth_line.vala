@@ -4,7 +4,9 @@ namespace LiveChart {
     public class SmoothLine : SerieRenderer {
         
         public Region? region {get; set; default = null; }
-        protected Intersections intersections = new Intersections();
+        private SmoothLineDrawer drawer = new SmoothLineDrawer();
+        private SmoothLineLineDrawer line_drawer = new SmoothLineLineDrawer();
+
         public SmoothLine(Values values = new Values()) {
             base();
             this.values = values;
@@ -12,34 +14,45 @@ namespace LiveChart {
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                var points = Points.create(values, config);
-                if(points.size > 0) {
-                    
-                    if (region != null) {
-                        ctx.push_group();
-                    }
-
-                    this.draw_smooth_line(points, ctx, config);
-                    ctx.stroke();
-
-                    if (region != null) {
-                        ctx.set_operator(Operator.ATOP);
-                        this.draw_regions_on_line(ctx, config);
-                        ctx.fill();
-                        ctx.pop_group_to_source();
-                        ctx.paint();
-                    }
-                }            
+                drawer.draw(ctx, config, this.line, Points.create(values, config), this.region);    
             }
         }
 
         public Cairo.Path draw_smooth_line(Points points, Context ctx, Config config) {
-            this.intersections = new Intersections();
+            line_drawer.draw(ctx, config, this.line, points, region);
+            return ctx.copy_path();
+        }
+    }
+
+    public class SmoothLineDrawer {
+        private SmoothLineLineDrawer line_drawer = new SmoothLineLineDrawer();
+        private SmoothLineRegionOnLineDrawer region_on_line_drawer = new SmoothLineRegionOnLineDrawer();
+
+        public void draw(Context ctx, Config config, Path line, Points points, Region? region) {
+            if(points.size > 0) {
+                if (region != null) {
+                    ctx.push_group();
+                }
+
+                var intersections = line_drawer.draw(ctx, config, line, points, region);
+                ctx.stroke();
+
+                if (region != null) {
+                    ctx.set_operator(Operator.ATOP);
+                    region_on_line_drawer.draw(ctx, config, intersections);
+                    ctx.fill();
+                    ctx.pop_group_to_source();
+                    ctx.paint();
+                }
+            }  
+        }
+    }
+
+    public class SmoothLineLineDrawer : Drawer {
+        public Intersections draw(Context ctx, Config config, Path line, Points points, Region? region) {
+            var intersections = new Intersections();
             var first_point = points.first();
             
-            this.update_bounding_box(points, config);
-            this.debug(ctx);
-
             ctx.move_to(first_point.x, first_point.y);
             line.configure(ctx);
 
@@ -59,36 +72,30 @@ namespace LiveChart {
                     curve.c2.x, curve.c2.y,
                     curve.c3.x, curve.c3.y
                 );
-                if (this.region != null) {
-                    this.generate_intersections(previous_point, target_point, config, curve);
+                if (region != null) {
+                    generate_intersections(previous_point, target_point, config, curve, intersections, region);
                 }
             }
-
-            return ctx.copy_path();
+            
+            return intersections;
         }
 
-        protected void draw_regions_on_line(Context ctx, Config config) {
+        private void generate_intersections(Point previous, Point target, Config config, BezierCurve curve, Intersections intersections, Region region) {
+            new BezierIntersector(region, config).intersect(intersections, previous, target, curve);
+        }
+    }
+
+    public class SmoothLineRegionOnLineDrawer {
+        public void draw(Context ctx, Config config, Intersections intersections) {
             var boundaries = config.boundaries();
-            this.intersections.foreach((intersection) => {
+            intersections.foreach((intersection) => {
                 if (intersection != null) {
                     ctx.rectangle(intersection.start_x, boundaries.y.min, intersection.end_x - intersection.start_x, boundaries.height);
                     ctx.set_source_rgba(intersection.region.line_color.red, intersection.region.line_color.green, intersection.region.line_color.blue, intersection.region.line_color.alpha);
                 }
                 return true;
             });
-        }
-
-        private void generate_intersections(Point previous, Point target, Config config, BezierCurve curve) {
-            new BezierIntersector(this.region, config).intersect(this.intersections, previous, target, curve);
-        }
-
-        private void update_bounding_box(Points points, Config config) {
-            this.bounding_box = BoundingBox() {
-                x=points.first().x,
-                y=points.bounds.lower,
-                width=points.last().x - points.first().x,
-                height=points.bounds.upper - points.bounds.lower
-            };
+            ctx.fill();
         }
     }
 }

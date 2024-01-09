@@ -59,7 +59,7 @@ private void register_smooth_line() {
 
         //When
         line.draw(context.ctx, create_config(43, 20));
- 
+
         //Then the curve colors are...
         assert(get_color_at(context)({x: 0, y: 14}) == green);
         assert(get_color_at(context)({x: 22, y: 0}) == red);

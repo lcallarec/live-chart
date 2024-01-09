@@ -71,9 +71,5 @@ namespace LiveChart {
         public void clear() {
             renderer.get_values().clear();
         }
-
-        public BoundingBox get_bounding_box() {
-            return renderer.get_bounding_box();
-        }
     }
 }

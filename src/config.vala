@@ -76,7 +76,9 @@ namespace LiveChart {
             if (AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = 15 + (int) x_axis.labels.extents.height;
             if (AutoPadding.TOP in this.padding.smart) this.padding.top = 10;
             
-            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box().height + 5;
+            if(legend != null && AutoPadding.BOTTOM in this.padding.smart) {
+               this.padding.bottom = this.padding.bottom + (int) legend.get_bounding_box(this).height + 5;
+            }
             
             this.y_axis.update(this.boundaries().height);
         }

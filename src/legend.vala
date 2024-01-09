@@ -8,12 +8,7 @@ namespace LiveChart {
         public Labels labels = new Labels();
 
         protected Gee.ArrayList<Serie> series = new Gee.ArrayList<Serie>();
-        protected BoundingBox bounding_box = BoundingBox() {
-            x=0, 
-            y=0, 
-            width=0,
-            height=0
-        };
+
         public Gdk.RGBA main_color { 
             get; set; default= Gdk.RGBA() {
                 red = 1.0f,
@@ -35,42 +30,63 @@ namespace LiveChart {
         }
         
         public abstract void draw(Context ctx, Config config);
-        public BoundingBox get_bounding_box() {
-            return bounding_box;
-        }
+        public abstract BoundingBox get_bounding_box(Config config);
     }
 
      public class HorizontalLegend : Legend {
-        
-        private const int COLOR_BLOCK_WIDTH = 15;
-        private const int COLOR_BLOCK_HEIGHT = 10;
+
+        private HorizontalLegendDrawer drawer = new HorizontalLegendDrawer();
+        private int legend_width = 0;
 
         public override void draw(Context ctx, Config config) {
             if (visible) {
-                
-                var y_padding = get_y_padding(config);
-                var boundaries = config.boundaries();
-                var pos = 0;
-                series.foreach((serie) => {
-                    ctx.set_source_rgba(serie.main_color.red, serie.main_color.green, serie.main_color.blue, 1);
-                    ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegend.COLOR_BLOCK_WIDTH, HorizontalLegend.COLOR_BLOCK_HEIGHT);
-                    ctx.fill();
-                    
-                    labels.font.configure(ctx);
-                    TextExtents extents = name_extents(serie.name, ctx);
-                    ctx.move_to(boundaries.x.min + pos + HorizontalLegend.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegend.COLOR_BLOCK_HEIGHT - extents.height) / 2);
-                    ctx.show_text(serie.name);
-
-                    pos += HorizontalLegend.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
-
-                    return true;
-                });
-                ctx.stroke();
-                this.update_bounding_box(config, pos);
-                this.debug(ctx);
+                legend_width = drawer.draw(ctx, config, this.series, this.labels);
             }
         }
-   
+
+        public override BoundingBox get_bounding_box(Config config) {
+            return drawer.get_bounding_box(config, legend_width);
+        }
+    }
+
+    public class HorizontalLegendDrawer : Object {
+
+        private const int COLOR_BLOCK_WIDTH = 15;
+        private const int COLOR_BLOCK_HEIGHT = 10;
+
+        public int draw(Context ctx, Config config, Gee.ArrayList<Serie> series, Labels labels) {
+            var y_padding = get_y_padding(config);
+            var boundaries = config.boundaries();
+            var pos = 0;
+            series.foreach((serie) => {
+                ctx.set_source_rgba(serie.main_color.red, serie.main_color.green, serie.main_color.blue, 1);
+                ctx.rectangle(boundaries.x.min + pos, boundaries.y.max + y_padding, HorizontalLegendDrawer.COLOR_BLOCK_WIDTH, HorizontalLegendDrawer.COLOR_BLOCK_HEIGHT);
+                ctx.fill();
+                
+                labels.font.configure(ctx);
+                TextExtents extents = name_extents(serie.name, ctx);
+                ctx.move_to(boundaries.x.min + pos + HorizontalLegendDrawer.COLOR_BLOCK_WIDTH + 3, boundaries.y.max + y_padding + extents.height + (HorizontalLegendDrawer.COLOR_BLOCK_HEIGHT - extents.height) / 2);
+                ctx.show_text(serie.name);
+
+                pos += HorizontalLegendDrawer.COLOR_BLOCK_WIDTH + (int) extents.width + 20;
+
+                return true;
+            });
+            ctx.stroke();
+
+            return pos;
+        }
+        
+        public BoundingBox get_bounding_box(Config config, int width) {
+            var boundaries = config.boundaries();
+            return BoundingBox() {
+                x = boundaries.x.min,
+                y = boundaries.y.max + get_y_padding(config),
+                width = width,
+                height = 10
+            };
+        }
+
         private int get_y_padding(Config config) {
             return (int) (Grid.ABSCISSA_TIME_PADDING * 2 + config.x_axis.labels.extents.height);
         }
@@ -81,27 +97,18 @@ namespace LiveChart {
 
             return name_extents;
         }
-
-        private void update_bounding_box(Config config, int width) {
-            var boundaries = config.boundaries();
-            this.bounding_box = BoundingBox() {
-                x=boundaries.x.min,
-                y=boundaries.y.max + get_y_padding(config),
-                width=width,
-                height=10
-            };
-        }
-
-        protected void debug(Context ctx) {
-            var debug = Environment.get_variable("LIVE_CHART_DEBUG");
-            if(debug != null) {
-                ctx.rectangle(bounding_box.x, bounding_box.y, bounding_box.width, bounding_box.height);
-                ctx.stroke();
-            }
-        }        
     }
 
     public class NoopLegend : Legend {
         public override void draw(Context ctx, Config config) {}
+        public override BoundingBox get_bounding_box(Config config) {
+            return BoundingBox() {
+                x = 0,
+                y = 0,
+                width = 0,
+                height = 0
+            };
+        }
+
     }
 }

@@ -2,12 +2,7 @@ using Cairo;
 
 namespace LiveChart { 
     public class Background : Drawable, Object {
-        private BoundingBox bounding_box = BoundingBox() {
-            x=0, 
-            y=0, 
-            width=0,
-            height=0
-        };
+        private BackgroundDrawer drawer = new BackgroundDrawer();
         
         public bool visible { get; set; default = true; }
 
@@ -32,24 +27,16 @@ namespace LiveChart {
 
         public void draw(Context ctx, Config config) {
             if (visible) {
-                this.update_bounding_box(config);
-                ctx.rectangle(0, 0, config.width, config.height);
-                ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
-                ctx.fill();
+                drawer.draw(ctx, config, this.color);
             }
         }
+    }
 
-        public BoundingBox get_bounding_box() {
-            return bounding_box;
-        }
-
-        private void update_bounding_box(Config config) {
-            bounding_box = BoundingBox() {
-                x=0, 
-                y=0, 
-                width=config.width,
-                height=config.height
-            };
+    public class BackgroundDrawer : Object {
+        public void draw(Context ctx, Config config, Gdk.RGBA color) {
+            ctx.rectangle(0, 0, config.width, config.height);
+            ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
+            ctx.fill();
         }
     }
 }

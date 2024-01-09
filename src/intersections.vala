@@ -27,6 +27,7 @@ namespace LiveChart {
         public bool has_an_opened_intersection() {
             return intersections.size > 0 && intersections.last().is_open();
         }
+        
         public Region get_current_region() {
             return intersections.last().region;
         }
