@@ -14,8 +14,8 @@ namespace LiveChart {
     public delegate Coord? GetIntersection(double at_value);
 
     public class Region {
-        public Gdk.RGBA line_color { get; set; default = Gdk.RGBA () { red = 1f, green = 1f, blue = 1f, alpha = 1f }; }
-        public Gdk.RGBA area_color { get; set; default = Gdk.RGBA () { red = 1f, green = 1f, blue = 1f, alpha = 0.5f }; }
+        public Gdk.RGBA? line_color { get; set; }
+        public Gdk.RGBA? area_color { get; set; }
 
         private double floor;
         private double ceil;
@@ -25,6 +25,14 @@ namespace LiveChart {
             this.floor = floor;
             this.ceil = ceil;
             this.resolver = new CrossRegionResolver(this.floor, this.ceil);
+        }
+
+        public bool has_line_color() {
+            return this.line_color != null;
+        }
+
+        public bool has_area_color() {
+            return this.area_color != null;
         }
 
         public Region.between(double above, double below) {

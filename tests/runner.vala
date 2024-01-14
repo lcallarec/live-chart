@@ -3,6 +3,8 @@ void main (string[] args) {
     Test.init(ref args);
     Gtk.init();
 
+    prepare_screenshots_directory();
+
     register_config();
     register_bounds();
     register_values();
@@ -28,4 +30,21 @@ void main (string[] args) {
     register_intersections();
     
     Test.run();
+}
+
+private void prepare_screenshots_directory() {
+    try {
+        var directory = File.new_for_path("screenshots");
+        if(directory.query_exists()) {
+            Dir screenshot_dir = Dir.open("screenshots", 0);
+            string? name = null;
+            while ((name = screenshot_dir.read_name ()) != null) {
+                File.new_for_path(@"screenshots/$(name)").delete();
+            }
+            directory.delete();
+        }
+        directory.make_directory();
+    } catch (Error e) {
+        message(@"Error while preparing screenshots directory : $(e.message)");
+    }
 }

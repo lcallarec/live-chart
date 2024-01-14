@@ -127,15 +127,16 @@ private ColorAtCoodinates get_color_at_from_pixels(uint8[] pixels, int stride, i
     };
 }
 
-public void screenshot(TestContext context, string filename) {
+public void screenshot(TestContext context, string suffix = "") {
     int width = context.surface.get_width();
     int height = context.surface.get_height();
     
     var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
+    var test_path = Test.get_path().replace("/", "____");
     try {
-        pixbuff.save(filename, "png");
-    } catch {
-
+        pixbuff.save(@"screenshots/$(test_path).png", "png");
+    } catch (Error e) {
+        message(@"Screenshot error in $(test_path): $(e.message)");
     }
 }
 

@@ -1,11 +1,11 @@
 using Cairo;
 
 namespace LiveChart { 
+
     public class SmoothLine : SerieRenderer {
         
         public Region? region {get; set; default = null; }
-        private SmoothLineDrawer drawer = new SmoothLineDrawer();
-        private SmoothLineLineDrawer line_drawer = new SmoothLineLineDrawer();
+        private SmoothLineSerieDrawer drawer = new SmoothLineSerieDrawer();
 
         public SmoothLine(Values values = new Values()) {
             base();
@@ -17,24 +17,19 @@ namespace LiveChart {
                 drawer.draw(ctx, config, this.line, Points.create(values, config), this.region);    
             }
         }
-
-        public Cairo.Path draw_smooth_line(Points points, Context ctx, Config config) {
-            line_drawer.draw(ctx, config, this.line, points, region);
-            return ctx.copy_path();
-        }
     }
 
-    public class SmoothLineDrawer {
-        private SmoothLineLineDrawer line_drawer = new SmoothLineLineDrawer();
-        private SmoothLineRegionOnLineDrawer region_on_line_drawer = new SmoothLineRegionOnLineDrawer();
+    public class SmoothLineSerieDrawer : Drawer {
+        private SmoothLineDrawer line_drawer = new SmoothLineDrawer();
+        private RegionOnLineDrawer region_on_line_drawer = new RegionOnLineDrawer();
 
-        public void draw(Context ctx, Config config, Path line, Points points, Region? region) {
+        public Intersections draw(Context ctx, Config config, Path line, Points points, Region? region) {
             if(points.size > 0) {
+                var intersections = line_drawer.draw(ctx, config, line, points, region);
                 if (region != null) {
                     ctx.push_group();
                 }
 
-                var intersections = line_drawer.draw(ctx, config, line, points, region);
                 ctx.stroke();
 
                 if (region != null) {
@@ -44,11 +39,14 @@ namespace LiveChart {
                     ctx.pop_group_to_source();
                     ctx.paint();
                 }
-            }  
+                return intersections;
+            }
+
+            return new Intersections();
         }
     }
 
-    public class SmoothLineLineDrawer : Drawer {
+    public class SmoothLineDrawer : Drawer {
         public Intersections draw(Context ctx, Config config, Path line, Points points, Region? region) {
             var intersections = new Intersections();
             var first_point = points.first();
@@ -85,7 +83,7 @@ namespace LiveChart {
         }
     }
 
-    public class SmoothLineRegionOnLineDrawer {
+    public class RegionOnLineDrawer {
         public void draw(Context ctx, Config config, Intersections intersections) {
             var boundaries = config.boundaries();
             intersections.foreach((intersection) => {
@@ -95,7 +93,6 @@ namespace LiveChart {
                 }
                 return true;
             });
-            ctx.fill();
         }
     }
 }
