@@ -10,7 +10,8 @@ private void register_smooth_line() {
 
         //When
         line.draw(context.ctx, create_config());
- 
+        screenshot(context);
+
         //Then
         assert(has_only_one_color(context)(DEFAULT_BACKGROUND_COLOR));
     });
@@ -31,6 +32,7 @@ private void register_smooth_line() {
 
         //When
         line.draw(context.ctx, create_config(43, 20));
+        screenshot(context);
 
         //Then the curve colors are...
         assert(get_color_at(context)({x: 0, y: 14}) == green);
@@ -59,6 +61,7 @@ private void register_smooth_line() {
 
         //When
         line.draw(context.ctx, create_config(43, 20));
+        screenshot(context);
 
         //Then the curve colors are...
         assert(get_color_at(context)({x: 0, y: 14}) == green);
