@@ -4,7 +4,6 @@ private void register_smooth_line_area() {
         //Given
         var context = create_context();
 
-
         var values = new LiveChart.Values();
        
         var line = new LiveChart.SmoothLineArea(values);
@@ -38,9 +37,9 @@ private void register_smooth_line_area() {
         screenshot(context);
 
         //Then the curve colors are...
-       assert(get_color_at(context)({x: 0, y: 14}) == green);
-       assert(get_color_at(context)({x: 22, y: 0}) == green);
-       assert(get_color_at(context)({x: 42, y: 14}) == green);
+        assert(get_color_at(context)({x: 0, y: 14}) == green);
+        assert(get_color_at(context)({x: 22, y: 0}) == green);
+        assert(get_color_at(context)({x: 42, y: 14}) == green);
 
         //And below the curve, color is...
         var flattened_area_color = Gdk.RGBA() { red = 0.5f, green = 1f, blue = 0.5f, alpha = 1f };

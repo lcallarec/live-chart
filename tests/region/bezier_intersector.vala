@@ -32,7 +32,7 @@ private void register_intersections() {
         var intersector = new LiveChart.BezierIntersector(above5, create_config());
 
         //when
-        intersector.intersect(intersections, previous, target, curve);
+        intersector.intersect(new LiveChart.SmoothLineRegionResolver(above5, intersections), previous, target, curve);
 
         //then
         assert(intersections.size() == 1);

@@ -54,6 +54,7 @@ namespace LiveChart {
             this.end_x = start_x;
             this.entered_at = entered_at;
         }
+        
         public Intersection.without_entry_point(Region region, double start_x) {
             this.region = region;
             this.start_x = start_x;

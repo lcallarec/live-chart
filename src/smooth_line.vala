@@ -49,6 +49,7 @@ namespace LiveChart {
     public class SmoothLineDrawer : Drawer {
         public Intersections draw(Context ctx, Config config, Path line, Points points, Region? region) {
             var intersections = new Intersections();
+
             var first_point = points.first();
             
             ctx.move_to(first_point.x, first_point.y);
@@ -70,6 +71,7 @@ namespace LiveChart {
                     curve.c2.x, curve.c2.y,
                     curve.c3.x, curve.c3.y
                 );
+
                 if (region != null) {
                     generate_intersections(previous_point, target_point, config, curve, intersections, region);
                 }
@@ -79,7 +81,7 @@ namespace LiveChart {
         }
 
         private void generate_intersections(Point previous, Point target, Config config, BezierCurve curve, Intersections intersections, Region region) {
-            new BezierIntersector(region, config).intersect(intersections, previous, target, curve);
+            new BezierIntersector(region, config).intersect(new SmoothLineRegionResolver(region, intersections), previous, target, curve);
         }
     }
 
@@ -88,8 +90,8 @@ namespace LiveChart {
             var boundaries = config.boundaries();
             intersections.foreach((intersection) => {
                 if (intersection != null) {
-                    ctx.rectangle(intersection.start_x, boundaries.y.min, intersection.end_x - intersection.start_x, boundaries.height);
                     ctx.set_source_rgba(intersection.region.line_color.red, intersection.region.line_color.green, intersection.region.line_color.blue, intersection.region.line_color.alpha);
+                    ctx.rectangle(intersection.start_x, boundaries.y.min, intersection.end_x - intersection.start_x, boundaries.height);
                 }
                 return true;
             });

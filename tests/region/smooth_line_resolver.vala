@@ -4,14 +4,14 @@ private void register_regions() {
 
     //Region
     //No thresold crossed
-    Test.add_func("/Region/should_not_create_any_intersection_when_a_point_does_not_cross_any_threshold", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_not_create_any_intersection_when_a_point_does_not_cross_any_threshold", () => {
         //given
         var intersections = new Intersections();
         var region = new Region.between(1000, 2000);
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(90).build(),
             new PointBuilder.from_value(100).build(),
             (value) => {
@@ -24,7 +24,7 @@ private void register_regions() {
     });
 
     //Thresold crossed
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_entering_the_region_by_the_bottom", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_entering_the_region_by_the_bottom", () => {
         //given
         var min = 100.0;
         var max = 500.0;
@@ -33,7 +33,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(90).build(),
             new PointBuilder.from_value(150).build(),
             (value) => {
@@ -49,7 +49,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 100);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_entering_the_region_by_the_top", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_entering_the_region_by_the_top", () => {
         //given
         var min = 100.0;
         var max = 500.0;
@@ -58,7 +58,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(600).build(),
             new PointBuilder.from_value(400).x(100).build(),
             (value) => {
@@ -74,7 +74,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 100);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_immediately_by_the_bottom", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_immediately_by_the_bottom", () => {
         //given
         var min = 40.0;
         var max = 100.0;
@@ -83,7 +83,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(20).x(200).build(),
             (value) => {
@@ -102,7 +102,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 250);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_by_the_bottom_after_a_while", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_by_the_bottom_after_a_while", () => {
         //given
         var min = 40.0;
         var max = 100.0;
@@ -111,7 +111,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(70).x(200).build(),
             (value) => {
@@ -119,7 +119,7 @@ private void register_regions() {
             }
         );
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(70).x(200).build(),
             new PointBuilder.from_value(30).x(300).build(),
             (value) => {
@@ -138,7 +138,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 300);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_by_the_top", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_by_the_top", () => {
         //given
         var min = 40.0;
         var max = 100.0;
@@ -147,14 +147,14 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(70).x(100).build(),
             new PointBuilder.from_value(95).x(200).build(),
             (value) => {
                 return { x: 100, y: 20};
             });
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(95).x(200).build(),
             new PointBuilder.from_value(200).x(300).build(),
             (value) => {
@@ -173,7 +173,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 200);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_immediately_by_the_top", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_point_is_already_inside_the_region_and_leave_immediately_by_the_top", () => {
         //given
         var min = 40.0;
         var max = 100.0;
@@ -182,7 +182,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(150).x(200).build(),
             (value) => {
@@ -201,7 +201,7 @@ private void register_regions() {
         assert(intersections.get(0).end_x == 250);
     });
 
-    Test.add_func("/Region/should_create_an_open_intersection_when_points_stay_inside_the_region", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_create_an_open_intersection_when_points_stay_inside_the_region", () => {
         //given
         var min = 100.0;
         var max = 200.0;
@@ -210,14 +210,14 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(110).x(100).build(),
             new PointBuilder.from_value(120).x(150).build(),
             (value) => {
                 return { x: 100, y: 20};
             });
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(120).x(150).build(),
             new PointBuilder.from_value(150).x(200).build(),
             (value) => {
@@ -235,7 +235,7 @@ private void register_regions() {
     });
 
     //Boundaries / edge cases
-    Test.add_func("/Region/should_not_consider_any_crossing_when_entering_by_the_top_if_no_intersections_are_found_by_geometry", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/should_not_consider_any_crossing_when_entering_by_the_top_if_no_intersections_are_found_by_geometry", () => {
         //given
         var min = 100.0;
         var max = 200.0;
@@ -244,7 +244,7 @@ private void register_regions() {
 
         //when
         region.handle(
-            intersections,
+            new SmoothLineRegionResolver(region, intersections),
             new PointBuilder.from_value(200).build(),
             new PointBuilder.from_value(150).build(),
             (value) => {
@@ -255,10 +255,10 @@ private void register_regions() {
         assert(intersections.size() == 0);
     });
 
-    //CrossRegionResolver
-    Test.add_func("/Region/CrossRegionResolver/shouln_not_crossing_if_always_below_floor_and_ceil", () => {
+    //WaterlineRegionResolver
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/shouln_not_crossing_if_always_below_floor_and_ceil", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(0).build();
         var current = new PointBuilder.from_value(1).build();
@@ -271,9 +271,9 @@ private void register_regions() {
         assert_false(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/sould_not_crossing_if_always_above_floor_and_ceil", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/sould_not_crossing_if_always_above_floor_and_ceil", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(22).build();
         var current = new PointBuilder.from_value(25).build();
@@ -286,9 +286,9 @@ private void register_regions() {
         assert_false(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/should_be_within", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/should_be_within", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(10).build();
         var current = new PointBuilder.from_value(15).build();
@@ -301,9 +301,9 @@ private void register_regions() {
         assert_true(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/should_entering_by_the_bottom", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/should_entering_by_the_bottom", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(5).build();
         var current = new PointBuilder.from_value(15).build();
@@ -316,9 +316,9 @@ private void register_regions() {
         assert_false(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/should_entering_by_the_top", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/should_entering_by_the_top", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(30).build();
         var current = new PointBuilder.from_value(15).build();
@@ -331,9 +331,9 @@ private void register_regions() {
         assert_false(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/should_leaving_by_the_top", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/should_leaving_by_the_top", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(15).build();
         var current = new PointBuilder.from_value(30).build();
@@ -346,9 +346,9 @@ private void register_regions() {
         assert_false(resolver.is_within(previous, current));
     });
 
-    Test.add_func("/Region/CrossRegionResolver/should_leaving_by_the_bottom", () => {
+    Test.add_func("/Region/SmoothLineRegionResolver/WaterlineRegionResolver/should_leaving_by_the_bottom", () => {
         //given
-        var resolver = new CrossRegionResolver(10, 20);
+        var resolver = new WaterlineRegionResolver(10, 20);
 
         var previous = new PointBuilder.from_value(15).build();
         var current = new PointBuilder.from_value(5).build();

@@ -1,72 +1,41 @@
 using Cairo;
+
 namespace LiveChart {
-    public enum RegionHandleStatus {
-        ENTER,
-        EXIT,
-        WITHIN,
-        OUT
-    }
-    public struct RegionHandleResult {
-        RegionHandleStatus status;
-        double at_value;
-    }
 
-    public delegate Coord? GetIntersection(double at_value);
+    public class SmoothLineRegionResolver : RegionResolver {
+        private WaterlineRegionResolver resolver;
+        private Region region;
+        private Intersections intersections;
 
-    public class Region {
-        public Gdk.RGBA? line_color { get; set; }
-        public Gdk.RGBA? area_color { get; set; }
-
-        private double floor;
-        private double ceil;
-        private CrossRegionResolver resolver;
-
-        public Region(double floor, double ceil) {
-            this.floor = floor;
-            this.ceil = ceil;
-            this.resolver = new CrossRegionResolver(this.floor, this.ceil);
+        public SmoothLineRegionResolver(Region region, Intersections intersections) {
+            this.region = region;
+            this.resolver = new WaterlineRegionResolver(region.floor, region.ceil);
+            this.intersections = intersections;
         }
 
-        public bool has_line_color() {
-            return this.line_color != null;
+        public Intersections get_intersections() {
+            return intersections;
         }
 
-        public bool has_area_color() {
-            return this.area_color != null;
-        }
-
-        public Region.between(double above, double below) {
-            this(above, below);
-        }
-
-        public Region with_line_color(Gdk.RGBA color) {
-            this.line_color = color;
-            return this;
-        }
-        public Region with_area_color(Gdk.RGBA color) {
-            this.area_color = color;
-            return this;
-        }
-
-        public void handle(Intersections intersections, Point previous, Point current, GetIntersection get_intersection) {
+        public void resolve(Point previous, Point current, GetIntersection get_intersection) {
             if (resolver.has_at_least_one_point_within(previous, current)) {
 
                 if (resolver.is_entering_by_the_bottom(previous, current)) {
 
-                    var entered_at = this.floor;
+                    var entered_at = region.floor;
                     var coords = get_intersection(entered_at);
 
                     if (coords != null) {
                         if(intersections.has_an_opened_intersection()) {
                             intersections.update(current.x);
                         } else {
-                            intersections.open(this, coords.x, entered_at);
+                            intersections.open(region, coords.x, entered_at);
                         }
                     }
                 }
                 if (resolver.is_entering_by_the_top(previous, current)) {
                     
-                    var entered_at = this.ceil;
+                    var entered_at = region.ceil;
                     var coords = get_intersection(entered_at);
            
                     if (coords != null) {
@@ -74,35 +43,35 @@ namespace LiveChart {
                             intersections.update(current.x);
     
                         } else {
-                            intersections.open(this, coords.x, entered_at);
+                            intersections.open(region, coords.x, entered_at);
                         }
                     }
                 }
 
                 if (resolver.is_leaving_by_the_top(previous, current)) {
 
-                    var exited_at = this.ceil;
+                    var exited_at = region.ceil;
                     var coords = get_intersection(exited_at);
 
                     if (coords != null) {
                         if(intersections.has_an_opened_intersection()) {
                             intersections.close(coords.x, exited_at);
                         } else {
-                            intersections.open_without_entrypoint(this, previous.x);
+                            intersections.open_without_entrypoint(region, previous.x);
                             intersections.close(coords.x, exited_at);
                         }
                     }
                 }
                 if (resolver.is_leaving_by_the_bottom(previous, current)) {
 
-                    var exited_at = this.floor;
+                    var exited_at = region.floor;
                     var coords = get_intersection(exited_at);
 
                     if (coords != null) {
                         if(intersections.has_an_opened_intersection()) {
                             intersections.close(coords.x, exited_at);
                         } else {
-                            intersections.open_without_entrypoint(this, previous.x);
+                            intersections.open_without_entrypoint(region, previous.x);
                             intersections.close(coords.x, exited_at);
                         }
                     }
@@ -110,20 +79,20 @@ namespace LiveChart {
                 if(resolver.is_within(previous, current)) {
                     
                     if(!intersections.has_an_opened_intersection()) {
-                        intersections.open_without_entrypoint(this, previous.x);
+                        intersections.open_without_entrypoint(region, previous.x);
                     } else {
                         intersections.update(current.x);
                     }
                 }
             }
         }
-
     }
-    public class CrossRegionResolver : Object {
+
+    public class WaterlineRegionResolver {
         private double floor;
         private double ceil;
 
-        public CrossRegionResolver(double floor, double ceil) {
+        public WaterlineRegionResolver(double floor, double ceil) {
             this.floor = floor;
             this.ceil = ceil;
         }
