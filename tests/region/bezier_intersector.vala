@@ -26,15 +26,16 @@ private void register_intersections() {
             }
         };
 
-        var intersections = new LiveChart.Intersections();
         var curve = LiveChart.build_bezier_curve_from_points(previous, target);
-        
-        var intersector = new LiveChart.BezierIntersector(above5, create_config());
+        var resolver = new LiveChart.SmoothLineRegionResolver(above5);
+        var intersector = new LiveChart.BezierIntersector(resolver, create_config());
 
         //when
-        intersector.intersect(new LiveChart.SmoothLineRegionResolver(above5, intersections), previous, target, curve);
+        intersector.intersect(previous, target, curve);
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(Math.fabs(intersections.get(0).start_x - 5f) <= EPSILON);
         assert(Math.fabs(intersections.get(0).end_x - 5f) <= EPSILON);

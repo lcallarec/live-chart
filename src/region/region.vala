@@ -5,10 +5,11 @@ namespace LiveChart {
     public delegate Coord? GetIntersection(double at_value);
 
     public interface RegionIntersector<T> {
-        public abstract void intersect(RegionResolver resolver, Point previous, Point current, T path);
+        public abstract void intersect(Point previous, Point current, T path);
     }
 
-    public interface RegionResolver {
+    public interface RegionResolver : Object {
+        public abstract Region get_region();
         public abstract Intersections get_intersections();
         public abstract void resolve(Point previous, Point current, GetIntersection get_intersection);
     }
@@ -44,10 +45,6 @@ namespace LiveChart {
         public Region with_area_color(Gdk.RGBA color) {
             this.area_color = color;
             return this;
-        }
-
-        public void handle(RegionResolver resolver, Point previous, Point current, GetIntersection get_intersection) {
-            resolver.resolve(previous, current, get_intersection);
         }
     }
 }

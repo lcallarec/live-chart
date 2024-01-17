@@ -1,19 +1,19 @@
 namespace LiveChart {
     public class BezierIntersector : RegionIntersector<BezierCurve?> {
-        private Region region;
+        private RegionResolver resolver;
         private Config config;
 
-        public BezierIntersector(Region region, Config config) {
-            this.region = region;
+        public BezierIntersector(RegionResolver resolver, Config config) {
+            this.resolver = resolver;
             this.config = config;
         }
             
-        public void intersect(RegionResolver resolver, Point previous, Point current, BezierCurve? path) {
-            region.handle(resolver, previous, current, (value) => {
-                return this.intersect_at(config, path, value);
+        public void intersect(Point previous, Point current, BezierCurve? curve) {
+            resolver.resolve(previous, current, (value) => {
+                return this.intersect_at(config, curve, value);
             });
         }
-    
+        
         private Coord? intersect_at(Config config, BezierCurve curve, double at_value) {
             var intersection_segment = create_intersection_segment_at(config, at_value);
             var intersection_coords = find_intersections_between(intersection_segment, curve);

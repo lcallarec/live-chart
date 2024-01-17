@@ -6,12 +6,11 @@ private void register_regions() {
     //No thresold crossed
     Test.add_func("/Region/SmoothLineRegionResolver/should_not_create_any_intersection_when_a_point_does_not_cross_any_threshold", () => {
         //given
-        var intersections = new Intersections();
         var region = new Region.between(1000, 2000);
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(90).build(),
             new PointBuilder.from_value(100).build(),
             (value) => {
@@ -20,6 +19,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 0);
     });
 
@@ -29,11 +30,10 @@ private void register_regions() {
         var min = 100.0;
         var max = 500.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(90).build(),
             new PointBuilder.from_value(150).build(),
             (value) => {
@@ -42,6 +42,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert_true(intersections.get(0).is_open());
         assert(intersections.get(0).entered_at == min);
@@ -54,11 +56,10 @@ private void register_regions() {
         var min = 100.0;
         var max = 500.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(600).build(),
             new PointBuilder.from_value(400).x(100).build(),
             (value) => {
@@ -67,6 +68,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert_true(intersections.get(0).is_open());
         assert(intersections.get(0).entered_at == max);
@@ -79,11 +82,10 @@ private void register_regions() {
         var min = 40.0;
         var max = 100.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(20).x(200).build(),
             (value) => {
@@ -92,6 +94,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(intersections.get(0).is_closed());
 
@@ -107,19 +111,17 @@ private void register_regions() {
         var min = 40.0;
         var max = 100.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(70).x(200).build(),
             (value) => {
                 return { x: 100, y: 20};
             }
         );
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(70).x(200).build(),
             new PointBuilder.from_value(30).x(300).build(),
             (value) => {
@@ -128,6 +130,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(intersections.get(0).is_closed());
 
@@ -143,18 +147,16 @@ private void register_regions() {
         var min = 40.0;
         var max = 100.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(70).x(100).build(),
             new PointBuilder.from_value(95).x(200).build(),
             (value) => {
                 return { x: 100, y: 20};
             });
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(95).x(200).build(),
             new PointBuilder.from_value(200).x(300).build(),
             (value) => {
@@ -163,6 +165,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(intersections.get(0).is_closed());
 
@@ -178,11 +182,10 @@ private void register_regions() {
         var min = 40.0;
         var max = 100.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(60).x(100).build(),
             new PointBuilder.from_value(150).x(200).build(),
             (value) => {
@@ -191,6 +194,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(intersections.get(0).is_closed());
 
@@ -206,18 +211,16 @@ private void register_regions() {
         var min = 100.0;
         var max = 200.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(110).x(100).build(),
             new PointBuilder.from_value(120).x(150).build(),
             (value) => {
                 return { x: 100, y: 20};
             });
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(120).x(150).build(),
             new PointBuilder.from_value(150).x(200).build(),
             (value) => {
@@ -226,6 +229,8 @@ private void register_regions() {
         );
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 1);
         assert(intersections.get(0).is_open());
         
@@ -240,11 +245,10 @@ private void register_regions() {
         var min = 100.0;
         var max = 200.0;
         var region = new Region.between(min, max);
-        var intersections = new Intersections();
+        var resolver = new SmoothLineRegionResolver(region);
 
         //when
-        region.handle(
-            new SmoothLineRegionResolver(region, intersections),
+        resolver.resolve(
             new PointBuilder.from_value(200).build(),
             new PointBuilder.from_value(150).build(),
             (value) => {
@@ -252,6 +256,8 @@ private void register_regions() {
         });
 
         //then
+        var intersections = resolver.get_intersections();
+
         assert(intersections.size() == 0);
     });
 

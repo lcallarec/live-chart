@@ -2,15 +2,18 @@ using Cairo;
 
 namespace LiveChart {
 
-    public class SmoothLineRegionResolver : RegionResolver {
+    public class SmoothLineRegionResolver : RegionResolver, Object {
         private WaterlineRegionResolver resolver;
         private Region region;
-        private Intersections intersections;
+        private Intersections intersections = new Intersections();
 
-        public SmoothLineRegionResolver(Region region, Intersections intersections) {
+        public SmoothLineRegionResolver(Region region) {
             this.region = region;
             this.resolver = new WaterlineRegionResolver(region.floor, region.ceil);
-            this.intersections = intersections;
+        }
+
+        public Region get_region() {
+            return region;
         }
 
         public Intersections get_intersections() {

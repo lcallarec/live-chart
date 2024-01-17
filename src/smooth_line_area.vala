@@ -16,15 +16,18 @@ namespace LiveChart {
         }
     }
 
-    public class SmoothLineAreaSerieDrawer {
+    private class SmoothLineAreaSerieDrawer {
 
         private RegionAreaDrawer region_drawer = new RegionAreaDrawer();
         private RegionOnLineDrawer region_on_line_drawer = new RegionOnLineDrawer();
         private SmoothLineDrawer smooth_line_drawer = new SmoothLineDrawer();
+        private SmoothLineAreaIntersectionsGenerator intersections_generator = new SmoothLineAreaIntersectionsGenerator();
 
         public void draw(Context ctx, Config config, Path line, Points points, Gdk.RGBA color, double alpha, Region? region) {
             if(points.size > 0) {
-                var intersections = smooth_line_drawer.draw(ctx, config, line, points, region);
+                var curves = smooth_line_drawer.draw(ctx, config, line, points, region);
+                var intersections = intersections_generator.generate(region, config, points, curves);
+                
                 var curve = ctx.copy_path();
                 
                 if(region != null && region.has_line_color()) {
@@ -82,7 +85,30 @@ namespace LiveChart {
         }
     }
 
-    public class RegionAreaDrawer {
+    private class SmoothLineAreaIntersectionsGenerator : Drawer {
+        public Intersections generate(Region? region, Config config, Points points, Gee.List<BezierCurve?> curves) {
+            if(region != null) {
+                var resolver = new SmoothLineRegionResolver(region);
+                var intersector = new BezierIntersector(resolver, config);
+        
+                for (int pos = 0; pos <= points.size -1; pos++) {
+                    var previous_point = points.get(pos);
+                    var target_point = points.after(pos);
+        
+                    if (this.is_out_of_area(previous_point)) {
+                        continue;
+                    }
+                    intersector.intersect(previous_point, target_point, curves.get(pos));
+                }
+        
+                return resolver.get_intersections();
+            }
+
+            return new Intersections();
+        }
+    }
+
+    private class RegionAreaDrawer {
         public void draw(Context ctx, Config config, Intersections intersections) {
             var boundaries = config.boundaries();
             intersections.foreach((intersection) => {
