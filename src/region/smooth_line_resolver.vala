@@ -44,7 +44,6 @@ namespace LiveChart {
                     if (coords != null) {
                         if(intersections.has_an_opened_intersection()) {
                             intersections.update(current.x);
-    
                         } else {
                             intersections.open(region, coords.x, entered_at);
                         }

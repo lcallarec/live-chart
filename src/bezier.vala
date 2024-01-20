@@ -96,5 +96,4 @@ namespace LiveChart {
 
       return roots;
     }
-
 }
