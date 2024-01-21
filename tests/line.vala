@@ -1,9 +1,8 @@
 private void register_line() {
-    Test.add_func("/LiveChart/Line#Draw#shouldnt_render_if_no_values", () => {
+    Test.add_func("/Line/shouldnt_render_if_no_values", () => {
         //Given
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, SURFACE_WIDTH, SURFACE_HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
-        cairo_background(context, { 0f, 0f, 0f, 1f }, SURFACE_WIDTH, SURFACE_HEIGHT);
+        var white = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f };
+        var context = create_context(40, 5);
 
         var values = new LiveChart.Values();
        
@@ -11,27 +10,45 @@ private void register_line() {
         line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        line.draw(context, create_config());
- 
+        line.draw(context.ctx, create_config());
+        screenshot(context);
+        
         //Then
-        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT) ;
-        if (pixbuff != null) {
-            unowned uint8[] data = pixbuff.get_pixels_with_length();
-            var stride = pixbuff.rowstride;
-            // Every pixels are black, nothing has been rendered
-            for(var i = 0 * stride; i < SURFACE_HEIGHT * stride; i=i+pixbuff.bits_per_sample ) {
-                var r = data[i];
-                var g = data[i + 1];
-                var b = data[i + 2];
-                var alpha = data[i + 3];
+        assert(has_only_one_color(context)(white));
+    });
+    Test.add_func("/Line/should_render_red_pyramids", () => {
+        //Given
+        var now = GLib.get_real_time() / 1000;
 
-                assert(r == 0);
-                assert(g == 0);
-                assert(b == 0);
-                assert(alpha == 255);
-            }
-        } else {
-            assert_not_reached();
-        }
+        var context = create_context(40, 10);
+
+        var values = new LiveChart.Values();
+        values.add({timestamp: now, value: 1});
+        values.add({timestamp: now + 2500,  value: 5});
+        values.add({timestamp: now + 5000, value: 1});
+
+        var red = Gdk.RGBA() { red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
+
+        var line = new LiveChart.Line(values);
+        line.line.color = red;
+
+        //When
+        line.draw(context.ctx, create_config());
+        screenshot(context);
+        
+        //Then
+        var background = Gdk.RGBA() { red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f };
+
+        assert(get_color_at(context)({x: 10, y: 7}) == background);
+        assert(get_color_at(context)({x: 10, y: 8}) == red);
+        assert(get_color_at(context)({x: 10, y: 9}) == background);
+
+        assert(get_color_at(context)({x: 24, y: 4}) == background);
+        assert(get_color_at(context)({x: 24, y: 5}) == red);
+        assert(get_color_at(context)({x: 24, y: 6}) == background);
+
+        assert(get_color_at(context)({x: 38, y: 7}) == background);
+        assert(get_color_at(context)({x: 38, y: 8}) == red);
+        assert(get_color_at(context)({x: 30, y: 9}) == background);
     });
 }
