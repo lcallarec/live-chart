@@ -6,25 +6,24 @@ private void register_grid() {
         var WIDTH = 100;
         var HEIGHT = 100;
 
-        Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, WIDTH, HEIGHT);
-        Cairo.Context context = new Cairo.Context(surface);
+        var context = create_context(WIDTH, HEIGHT);
 
         var config = new LiveChart.Config();
         config.y_axis.update_bounds(10);
         config.height = HEIGHT;
         config.width = WIDTH;
-        config.configure(context, null);
+        config.configure(context.ctx, null);
         
         var grid = new LiveChart.Grid();
         var background = new LiveChart.Background();
         background.color = { 1f, 0f, 0f, 1f };
-        background.draw(context, config);
+        background.draw(context.ctx, config);
 
         //when
-        grid.draw(context, config);
-
+        grid.draw(context.ctx, config);
+        
         //then
-        var pixbuff = Gdk.pixbuf_get_from_surface(surface, 0, 0, WIDTH, HEIGHT);
+        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, WIDTH, HEIGHT);
 
         //Colors between left side and first pixels of "0" char on y-axis
         var padding_colors = colors_at(pixbuff, WIDTH, HEIGHT)(0, 80, 10, 80);
