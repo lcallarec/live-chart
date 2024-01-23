@@ -21,6 +21,8 @@ private void register_axis() {
         var WIDTH = 100;
         var HEIGHT = 100;
         
+        var red = Gdk.RGBA(){red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f};
+
         var context = create_context(WIDTH, HEIGHT);
         
         var config = new LiveChart.Config();
@@ -34,7 +36,7 @@ private void register_axis() {
         config.x_axis.slide_timeline = true;
         config.x_axis.tick_interval = 20;
         config.x_axis.tick_length = 10;
-        config.x_axis.lines.color = Gdk.RGBA(){red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f};
+        config.x_axis.lines.color = red;
         config.x_axis.lines.width = 2;
         config.x_axis.axis.visible = false;
         
@@ -64,13 +66,7 @@ private void register_axis() {
         var from_y = config.padding.top + 1;
         var to_y = config.height - config.padding.bottom - 1;
         
-        var colors = colors_at(pixbuff, WIDTH, HEIGHT)(init_x, (int)from_y, init_x, (int)to_y);
-        foreach(var color in colors){
-            assert(color.red == 1.0f);
-            assert(color.green == 0.0f);
-            assert(color.blue == 0.0f);
-            assert(color.alpha == 1.0f);
-        }
+        assert(has_only_one_color_in_rectangle(context, init_x, (int)from_y, init_x, (int)to_y)(red));
     });
     
     Test.add_func("/YAxis/should_not_update_ratio_when_bounds_are_not_set", () => {

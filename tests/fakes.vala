@@ -76,6 +76,34 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
     };
 }
 
+HasOnlyOneColor has_only_one_color_in_rectangle(TestContext context, int from_x, int from_y, int to_x, int to_y) {
+    
+    int width = context.surface.get_width();
+    int height = context.surface.get_height();
+    
+    return (color) => {
+        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
+        assert(pixbuff != null);
+
+        unowned uint8[] pixels = pixbuff.get_pixels();
+        var channels = pixbuff.get_n_channels();
+        var stride = pixbuff.rowstride;
+
+        var colors = new Gee.HashSet<Gdk.RGBA?>();
+        for (var x = from_x; x <= to_x; x++) {
+            for (var y = from_y; y <= to_y; y++) {
+                var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, y);
+                colors.add(rgba);
+            }
+        }
+
+        return colors.all_match((c) => {
+            return c.equal(color);
+        });
+    };
+}
+
+
 delegate bool HasOnlyOneColorAtRow(Gdk.RGBA color, int row);
 HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
     
