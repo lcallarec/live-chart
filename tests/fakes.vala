@@ -40,6 +40,7 @@ LiveChart.Config create_config(TestContext context = create_context()) {
     var config = new LiveChart.Config();
     config.width = context.surface.get_width();
     config.height = context.surface.get_height();
+
     config.padding = { 0, 0, 0, 0 };
 
     return config;
