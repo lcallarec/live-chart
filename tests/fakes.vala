@@ -6,6 +6,15 @@ const double EPSILON = 0.00000001f;
 public class TestContext : Object {
     public Cairo.Context ctx { get; set; }
     public Cairo.ImageSurface surface { get; set; }
+
+    public TestContext(Cairo.Context ctx, Cairo.ImageSurface surface) {
+        this.ctx = ctx;
+        this.surface = surface;
+    }
+
+    public void set_background_color(Gdk.RGBA color) {
+        cairo_background(ctx, color, surface.get_width(), surface.get_height());
+    }
 }
 
 TestContext create_context(int width = SURFACE_WIDTH, int height = SURFACE_HEIGHT) {
@@ -14,7 +23,7 @@ TestContext create_context(int width = SURFACE_WIDTH, int height = SURFACE_HEIGH
     context.set_antialias(Cairo.Antialias.NONE);
     cairo_background(context, DEFAULT_BACKGROUND_COLOR, width, height);
 
-    var test_context = new TestContext();
+    var test_context = new TestContext(context, surface);
     test_context.ctx = context;
     test_context.surface = surface;
 
