@@ -18,7 +18,7 @@ public class TestContext : Object {
 }
 
 TestContext create_context(int width = SURFACE_WIDTH, int height = SURFACE_HEIGHT) {
-    Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.RGB24, width, height);
+    Cairo.ImageSurface surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height);
     Cairo.Context context = new Cairo.Context(surface);
     context.set_antialias(Cairo.Antialias.NONE);
     cairo_background(context, DEFAULT_BACKGROUND_COLOR, width, height);
