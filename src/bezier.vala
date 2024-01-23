@@ -1,9 +1,40 @@
 
-namespace LiveChart { 
+namespace LiveChart {
     const double POLYNOMIAL_TOLERANCE = 1e-6;
 
+    public struct BezierCurve {
+      Coord c0;
+      Coord c1;
+      Coord c2;
+      Coord c3;
+  }
+
+    public BezierCurve build_bezier_curve_from_points(Point previous, Point target) {
+        var pressure = (target.x - previous.x) / 2.0;
+        BezierCurve bezier = {
+            c0: {
+                x: previous.x,
+                y: previous.y
+            },
+            c1: {
+                x: previous.x + pressure,
+                y: previous.y
+            },
+            c2: {
+                x: target.x - pressure,
+                y: target.y
+            },
+            c3: {
+                x: target.x,
+                y: target.y
+            }
+        };
+
+        return bezier;
+    }
+
     //https://www.xarg.org/book/computer-graphics/line-segment-bezier-curve-intersection/
-    public Gee.List<Coord?> find_intersections_between(Segment segment, BezierCurve bezier) {
+    public Gee.List<Coord?> find_intersections_between_segment_and_curve(Segment segment, BezierCurve bezier) {
 
         var ax = 3 * (bezier.c1.x - bezier.c2.x) + bezier.c3.x - bezier.c0.x;
         var ay = 3 * (bezier.c1.y - bezier.c2.y) + bezier.c3.y - bezier.c0.y;

@@ -1,11 +1,11 @@
 
-private void register_intersections() {
+private void register_bezier_intersector() {
     
     Test.add_func("/Intersectors/BezierIntersector/should_find_intersection_in_the_middle_of_arc", () => {
         //given
         var above5 = new LiveChart.Region.between(5, double.MAX);
 
-        //Quart of arc
+        //Quarter of arc
         LiveChart.Point previous = {
             x : 0,
             y: 0,
@@ -27,7 +27,7 @@ private void register_intersections() {
         };
 
         var curve = LiveChart.build_bezier_curve_from_points(previous, target);
-        var resolver = new LiveChart.SmoothLineRegionResolver(above5);
+        var resolver = new LiveChart.CurveRegionResolver(above5);
         var intersector = new LiveChart.BezierIntersector(resolver, create_config());
 
         //when

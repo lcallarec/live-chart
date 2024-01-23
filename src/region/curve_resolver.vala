@@ -2,14 +2,14 @@ using Cairo;
 
 namespace LiveChart {
 
-    public class SmoothLineRegionResolver : RegionResolver, Object {
-        private WaterlineRegionResolver resolver;
+    public class CurveRegionResolver : RegionResolver, Object {
+        private InOutWaterlinePoints points;
         private Region region;
         private Intersections intersections = new Intersections();
 
-        public SmoothLineRegionResolver(Region region) {
+        public CurveRegionResolver(Region region) {
             this.region = region;
-            this.resolver = new WaterlineRegionResolver(region.floor, region.ceil);
+            this.points = new InOutWaterlinePoints(region.floor, region.ceil);
         }
 
         public Region get_region() {
@@ -21,9 +21,9 @@ namespace LiveChart {
         }
 
         public void resolve(Point previous, Point current, GetIntersection get_intersection) {
-            if (resolver.has_at_least_one_point_within(previous, current)) {
+            if (points.has_at_least_one_point_within(previous, current)) {
 
-                if (resolver.is_entering_by_the_bottom(previous, current)) {
+                if (points.is_entering_by_the_bottom(previous, current)) {
 
                     var entered_at = region.floor;
                     var coords = get_intersection(entered_at);
@@ -36,7 +36,7 @@ namespace LiveChart {
                         }
                     }
                 }
-                if (resolver.is_entering_by_the_top(previous, current)) {
+                if (points.is_entering_by_the_top(previous, current)) {
                     
                     var entered_at = region.ceil;
                     var coords = get_intersection(entered_at);
@@ -50,7 +50,7 @@ namespace LiveChart {
                     }
                 }
 
-                if (resolver.is_leaving_by_the_top(previous, current)) {
+                if (points.is_leaving_by_the_top(previous, current)) {
 
                     var exited_at = region.ceil;
                     var coords = get_intersection(exited_at);
@@ -64,7 +64,7 @@ namespace LiveChart {
                         }
                     }
                 }
-                if (resolver.is_leaving_by_the_bottom(previous, current)) {
+                if (points.is_leaving_by_the_bottom(previous, current)) {
 
                     var exited_at = region.floor;
                     var coords = get_intersection(exited_at);
@@ -78,7 +78,7 @@ namespace LiveChart {
                         }
                     }
                 }
-                if(resolver.is_within(previous, current)) {
+                if (points.is_within(previous, current)) {
                     
                     if(!intersections.has_an_opened_intersection()) {
                         intersections.open_without_entrypoint(region, previous.x);
@@ -90,11 +90,11 @@ namespace LiveChart {
         }
     }
 
-    public class WaterlineRegionResolver {
+    public class InOutWaterlinePoints {
         private double floor;
         private double ceil;
 
-        public WaterlineRegionResolver(double floor, double ceil) {
+        public InOutWaterlinePoints(double floor, double ceil) {
             this.floor = floor;
             this.ceil = ceil;
         }

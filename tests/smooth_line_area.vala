@@ -253,7 +253,6 @@ private void register_smooth_line_area() {
             var flattened_area_color = Gdk.RGBA() { red = 0.5f, green = 1f, blue = 0.5f, alpha = 1f };
             var flattened_transparent_blue = Gdk.RGBA() { red = 0.5f, green = 0.5f, blue = 1f, alpha = 1f };
 
-            message("get_color_at(context)({x: 0, y: 18}) %s", get_color_at(context)({x: 0, y: 18}).to_string());
             assert(get_color_at(context)({x: 0, y: 18}).equal(flattened_transparent_blue));
             assert(get_color_at(context)({x: 22, y: 18}).equal(flattened_area_color));
             assert(get_color_at(context)({x: 42, y: 18}).equal(flattened_transparent_blue));

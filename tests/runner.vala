@@ -18,6 +18,7 @@ void main (string[] args) {
     register_smooth_line_area();
     register_bar();
     register_utils();
+    register_geometry();
     register_grid();
     register_background();
     register_legend();
@@ -26,8 +27,9 @@ void main (string[] args) {
     register_threshold_line();
     register_min_bound_line();
     register_max_bound_line();
-    register_regions();
-    register_intersections();
+    register_regions_curve_resolver();
+    register_bezier_intersector();
+    register_segment_interector();
     
     Test.run();
 }

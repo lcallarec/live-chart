@@ -22,11 +22,11 @@ namespace LiveChart {
     public class SmoothLineSerieDrawer : Drawer {
         private SmoothLineDrawer line_drawer = new SmoothLineDrawer();
         private RegionOnLineDrawer region_on_line_drawer = new RegionOnLineDrawer();
-        private SmoothLineInterectionsGenerator intersections_generator = new SmoothLineInterectionsGenerator();
+        private SmoothLineIntersectionsGenerator intersections_generator = new SmoothLineIntersectionsGenerator();
 
         public void draw(Context ctx, Config config, Path line, Points points, Region? region) {
             if(points.size > 0) {
-                var curves = line_drawer.draw(ctx, config, line, points, region);
+                var curves = line_drawer.draw(ctx, config, line, points);
                 if (region != null) {
                     ctx.push_group();
                 }
@@ -44,9 +44,9 @@ namespace LiveChart {
         }
     }
     
-    private class SmoothLineInterectionsGenerator : Drawer {
+    private class SmoothLineIntersectionsGenerator : Drawer {
         public Intersections generate(Region region, Config config, Points points, Gee.List<BezierCurve?> curves ) {
-            var resolver = new SmoothLineRegionResolver(region);
+            var resolver = new CurveRegionResolver(region);
             var intersector = new BezierIntersector(resolver, config);
     
             for (int pos = 0; pos <= points.size -1; pos++) {
@@ -65,7 +65,7 @@ namespace LiveChart {
 
     private class SmoothLineDrawer : Drawer {
 
-        public Gee.ArrayList<BezierCurve?> draw(Context ctx, Config config, Path line, Points points, Region? region) {
+        public Gee.ArrayList<BezierCurve?> draw(Context ctx, Config config, Path line, Points points) {
           
             var first_point = points.first();
             
@@ -95,19 +95,6 @@ namespace LiveChart {
             }
 
             return curves;
-        }
-    }
-
-    private class RegionOnLineDrawer {
-        public void draw(Context ctx, Config config, Intersections intersections) {
-            var boundaries = config.boundaries();
-            intersections.foreach((intersection) => {
-                if (intersection != null) {
-                    ctx.set_source_rgba(intersection.region.line_color.red, intersection.region.line_color.green, intersection.region.line_color.blue, intersection.region.line_color.alpha);
-                    ctx.rectangle(intersection.start_x, boundaries.y.min, intersection.end_x - intersection.start_x, boundaries.height);
-                }
-                return true;
-            });
         }
     }
 }

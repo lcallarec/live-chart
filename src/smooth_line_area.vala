@@ -25,7 +25,7 @@ namespace LiveChart {
 
         public void draw(Context ctx, Config config, Path line, Points points, Gdk.RGBA color, double alpha, Region? region) {
             if(points.size > 0) {
-                var curves = smooth_line_drawer.draw(ctx, config, line, points, region);
+                var curves = smooth_line_drawer.draw(ctx, config, line, points);
                 var intersections = intersections_generator.generate(region, config, points, curves);
                 
                 var curve = ctx.copy_path();
@@ -88,7 +88,7 @@ namespace LiveChart {
     private class SmoothLineAreaIntersectionsGenerator : Drawer {
         public Intersections generate(Region? region, Config config, Points points, Gee.List<BezierCurve?> curves) {
             if(region != null) {
-                var resolver = new SmoothLineRegionResolver(region);
+                var resolver = new CurveRegionResolver(region);
                 var intersector = new BezierIntersector(resolver, config);
         
                 for (int pos = 0; pos <= points.size -1; pos++) {
