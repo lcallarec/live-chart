@@ -9,7 +9,7 @@ private void register_smooth_line() {
         line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        line.draw(context.ctx, create_config());
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then
@@ -31,7 +31,7 @@ private void register_smooth_line() {
         line.line.color = green;
 
         //When
-        line.draw(context.ctx, create_config(43, 20));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then the curve colors are...
@@ -60,7 +60,7 @@ private void register_smooth_line() {
         line.region = new LiveChart.Region.between(10, 100).with_line_color(red);
 
         //When
-        line.draw(context.ctx, create_config(43, 20));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then the curve colors are...

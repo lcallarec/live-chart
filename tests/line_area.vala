@@ -13,7 +13,7 @@ private void register_line_area() {
         line.area_alpha = 0.5f;
 
         //When
-        line.draw(context.ctx, create_config());
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then
@@ -41,7 +41,7 @@ private void register_line_area() {
         line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        line.draw(context.ctx, create_config());
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
  
         //Then

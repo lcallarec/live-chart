@@ -10,7 +10,7 @@ private void register_smooth_line_area() {
         line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        line.draw(context.ctx, create_config());
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then
@@ -33,7 +33,7 @@ private void register_smooth_line_area() {
         line.area_alpha = 0.5f;
 
         //When
-        line.draw(context.ctx, create_config(43, 20));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
 
         //Then the curve colors are...
@@ -65,7 +65,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             //Then the curve colors are...
@@ -98,7 +98,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             var flattened_transparent_red = Gdk.RGBA() { red = 1f, green = 0.5f, blue = 0.5f, alpha = 1f };
@@ -133,7 +133,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             //Then the area color is...
@@ -167,7 +167,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             var flattened_transparent_red = Gdk.RGBA() { red = 1f, green = 0.5f, blue = 0.5f, alpha = 1f };
@@ -204,7 +204,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             //Then the curve colors are...
@@ -239,7 +239,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
 
             //Then the curve colors are...
@@ -277,7 +277,7 @@ private void register_smooth_line_area() {
             line.area_alpha = 0.5f;
 
             //When
-            line.draw(context.ctx, create_config(43, 20));
+            line.draw(context.ctx, create_config(context));
             screenshot(context);
             
             //Then the curve colors are...

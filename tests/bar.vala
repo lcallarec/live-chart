@@ -17,7 +17,7 @@ private void register_bar() {
         bar.line.color = red;
 
         //When
-        var config = create_config(10, 10);
+        var config = create_config(context);
         config.x_axis.tick_length = 1;
         config.x_axis.tick_interval = 1;
 
@@ -43,7 +43,7 @@ private void register_bar() {
         bar.line.color = red;
 
         //When
-        bar.draw(context.ctx, create_config());
+        bar.draw(context.ctx, create_config(context));
         screenshot(context);
  
         //Then
@@ -71,7 +71,7 @@ private void register_bar() {
             bar.line.color = green;
     
             //When
-            bar.draw(context.ctx, create_config(60, 20));
+            bar.draw(context.ctx, create_config(context));
             screenshot(context);
      
             //Then

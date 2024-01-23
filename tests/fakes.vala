@@ -27,10 +27,10 @@ void cairo_background(Cairo.Context ctx, Gdk.RGBA color, int width, int height) 
     ctx.fill();
 }
 
-LiveChart.Config create_config(int? width = null, int? height = null) {
+LiveChart.Config create_config(TestContext context = create_context()) {
     var config = new LiveChart.Config();
-    config.width = width != null ? width : SURFACE_WIDTH;
-    config.height = height != null ? height : SURFACE_HEIGHT;
+    config.width = context.surface.get_width();
+    config.height = context.surface.get_height();
     config.padding = { 0, 0, 0, 0 };
 
     return config;

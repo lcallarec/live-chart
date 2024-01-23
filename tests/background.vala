@@ -7,7 +7,7 @@ private void register_background() {
         back.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        back.draw(context.ctx, create_config());
+        back.draw(context.ctx, create_config(context));
  
         //Then
         assert(has_only_one_color(context)(back.color));
@@ -22,7 +22,7 @@ private void register_background() {
         back.visible = false;
 
         //When
-        back.draw(context.ctx, create_config());
+        back.draw(context.ctx, create_config(context));
  
         //Then
         assert(has_only_one_color(context)(DEFAULT_BACKGROUND_COLOR));

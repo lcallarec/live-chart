@@ -10,7 +10,7 @@ private void register_line() {
         line.line.color = Gdk.RGBA() {red = 1.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f };
 
         //When
-        line.draw(context.ctx, create_config());
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
         
         //Then
@@ -33,7 +33,7 @@ private void register_line() {
         line.line.color = red;
 
         //When
-        line.draw(context.ctx, create_config(40, 10));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
         
         //Then
@@ -71,7 +71,7 @@ private void register_line() {
         line.region = new LiveChart.Region.between(3, 10).with_line_color(blue);
 
         //When
-        line.draw(context.ctx, create_config(40, 10));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
         
         //Then
@@ -108,7 +108,7 @@ private void register_line() {
         line.region = new LiveChart.Region.between(3, 10).with_line_color(semi_blue);
 
         //When
-        line.draw(context.ctx, create_config(40, 10));
+        line.draw(context.ctx, create_config(context));
         screenshot(context);
         
         //Then
