@@ -168,28 +168,6 @@ public void screenshot(TestContext context, string suffix = "") {
     }
 }
 
-delegate Gee.ArrayList<Gdk.RGBA?> ColorFromToCoodinates(int from_x, int from_y, int to_x, int to_y);
-ColorFromToCoodinates colors_at(Gdk.Pixbuf pixbuff, int width, int height) {
-    unowned uint8[] data = pixbuff.get_pixels_with_length();
-    var stride = pixbuff.rowstride;
-    
-    return (from_x, from_y, to_x, to_y) => {
-        var colors = new Gee.ArrayList<Gdk.RGBA?>();
-        for (var x = from_x; x <= to_x; x++) {
-            for (var y = from_y; y <= to_y; y++) {
-                var pos = (stride * y) + (4 * x);
-            
-                var r = data[pos];
-                var g = data[pos + 1];
-                var b = data[pos + 2];
-                var alpha = data[pos + 3];
-                colors.add({red: (float) r/255, green: (float) g/255, blue: (float) b/255, alpha: (float) alpha/255});
-            }
-        }
-        return colors;
-    };
-}
-
 private Gdk.RGBA color8_to_rgba(uint8 red, uint8 green, uint8 blue, uint8 alpha) {
     return flat({ (float) red / 255f, (float) green / 255f, (float) blue / 255.0f, (float) alpha / 255f });
 }
