@@ -56,21 +56,7 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
     int height = context.surface.get_height();
     
     return (color) => {
-        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
-        assert(pixbuff != null);
-
-        unowned uint8[] pixels = pixbuff.get_pixels();
-        var channels = pixbuff.get_n_channels();
-        var stride = pixbuff.rowstride;
-
-        var colors = new Gee.HashSet<Gdk.RGBA?>();
-        for (var x = 0; x < width - 1; x++) {
-            for (var y = 0; y < height - 1; y++) {
-                var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, y);
-                colors.add(rgba);
-            }
-        }
-
+        var colors = get_colors_in_rectangle(context, 0, 0, width - 1, height - 1);
         return colors.all_match((c) => {
             return c.equal(color);
         });
@@ -78,32 +64,36 @@ HasOnlyOneColor has_only_one_color(TestContext context) {
 }
 
 HasOnlyOneColor has_only_one_color_in_rectangle(TestContext context, int from_x, int from_y, int to_x, int to_y) {
-    
-    int width = context.surface.get_width();
-    int height = context.surface.get_height();
-    
     return (color) => {
-        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
-        assert(pixbuff != null);
-
-        unowned uint8[] pixels = pixbuff.get_pixels();
-        var channels = pixbuff.get_n_channels();
-        var stride = pixbuff.rowstride;
-
-        var colors = new Gee.HashSet<Gdk.RGBA?>();
-        for (var x = from_x; x <= to_x; x++) {
-            for (var y = from_y; y <= to_y; y++) {
-                var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, y);
-                colors.add(rgba);
-            }
-        }
-
+        var colors = get_colors_in_rectangle(context, from_x, from_y, to_x, to_y);
         return colors.all_match((c) => {
             return c.equal(color);
         });
     };
 }
 
+Gee.HashSet<Gdk.RGBA?> get_colors_in_rectangle(TestContext context, int from_x, int from_y, int to_x, int to_y) {
+    
+    int width = context.surface.get_width();
+    int height = context.surface.get_height();
+    
+    var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
+    assert(pixbuff != null);
+
+    unowned uint8[] pixels = pixbuff.get_pixels();
+    var channels = pixbuff.get_n_channels();
+    var stride = pixbuff.rowstride;
+
+    var colors = new Gee.HashSet<Gdk.RGBA?>();
+    for (var x = from_x; x <= to_x; x++) {
+        for (var y = from_y; y <= to_y; y++) {
+            var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, y);
+            colors.add(rgba);
+        }
+    }
+
+    return colors;
+}
 
 delegate bool HasOnlyOneColorAtRow(Gdk.RGBA color, int row);
 HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
@@ -112,7 +102,7 @@ HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
     int height = context.surface.get_height();
     
     return (color, row) => {
-        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width, height);
+        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, width - 1, height - 1);
         assert(pixbuff != null);
 
         unowned uint8[] pixels = pixbuff.get_pixels();
