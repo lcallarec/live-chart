@@ -60,7 +60,6 @@ private void register_axis() {
         // -> Current time(=right edge of plotting area) is 410[sec] = 20(tick_interval) * 20 + 10(surplus).
         // -> then, in this case, gap from the right edge is here: 5[px] = 10[px] * 10[sec](surplus) / 20[sec](interval)
         var init_x = config.width - config.padding.right - 10 - 5;
-        var pixbuff = Gdk.pixbuf_get_from_surface(context.surface, 0, 0, WIDTH, HEIGHT);
 
         //Edge of the line tends to be blurred ? It bothers the alpha color picking test.
         var from_y = config.padding.top + 1;
