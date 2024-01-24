@@ -1,7 +1,7 @@
 
 private void register_utils() {
 
-    Test.add_func("/LiveChart/Utils/Cap#IntegerBelow10", () => {
+    Test.add_func("/Utils/Cap#IntegerBelow10", () => {
         //given
         var fixed_max = 8.2f;
 
@@ -11,7 +11,7 @@ private void register_utils() {
         assert(next == 9f);
     });
 
-    Test.add_func("/LiveChart/Utils/Cap#IntegerAlreadyCapped", () => {
+    Test.add_func("/Utils/Cap#IntegerAlreadyCapped", () => {
         //given
         var fixed_max = 10f;
 
@@ -21,7 +21,7 @@ private void register_utils() {
         assert(next == 10f);
     });
 
-    Test.add_func("/LiveChart/Utils/Cap#IntegerBelow100", () => {
+    Test.add_func("/Utils/Cap#IntegerBelow100", () => {
         //given
         var fixed_max = 76f;
 
@@ -32,7 +32,7 @@ private void register_utils() {
         assert(next == 80f);
     });
 
-    Test.add_func("/LiveChart/Utils/Cap#IntegerBelow1000", () => {
+    Test.add_func("/Utils/Cap#IntegerBelow1000", () => {
         //given
         var fixed_max = 923f;
 
@@ -43,7 +43,7 @@ private void register_utils() {
         assert(next == 1000f);
     });
 
-    Test.add_func("/LiveChart/Utils/HasFractionalPart#8", () => {
+    Test.add_func("/Utils/HasFractionalPart#8", () => {
         //given
         var value = 8;
 
@@ -54,7 +54,7 @@ private void register_utils() {
         assert(has_fractional_part == false);
     });
 
-    Test.add_func("/LiveChart/Utils/HasFractionalPart#8.00", () => {
+    Test.add_func("/Utils/HasFractionalPart#8.00", () => {
         //given
         var value = 8.00f;
 
@@ -65,7 +65,7 @@ private void register_utils() {
         assert(has_fractional_part == false);
     });
 
-    Test.add_func("/LiveChart/Utils/HasFractionalPart#8.86", () => {
+    Test.add_func("/Utils/HasFractionalPart#8.86", () => {
         //given
         var value = 8.86f;
 
@@ -76,7 +76,7 @@ private void register_utils() {
         assert(has_fractional_part == true);
     });
 
-    Test.add_func("/LiveChart/Utils/golden_divisors", () => {
+    Test.add_func("/Utils/golden_divisors", () => {
         //given
         var value = 100f;
 
@@ -94,7 +94,7 @@ private void register_utils() {
         assert(divisors.get(5) == 1); // Golden
     });
 
-    Test.add_func("/LiveChart/Utils/golden_divisors_value_below_1", () => {
+    Test.add_func("/Utils/golden_divisors_value_below_1", () => {
         //given
         var value = 0.10f;
 
@@ -110,7 +110,7 @@ private void register_utils() {
         assert(divisors.get(5) == 1f);
     });
 
-    Test.add_func("/LiveChart/Utils/golden_divisors#ShouldNotCrashWhenComputingGoldenDivisorForZero", () => {
+    Test.add_func("/Utils/golden_divisors#ShouldNotCrashWhenComputingGoldenDivisorForZero", () => {
         //given
         var value = 0f;
 

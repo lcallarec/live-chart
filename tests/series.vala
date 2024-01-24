@@ -1,7 +1,7 @@
 
 private void register_series() {
 
-    Test.add_func("/LiveChart/Series/get", () => {
+    Test.add_func("/Series/get", () => {
         //given
         var series = new LiveChart.Series(new LiveChart.Chart());
         
@@ -23,7 +23,7 @@ private void register_series() {
         }
     });
 
-    Test.add_func("/LiveChart/Series/get_by_name", () => {
+    Test.add_func("/Series/get_by_name", () => {
         //given
         var series = new LiveChart.Series(new LiveChart.Chart());
         
@@ -45,7 +45,7 @@ private void register_series() {
         }
     });
 
-    Test.add_func("/LiveChart/Series/register#update_bounds_when_value_is_added_to_serie", () => {
+    Test.add_func("/Series/register#update_bounds_when_value_is_added_to_serie", () => {
         //given
         var chart = new LiveChart.Chart();
         var series = new LiveChart.Series(chart);
@@ -63,7 +63,7 @@ private void register_series() {
         assert(chart.config.y_axis.get_bounds().upper == 100.0);
     });
 
-    Test.add_func("/LiveChart/Series/register#should_update_bounds_on_registration_when_value_is_added_to_serie_before_registration", () => {
+    Test.add_func("/Series/register#should_update_bounds_on_registration_when_value_is_added_to_serie_before_registration", () => {
         //given
         var chart = new LiveChart.Chart();
         var series = new LiveChart.Series(chart);
@@ -78,7 +78,7 @@ private void register_series() {
         assert(chart.config.y_axis.get_bounds().upper == 150.0);
     });    
     
-    Test.add_func("/LiveChart/Series/remove_serie#disconnect_serie.value_add", () => {
+    Test.add_func("/Series/remove_serie#disconnect_serie.value_add", () => {
         //given
         var chart = new LiveChart.Chart();
         var series = new LiveChart.Series(chart);
@@ -100,7 +100,7 @@ private void register_series() {
         catch(LiveChart.ChartError e){}
     });    
     
-    Test.add_func("/LiveChart/Series/remove_all", () => {
+    Test.add_func("/Series/remove_all", () => {
         //given
         var chart = new LiveChart.Chart();
         var series = new LiveChart.Series(chart);

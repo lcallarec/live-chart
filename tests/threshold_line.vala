@@ -1,5 +1,5 @@
 private void register_threshold_line() {
-    Test.add_func("/LiveChart/ThresholdLine", () => {
+    Test.add_func("/ThresholdLine", () => {
         //Given
         var context = create_context(SURFACE_WIDTH, SURFACE_HEIGHT);
 

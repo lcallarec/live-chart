@@ -1,7 +1,7 @@
 
 private void register_points() {
 
-    Test.add_func("/LiveChart/Points#Create", () => {
+    Test.add_func("/Points#Create", () => {
         //given
         var config = new LiveChart.Config();
         config.width = 100;
@@ -33,7 +33,7 @@ private void register_points() {
         assert((int) last_point.height == 100);
     });
 
-    Test.add_func("/LiveChart/Points#Create#ShouldntCrashOnEmptyValues", () => {
+    Test.add_func("/Points#Create#ShouldntCrashOnEmptyValues", () => {
         //given
         var config = new LiveChart.Config();
         var values = new LiveChart.Values();

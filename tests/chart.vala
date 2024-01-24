@@ -1,6 +1,6 @@
 private void register_chart() {
 
-    Test.add_func("/LiveChart/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
+    Test.add_func("/Chart/serie/add_value#should_update_bounds_when_adding_a_value", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -18,7 +18,7 @@ private void register_chart() {
     });
 
     //Deprecated
-    Test.add_func("/LiveChart/Chart/add_value#should_update_bounds_when_adding_a_value", () => {
+    Test.add_func("/Chart/add_value#should_update_bounds_when_adding_a_value", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -35,7 +35,7 @@ private void register_chart() {
         assert(chart.config.y_axis.get_bounds().upper == 100.0);
     });
 
-    Test.add_func("/LiveChart/Chart/export", () => {
+    Test.add_func("/Chart/export", () => {
         //given
         var chart = new LiveChart.Chart();
 
@@ -66,7 +66,7 @@ private void register_chart() {
         app.run();
     });
 
-    Test.add_func("/LiveChart/Chart/export_should_fails_when_not_realized", () => {
+    Test.add_func("/Chart/export_should_fails_when_not_realized", () => {
         //given
         var chart = new LiveChart.Chart();
 
@@ -79,7 +79,7 @@ private void register_chart() {
         }
     });
 
-    Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection", () => {
+    Test.add_func("/Chart/add_unaware_timestamp_collection", () => {
         //given
         var chart = new LiveChart.Chart();
 
@@ -109,7 +109,7 @@ private void register_chart() {
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });
 
-    Test.add_func("/LiveChart/Chart/serie/add_value_by_index", () => {
+    Test.add_func("/Chart/serie/add_value_by_index", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -129,7 +129,7 @@ private void register_chart() {
     });
 
     //Deprecated
-    Test.add_func("/LiveChart/Chart/add_value_by_index", () => {
+    Test.add_func("/Chart/add_value_by_index", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -148,7 +148,7 @@ private void register_chart() {
         assert(serie.get_values().get(0).value == 100);
     });
 
-    Test.add_func("/LiveChart/Chart/add_unaware_timestamp_collection_by_index", () => {
+    Test.add_func("/Chart/add_unaware_timestamp_collection_by_index", () => {
         //given
         var chart = new LiveChart.Chart();
         var serie = new LiveChart.Serie("TEST");
@@ -183,7 +183,7 @@ private void register_chart() {
         assert(chart.config.y_axis.get_bounds().upper == 15);
     });   
 
-    Test.add_func("/LiveChart/Chart/#ShouldNotCrashWhenRevealingAChartWithoutAnyValueAdded", () => {
+    Test.add_func("/Chart/#ShouldNotCrashWhenRevealingAChartWithoutAnyValueAdded", () => {
         //given
         var chart = new LiveChart.Chart();
         chart.add_serie(new LiveChart.Serie("Test"));
@@ -197,7 +197,7 @@ private void register_chart() {
         //FIXME: Gtk.main();
     });
 
-    Test.add_func("/LiveChart/Chart/background#main_color_should_be_accessible_even_if_deprecated", () => {
+    Test.add_func("/Chart/background#main_color_should_be_accessible_even_if_deprecated", () => {
         //given
         var chart = new LiveChart.Chart();
 
@@ -209,7 +209,7 @@ private void register_chart() {
         
     });
     
-    Test.add_func("/LiveChart/Chart/#destroy_chart_should_remove_all_series", () => {
+    Test.add_func("/Chart/#destroy_chart_should_remove_all_series", () => {
         //given
         var chart = new LiveChart.Chart();
         chart.add_serie(new LiveChart.Serie("TEST"));
@@ -221,7 +221,7 @@ private void register_chart() {
         assert(chart.series.size() == 0);
     });
 
-    Test.add_func("/LiveChart/Chart/#destroy_chart_should_stop_refresh", () => {
+    Test.add_func("/Chart/#destroy_chart_should_stop_refresh", () => {
         //given
         var chart = new LiveChart.Chart();
         chart.add_serie(new LiveChart.Serie("TEST"));

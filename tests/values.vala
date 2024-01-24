@@ -1,7 +1,7 @@
 
 private void register_values() {
 
-    Test.add_func("/LiveChart/Values#Buffer", () => {
+    Test.add_func("/Values#Buffer", () => {
         //given
         var values = new LiveChart.Values(2);
 
