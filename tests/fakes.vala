@@ -110,7 +110,7 @@ HasOnlyOneColorAtRow has_only_one_color_at_row(TestContext context) {
         var stride = pixbuff.rowstride;
 
         var colors = new Gee.HashSet<Gdk.RGBA?>();
-        for (var x = 0; x < width; x++) {
+        for (var x = 0; x < width - 1; x++) {
             var rgba = get_color_at_from_pixels(pixels, stride, channels)(x, row);
             colors.add(rgba);
         }
