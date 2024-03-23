@@ -74,14 +74,14 @@ ninja -C build
 `Chart` widget is the main entrypoint of your live chart.
 
 ```vala  
-var chart = LiveChart.Chart();
+var chart = new LiveChart.Chart();
 ```
 
 As `Chart` object derives from `Gtk.DrawingArea`, you can directly attach it to any container widgets :
 
 ```vala
 var window = new Gtk.Window();
-window.add(chart);
+window.set_child(chart);
 ```
 
 ## Series
@@ -109,13 +109,13 @@ Then register the `Serie` to the `Chart` :
 ```vala
 var serie_name = "Temperature in Paris";
 var paris_temperature = new LiveChart.Serie(serie_name);
-chart.add_serie(paris);
+chart.add_serie(paris_temperature);
 ```
 
 The serie attached into chart is removable from the chart.
 ```vala
 var paris_temperature = new LiveChart.Serie("Temperature in Paris");
-var msm_temperature = new LiveChart.Serie("Temperature in Mont Saint-Michel")
+var msm_temperature = new LiveChart.Serie("Temperature in Mont Saint-Michel");
 chart.add_serie(paris_temperature);
 chart.add_serie(msm_temperature);
 //...
@@ -166,8 +166,8 @@ Lines and outlines (for bar series) can be configured with `Serie.line` property
 ```vala
 serie.line.color = { 0.0f, 0.1f, 0.8f, 1.0f };
 serie.line.width = 2;
-serie.line.dash = Dash() {dashes = {1}, offset = 2};
-serie.line.visibility = false;//or true
+serie.line.dash = LiveChart.Dash() {dashes = {1}, offset = 2};
+serie.line.visible = false;//or true
 ```
 
 About color : [`Gdk.RGBA`](https://valadoc.org/gtk4/Gdk.RGBA.html) struct.  
@@ -197,10 +197,10 @@ You can change that behaviour by injecting manually a `LiveChart.Values` object 
 
 ```vala
 var serie_name = "Temperature in Paris";
-Values values = new Values(50000); // buffer of 50 000 data points
+var values = new LiveChart.Values(50000); // buffer of 50 000 data points
 var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(values));
 
-chart.add_serie(paris);
+chart.add_serie(paris_temperature);
 ```
 
 ## Serie renderers
@@ -209,10 +209,10 @@ A Serie renderer is responsible of drawing data points to the chart's surface. I
 
 ```vala
 var serie_name = "Temperature in Paris";
-Values values = new Values(50000); // buffer of 50 000 data points
+var values = new LiveChart.Values(50000); // buffer of 50 000 data points
 var paris_temperature = new LiveChart.Serie(serie_name, new LiveChart.Line(values));
 
-chart.add_serie(paris);
+chart.add_serie(paris_temperature);
 ```
 
 There's currently 6 built-in series available.
@@ -237,8 +237,8 @@ Smooth line renderer connects each data point with a bezier spline for a smoothe
 For area renderers, you can control the area color via the `area_alpha: double` property (default : 0.1):
 
 ```vala
-var smooth_line = LiveChart.SmoothLineArea();
-smooth_line.color = Gdk.RGBA() {red = 0.0f, green = 0.0f, blue = 1.0f, alpha = 1.0f};
+var smooth_line = new LiveChart.SmoothLineArea();
+smooth_line.line.color = Gdk.RGBA() {red = 0.0f, green = 0.0f, blue = 1.0f, alpha = 1.0f};
 smooth_line.area_alpha = 0.5;
 ```
 
@@ -264,9 +264,10 @@ Threshold renderer draws a straight line at a given value. Below, the red thresh
 ![](resources/renderer_threshold_line.png)
 
 ```vala
-var threshold = new LiveChart.Serie("threshold",  new LiveChart.ThresholdLine(200.0));
+var threshold = new LiveChart.ThresholdLine(200.0);
 threshold.line.color = { 0.8f, 0.1f, 0.1f, 1.0f };
 threshold.value = 250.0; // update threshold at runtime
+var serie = new LiveChart.Serie("threshold", threshold);
 ```
 
 * [`LiveChart.MaxBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html) and [`LiveChart.MinBoundLine`](https://lcallarec.github.io/live-chart/Livechart/LiveChart.MaxBoundLine.html)
@@ -280,7 +281,7 @@ Max and Min bound line renderer draws a straight line which represents either a 
 var heap = new LiveChart.Serie("HEAP", new LiveChart.SmoothLineArea());
 heap.line.color = { 0.3f, 0.8f, 0.1f, 1.0f };
 
-var rss = new LiveChart.Serie("RSS",  new LiveChart.Line());
+var rss = new LiveChart.Serie("RSS", new LiveChart.Line());
 rss.line.color = { 0.8f, 0.1f, 0.8f, 1.0f };
 
 var max = new LiveChart.Serie("MAX OF RSS OR HEAP", new LiveChart.MaxBoundLine());
@@ -307,7 +308,7 @@ var config = chart.config;
 You can also inject the `Config` object to the chart constructor if you prefer to adjust is before chart first renderer :
 
 ```vala
-var config = LiveChart.Config();
+var config = new LiveChart.Config();
 // Adjust the configuration
 var chart = new LiveChart.Chart(config);
 ```
@@ -321,13 +322,9 @@ Labels are the time for the x-axis and values for the y-axis.
 * Axes labels visibility
 
 ```vala
-var axis;
-
-var labels;
-
-labels = config.x_axis.labels;
+var labels = config.x_axis.labels;
 //or
-labels = config.y_axis.labels;
+var labels = config.y_axis.labels;
 
 labels.visible = false;
 ```
@@ -335,11 +332,9 @@ labels.visible = false;
 * Axes label fonts
 
 ```vala
-var labels;
-
-labels = config.x_axis.labels;
+var labels = config.x_axis.labels;
 //or
-labels = config.y_axis.labels;
+var labels = config.y_axis.labels;
 
 labels.font.size = 12;                      // uint8     In pixels
 labels.font.color = { 1.0f, 0.0f, 0.0f, 1.0f };   // Gdk.RGBA
@@ -356,34 +351,31 @@ Axis lines are horizontal or vertical guidelines - depending on which axis they'
 * Line color
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
+var axis = config.y_axis;
+
 axis.lines.color = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 0.2f}; //Light grey
 ```
 
 * Line width
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
+var axis = config.y_axis;
+
 axis.lines.width = 1.0;
 ```
 
 * Line dashes
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
-axis.lines.dashes = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
+var axis = config.y_axis;
+
+axis.lines.dash = LiveChart.Dash() {dashes = {5.0}, offset = 0.0};
 ```
 
 For more information about cairo dashes, please refer to [valadoc](https://valadoc.org/cairo/Cairo.Context.set_dash.html) and [cairo c documentation](https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash)
@@ -392,11 +384,10 @@ For more information about cairo dashes, please refer to [valadoc](https://valad
 * Lines visibility
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
+var axis = config.y_axis;
+
 axis.lines.visible = false;
 ```
 #### Main axes (a.k.a x and y axis, or abscissa and ordinate)
@@ -404,22 +395,18 @@ axis.lines.visible = false;
 Main axes can be configured via the `axis` attribute of each axis :
 
 ```vala
-var axis_config;
-
-axis_config = config.x_axis.axis;
+var axis_config = config.x_axis.axis;
 //or
-axis_config = config.y_axis.axis;
+var axis_config = config.y_axis.axis;
 ```
 
 The configuration is the same than [Axis lines](#axis-lines) :
 
 
 ```vala
-var axis_config;
-
-axis_config = config.x_axis.axis;
+var axis_config = config.x_axis.axis;
 //or
-axis_config = config.y_axis.axis;
+var axis_config = config.y_axis.axis;
 
 axis_config.color = Gdk.RGBA() {red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 0.2f}; //Light grey
 axis_config.width = 1.0;
@@ -490,7 +477,7 @@ Sometimes, the maximum value displayed on y-axis must be fixed, for example when
 var y_axis = config.y_axis;
 y_axis.unit = "%";
 y_axis.fixed_max = 100.0;
-y_axis.tick_interval = 25.0;
+y_axis.tick_interval = 25.0f;
 ```
 
 With this configuration, the y-axis will display 5 ticks : 0%, 25%, 50%, 75% and 100%, the maximum possible value.
@@ -506,7 +493,7 @@ For that purpose, use `LiveChart.cap` method :
 ```vala
 var y_axis = config.y_axis;
 y_axis.unit = "GB";
-y_axis.fixed_max = LiveChart.cap((int) max_mem));
+y_axis.fixed_max = LiveChart.cap((int) max_mem);
 ```
 
 * Ratio threshold (default 1.118)
@@ -525,17 +512,14 @@ Paddings are distance between the chart window and the real drawing area where y
 
 ```vala
 var config = new LiveChart.Config();
+config.padding = LiveChart.Padding() {
+    smart = AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT,
+    top = 0,
+    right = 0,
+    bottom = 0,
+    left = 0
+};
 var chart = new LiveChart.Chart(config);
-
-/*
-public Padding() {
-    smart = AutoPadding.TOP | AutoPadding.RIGHT | AutoPadding.BOTTOM | AutoPadding.LEFT;
-    top = 0;
-    right = 0;
-    bottom = 0;
-    left = 0;
-}
-*/
 ```
 
 #### Smart paddings
@@ -551,10 +535,7 @@ config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM
 
 When a side isn't configured as "smart", it fallbacks to global padding settings.
 
-To complety disable smart padding, set `config.padding.smart` to `AutoPadding.NONE` :
-```vala
-config.padding.smart = LiveChart.AutoPadding.LEFT | LiveChart.AutoPadding.BOTTOM;
-```
+To complety disable smart padding, set `config.padding.smart` to `AutoPadding.NONE`.
 
 #### Global paddings
 
@@ -562,7 +543,7 @@ Paddings can be set - in pixel - for each sides. If you need to force a padding,
 
 ```vala
 // Remove AutoPadding.TOP from smart padding before setting a custom padding.top value
-config.padding.smart = LiveChart.AutoPadding.RIGHT | LiveChart.AutoPadding.BOTTOM | LiveChart.AutoPadding.LEFT;
+config.padding.smart &= ~LiveChart.AutoPadding.TOP;
 config.padding.top = 10; // in pixels
 ```
 ## Background
@@ -588,7 +569,7 @@ chart.legend.visible = false; // Hide legend
 
 ```vala
 var chart = new LiveChart.Chart(config);
-var legend = vhart.legend;
+var legend = chart.legend;
 
 legend.labels.font.size = 12;                      // uint8     In pixels
 legend.labels.font.color = { 1.0f, 0.0f, 0.0f, 1.0f };   // Gdk.RGBA
@@ -622,22 +603,20 @@ In order to hide labels only, refer to [axis labels](#labels-x-and-y-axis)
 * Axes visibility
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
+var axis = config.y_axis;
+
 axis.axis.visible = false;
 ```
 
 * Both axes & labels visibility
 
 ```vala
-var axis;
-
-axis = config.x_axis;
+var axis = config.x_axis;
 //or
-axis = config.y_axis;
+var axis = config.y_axis;
+
 axis.visible = false;
 ```
 
@@ -660,25 +639,25 @@ If it doesn't fit your needs, you can adjust the refresh rate. The lower, the sm
 (Extra)You can also control the scrolling ratio with 2nd arg (default is 1.0).
 
 ```vala  
-var chart = LiveChart.Chart();
+var chart = new LiveChart.Chart();
 chart.refresh_every(-1); // means to stop auto-refresh.
 chart.refresh_every(1000); // refresh every 1000ms
 chart.refresh_every(100, 0.0); // refresh every 100ms, and pausing
 ```
 
-### Seeking on the timeline.
+### Seeking on the timeline
 
 If you want to watch the past data, then you can specify the time which you want to seek.
 Time is represented in unixtime milliseconds in default.
 
 ```vala  
-var chart = LiveChart.Chart();
+var chart = new LiveChart.Chart();
 var conv_usec = chart.config.time.conv_us;
 chart.config.time.current -= 5000; // Go 5 seconds back.
 chart.config.time.current = GLib.get_real_time() / conv_usec; // Go to System's local time.
 ```
 
-### Specify the range of the timeline.
+### Specify the range of the timeline
 
 In default, timestamp is treated in milliseconds.
 But if you want to treat timestamp in microseconds or seconds,
@@ -720,6 +699,7 @@ var timespan_between_value = 2000;
 
 chart.add_unaware_timestamp_collection(serie, unaware_timestamp_collection, timespan_between_value);
 //or
+chart.add_serie(serie);
 chart.add_unaware_timestamp_collection_by_index(0, unaware_timestamp_collection, timespan_between_value);
 ```
 
@@ -734,12 +714,11 @@ Removing LiveChart.Chart from Gtk.Widget without stopping auto-refresh causes me
 ```vala
 var window = new Gtk.Window();
 var chart = new LiveChart.Chart();
-window.add(chart);
+window.set_child(chart);
 
 //...
 chart.refresh_every(-1);  //Don't forget to stop auto-refresh if your app replaces the LiveChart.Chart widget.
-window.remove(chart);
-
+chart.unparent();
 ```
 
 ## How LiveChart versions works ?
