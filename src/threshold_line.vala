@@ -9,6 +9,7 @@ namespace LiveChart {
         public ThresholdLine(double value) {
             base();
             this.value = value;
+            this.values = new Values();
         }
 
         public override void draw(Context ctx, Config config) {
