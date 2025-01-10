@@ -21,8 +21,14 @@ deps = [
 ]
 
 subdir('src')
-subdir('tests')
-subdir('examples')
+
+if get_option('tests')
+  subdir('tests')
+endif
+
+if get_option('examples')
+  subdir('examples')
+endif
 
 if get_option('docs')
   outdir = 'docs'
