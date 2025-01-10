@@ -52,6 +52,7 @@ livechart_lib = library(
     [sources],
     dependencies: deps,
     vala_args: vala_args,
+    version: meson.project_version(),
     install: true,
     install_dir: [true, true, true]
 )
