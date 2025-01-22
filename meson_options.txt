@@ -1,3 +1,1 @@
-option('tests', type: 'boolean', value: true, description: 'Whether to run tests')
-option('examples', type: 'boolean', value: true, description: 'Whether to generate examples')
 option('docs', type: 'boolean', value: false, description: 'Whether to generate docs')
